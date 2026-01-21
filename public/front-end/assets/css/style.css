@@ -1,0 +1,1261 @@
+/*---- Fonts----- */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+
+/* -------------------------- */
+/* --- Default CSS Start --- */
+/* -------------------------- */
+:root {
+  --primary-font: "Geist";
+  --bg-color: #ffffff;
+  --bg-black: #09090b;
+  --text: #09090b;
+  --text2: #586a7b;
+  --text3: #71717a;
+  --text4: #29354e;
+  --text5: #626e7a;
+  --text6: #191925;
+  --text7: #fafafa;
+  --text-shade1: #d2225a;
+  --text-shade2: #1d5053;
+  --text-shade3: #ff6363;
+  --border: #e4e4e7;
+  --border2: #858d9d;
+  --accent: #1d5053;
+  --accent2: #f4f4f5;
+  --white: #ffffff;
+  --black: #0d0d0d;
+}
+
+/*---- Light/Dark Mode Color Start ---- */
+
+[data-theme="dark"] {
+  --bg-color: #0d0d0d;
+  --bg-black: #e4e4e7;
+  --text: #ffffff;
+  --text2: #586a7b;
+  --text3: #667085;
+  --text4: #4d5464;
+  --text5: #626e7a;
+  --text6: #777980;
+  --text7: #09090b;
+  --text-shade1: #d2225a;
+  --text-shade2: #1d5053;
+  --text-shade3: #ff6363;
+  --border: #23262d;
+  --border2: #858d9d;
+  --accent: #1d5053;
+  --accent2: #171717;
+  --white: #ffffff;
+  --black: #0d0d0d;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background-color: var(--button-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--white);
+  transition: opacity 0.3s ease, transform 0.3s ease, fill 0.5s ease;
+}
+
+#moon-icon {
+  display: none;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+[data-theme="dark"] #moon-icon {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
+}
+
+[data-theme="dark"] #sun-icon {
+  display: none;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* ........... */
+[data-theme="dark"] .auth-container .left-panel {
+  color: #0d0d0d;
+}
+[data-theme="dark"] .left-panel svg path {
+  fill: #0d0d0d;
+}
+
+/*---- Light/Dark Mode Color End ----*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: 0.4s;
+  font-family: var(--primary-font);
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
+}
+
+html,
+body {
+  background: var(--bg-color);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--primary-font);
+}
+
+p {
+  color: var(--text-color);
+}
+
+ul {
+  list-style: none;
+}
+input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.main-content {
+  font-family: var(--primary-font);
+}
+
+/* -------------------------- */
+/* --- Default CSS End --- */
+/* -------------------------- */
+
+/* ------------------------ */
+/* --- Navbar CSS Start --- */
+/* ------------------------ */
+.navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: var(--bg-color);
+  font-family: var(--primary-font);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+[data-theme="dark"] .navbar .navbar-brand svg path {
+  fill: #ffffff;
+}
+
+.navbar-nav .nav-link {
+  color: var(--text3);
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--text);
+}
+
+.navbar-nav .nav-link.active {
+  color: var(--text);
+}
+
+.mobile-menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.mobile-menu-toggle i {
+  color: var(--bg-black);
+}
+
+/* Sidebar */
+#sidebarOffcanvas .offcanvas-header {
+  background: var(--accent);
+  border-bottom: 1px solid var(--border);
+}
+.offcanvas.show {
+  width: 100%;
+  max-width: 300px;
+}
+
+#sidebarOffcanvas svg path {
+  fill: #ffffff;
+}
+
+#sidebarOffcanvas .offcanvas-body {
+  background: var(--bg-color);
+}
+
+.offcanvas-header .btn-close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: none;
+  padding: 0;
+  font-size: 28px;
+  color: var(--white);
+}
+
+.language-selector {
+  position: relative;
+  width: 90px;
+  cursor: pointer;
+}
+
+.selected-language {
+  width: 100%;
+  height: 36px;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.language-selector .flag {
+  width: 24px;
+  height: 16px;
+  margin-right: 6px;
+}
+
+.language-selector .dropdown-icon {
+  font-size: 14px;
+  color: var(--text3);
+  margin-left: auto;
+  transition: transform 0.3s;
+}
+
+.language-selector.open .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.language-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  background-color: var(--bg-color);
+  z-index: 10;
+}
+
+.language-selector.open .language-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.language-list li {
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  align-items: center;
+  padding: 4px 8px;
+}
+
+.language-list li:hover {
+  background-color: #f1f1f1;
+}
+
+.get-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #f97316 0%, #ec4899 100%);
+  color: var(--text7);
+  transition: 0.3s !important;
+  border: none;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+}
+
+.login-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text);
+  transition: 0.3s !important;
+  border: 1px solid var(--border);
+}
+/* ---------------------------------- */
+/* --- Dashboard Navbar CSS End ---- */
+/* ---------------------------------- */
+
+/* ---------------------------------- */
+/* -------- Hero CSS Start ---------- */
+/* ---------------------------------- */
+.hero-section {
+  width: 100%;
+  padding: 60px 0;
+}
+
+.hero-section .sticky-wrap {
+  position: sticky;
+  top: 200px;
+}
+
+.hero-content .title {
+  font-size: 38px;
+  font-weight: bold;
+  color: var(--text);
+  margin: 0;
+}
+.hero-content .desc {
+  font-size: 16px;
+  color: var(--text2);
+  font-weight: 500;
+  margin: 20px 0;
+}
+
+.hero-section .trial-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #f97316 0%, #ec4899 100%);
+  color: var(--white);
+  transition: 0.3s !important;
+  border: none;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+}
+
+.hero-section .demo-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  border: 1px solid var(--border2);
+  background: var(--white);
+  color: var(--black);
+  transition: 0.3s !important;
+}
+
+.hero-section .hero-img {
+  position: relative;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-color);
+  box-shadow: 0 0px 15px -3px rgba(0, 0, 0, 0.144),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-section .hero-img::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #fdba74 0%, #f89fd0 100%);
+  filter: blur(20px);
+}
+
+.hero-section .hero-img img {
+  width: 100%;
+  object-fit: cover;
+  background-size: cover;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .hero-content .title {
+    font-size: 34px;
+  }
+}
+
+/* ---------------------------------- */
+/* ---------- Hero CSS End ---------- */
+/* ---------------------------------- */
+
+/* ---------------------------------- */
+/* -------- Brand CSS Start --------- */
+/* ---------------------------------- */
+.brand-wrapper {
+  background: #f9fafb;
+  padding: 30px 0;
+}
+
+[data-theme="dark"] .brand-wrapper {
+  background: #0d0d0d;
+  border-top: 1px solid #181b2041;
+  border-bottom: 1px solid #181b2041;
+}
+.brand-wrapper .brand-logo-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.brand-wrapper .brand-logo {
+  background: var(--white);
+  height: 80px;
+  width: 100px;
+  border-radius: 5px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.brand-wrapper .brand-logo img {
+  width: 100%;
+  object-fit: contain;
+}
+/* ---------------------------------- */
+/* ---------- Brand CSS End ---------- */
+/* ---------------------------------- */
+
+/* ---------------------------------- */
+/* -------- Counter CSS Start ---------- */
+/* ---------------------------------- */
+.counter-wrapper {
+  padding: 30px 0;
+  background: linear-gradient(180deg, #f9fafb 0%, #fff 100%);
+}
+
+[data-theme="dark"] .counter-wrapper {
+  background: #0d0d0d;
+  border-bottom: 1px solid #181b2041;
+}
+
+.counter-wrapper .counter-item {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.counter-wrapper .counter-value {
+  font-size: 38px;
+  font-weight: bold;
+  color: var(--text);
+  margin: 0;
+}
+
+.counter-wrapper .counter-label {
+  font-size: 16px;
+  color: var(--text2);
+  font-weight: 500;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .counter-wrapper .counter-value {
+    font-size: 34px;
+  }
+}
+/* ---------------------------------- */
+/* -------- Counter CSS End ---------- */
+/* ---------------------------------- */
+
+/* ---------------------------------- */
+/* ---- Achivement Counter CSS End --- */
+/* ---------------------------------- */
+.achivment-counter {
+  padding: 30px 0;
+  background: linear-gradient(135deg, #f9fafb 0%, #fff 100%);
+}
+
+[data-theme="dark"] .achivment-counter {
+  background: #0d0d0d;
+  border-bottom: 1px solid #181b2041;
+}
+
+.achivment-counter .title {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--text);
+  margin: 0;
+}
+
+.achivment-counter .desc {
+  font-size: 16px;
+  color: var(--text2);
+  font-weight: 500;
+  margin: 20px 0;
+}
+
+.achivment-counter .learn-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  background: var(--bg-black);
+  color: var(--text7);
+  transition: 0.3s !important;
+}
+
+.achivment-counter .card-item {
+  padding: 20px;
+  background: var(--bg-color);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+
+.achivment-counter .card-item .count {
+  font-size: 20px;
+  color: var(--text);
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.achivment-counter .card-item .count-details {
+  font-size: 16px;
+  color: var(--text2);
+  font-weight: 500;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .achivment-counter .title {
+    font-size: 26px;
+  }
+}
+/* ---------------------------------- */
+/* ---- Achivement Counter CSS End --- */
+/* ---------------------------------- */
+
+/* ---------------------------------- */
+/* -------- Future CSS End ---------- */
+/* ---------------------------------- */
+.future-section {
+  width: 100%;
+  padding: 60px 0;
+}
+
+.future-section .sticky-wrap {
+  position: sticky;
+  top: 200px;
+}
+
+.future-section .header-box {
+  margin-bottom: 60px;
+}
+
+.future-section .header-box .title {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--text);
+  text-align: center;
+  margin: 0;
+}
+
+.future-section .header-box .desc {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text2);
+  margin-top: 20px;
+  text-align: center;
+}
+
+.future-section .future-content .title {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--text);
+  margin: 0;
+}
+.future-section .future-content .desc {
+  font-size: 16px;
+  color: var(--text2);
+  font-weight: 500;
+  margin: 20px 0;
+}
+.future-section .future-content .item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.future-section .future-content .lavel-box .num {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #fed7aa 0%, #fbcfe8 100%);
+}
+
+.future-section .future-content .lavel-box span {
+  font-size: 14px;
+  color: var(--black);
+  font-weight: bold;
+}
+
+.future-section .lavel-box .bar {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, #fed7aa 0%, #fbcfe8 100%);
+}
+
+.future-section .item-list .item {
+  font-size: 16px;
+  color: var(--text2);
+  font-weight: 500;
+}
+
+.future-section .learn-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  border: 1px solid var(--border2);
+  background: var(--white);
+  color: var(--black);
+  transition: 0.3s !important;
+}
+
+.future-section .future-img {
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  background: var(--bg-color);
+  box-shadow: 0 0px 15px -3px rgba(0, 0, 0, 0.144),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.future-section .future-img img {
+  width: 100%;
+  object-fit: cover;
+  background-size: cover;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .future-section .header-box .title {
+    font-size: 28px;
+  }
+  .future-section .future-content .title {
+    font-size: 26px;
+  }
+}
+
+/* ---------------------------------- */
+/* -------- Future CSS End ---------- */
+/* ---------------------------------- */
+
+/* ----------------------------------------- */
+/* -------- Discover Tools CSS Start ---------- */
+/* ------------------------------------------ */
+.discover-tools {
+  width: 100%;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #f9fafb 0%, #fff 100%);
+}
+
+[data-theme="dark"] .discover-tools {
+  background: #0d0d0d;
+  border-bottom: 1px solid #181b2041;
+}
+
+.discover-tools .header-box {
+  margin-bottom: 30px;
+}
+
+.discover-tools .header-box .title {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--text);
+  text-align: center;
+  margin: 0;
+}
+
+.discover-tools .header-box .desc {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text2);
+  margin-top: 20px;
+  text-align: center;
+}
+
+.discover-tools .tools-card-wrapper .card-item {
+  background: var(--bg-color);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+
+.discover-tools .tools-card-wrapper .card-icon svg {
+  width: 50px;
+  height: 50px;
+}
+
+.discover-tools .asset-selection .title,
+.discover-tools .tools-card-wrapper .title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text);
+  margin: 0;
+}
+
+.discover-tools .tools-card-wrapper .desc {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text2);
+  margin: 20px 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.discover-tools .tools-card-wrapper .learn-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  color: var(--text);
+}
+
+.discover-tools .learn-more-btn svg path {
+  stroke: var(--text);
+}
+
+.discover-tools .learn-more-btn:hover svg {
+  margin-left: 6px;
+}
+
+/* Asset Selection */
+
+.discover-tools .asset-selection {
+  margin-top: 60px;
+  background: var(--bg-color);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.discover-tools .asset-selection .desc {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text2);
+  margin: 20px 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.discover-tools .asset-selection .learn-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  color: var(--text);
+}
+
+.discover-tools .asset-selection .content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.asset-selection .content .content-item {
+  width: 50%;
+}
+
+.discover-tools .asset-selection .table-card {
+  background: var(--accent2);
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 10px;
+}
+
+.asset-selection .table-card .title {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.asset-selection .table-card .item {
+  font-size: 14px;
+  color: var(--text2);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.asset-selection .table-card .item:nth-last-of-type(1) {
+  margin-bottom: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .discover-tools .header-box .title {
+    font-size: 28px;
+  }
+  .discover-tools .asset-selection .content {
+    flex-direction: column;
+  }
+
+  .asset-selection .content .content-item {
+    width: 100%;
+  }
+}
+/* ----------------------------------------- */
+/* -------- Discover Tools CSS End ---------- */
+/* ------------------------------------------ */
+
+/* ----------------------------------------- */
+/* -------- News Card CSS End ---------- */
+/* ------------------------------------------ */
+.news-card {
+  width: 100%;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+}
+.news-card .header-box {
+  margin-bottom: 60px;
+}
+
+.news-card .header-box .title {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--white);
+  text-align: center;
+  margin: 0;
+}
+
+.news-card .card-box {
+  background-color: #1f2937;
+  border: none;
+  border-radius: 12px;
+  height: 100%;
+  overflow: hidden;
+}
+.news-card .card-image-placeholder {
+  width: 100%;
+  overflow: hidden;
+}
+.news-card .card-image-placeholder img {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  background-size: cover;
+  object-fit: cover;
+}
+
+.news-card .card-body {
+  padding: 20px;
+}
+.news-card .card-subtitle {
+  font-size: 14px;
+  color: var(--white);
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.news-card .card-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--white);
+  margin: 0;
+}
+.news-card .card-text {
+  font-size: 16px;
+  color: #9ca3af;
+  margin: 10px 0;
+}
+
+.news-card .card-box .read-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  color: var(--white);
+}
+
+.news-card .card-box .read-more-btn:hover svg {
+  margin-left: 4px;
+}
+
+.news-card .card-box .read-more-btn svg path {
+  stroke: var(--white);
+}
+
+@media screen and (max-width: 768px) {
+  .news-card .header-box .title {
+    font-size: 28px;
+  }
+}
+/* ----------------------------------------- */
+/* -------- News Card CSS End ---------- */
+/* ------------------------------------------ */
+
+/* ----------------------------------------- */
+/* -------- Testimonials CSS Start ---------- */
+/* ------------------------------------------ */
+.testimonial-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #f9fafb 0%, #fff 100%);
+}
+
+[data-theme="dark"] .testimonial-section {
+  background: #0d0d0d;
+}
+
+.testimonial-section .section-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.testimonial-card {
+  background-color: var(--bg-color);
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.testimonial-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+}
+
+.testimonial-avatar img {
+  width: 100%;
+  background-size: cover;
+  object-fit: cover;
+}
+
+.testimonial-text {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 0px;
+  color: var(--text2);
+  font-style: italic;
+}
+
+.testimonial-author {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 20px 0;
+  color: var(--text);
+}
+
+.testimonial-role {
+  font-size: 14px;
+  color: var(--text2);
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .testimonial-section .section-title {
+    font-size: 28px;
+  }
+}
+/* ---------------------------------- */
+/* ----- Testimonials CSS End ------ */
+/* ----------------------------------- */
+
+/* ------------------------------- */
+/* -------- FAQ CSS End ---------- */
+/* ------------------------------- */
+.faq-container {
+  padding: 60px 0;
+  background: linear-gradient(180deg, #fff 0%, #f9fafb 100%);
+}
+
+[data-theme="dark"] .faq-container {
+  background: #0d0d0d;
+  border-top: 1px solid #181b2041;
+}
+
+.faq-container .faq-header {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.faq-container .desc {
+  font-size: 16px;
+  color: var(--text2);
+  margin-bottom: 0px;
+}
+
+.faq-container .accordion-item {
+  border: none;
+  background: transparent;
+}
+
+.faq-container .accordion-body {
+  padding: 0px 0px 16px 0px;
+  font-size: 16px;
+  color: var(--text2);
+  margin-bottom: 0px;
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-container .accordion-button {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text);
+  padding: 16px 0;
+
+  transition: none;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+}
+
+.faq-container .accordion-button.collapsed {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-container .accordion-button::after {
+  display: none;
+}
+
+.accordion-button::before {
+  font-family: "Font Awesome 6 Free";
+  content: "\f107";
+  font-weight: 900;
+  position: absolute;
+  right: 0;
+  transform: rotate(180deg);
+  color: var(--text);
+  transition: 0.3s;
+}
+
+.faq-container .accordion-button.collapsed::before {
+  transform: rotate(0deg);
+}
+
+@media screen and (max-width: 768px) {
+  .faq-container .faq-header {
+    font-size: 26px;
+  }
+}
+/* ------------------------------- */
+/* -------- FAQ CSS End ---------- */
+/* ------------------------------- */
+
+/* ---------------------------------- */
+/* --- Newsletter CSS End ---- */
+/* ---------------------------------- */
+.newsletter {
+  width: 100%;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+}
+
+.newsletter .title {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--white);
+  margin: 0;
+}
+
+.newsletter .desc {
+  font-size: 16px;
+  font-weight: 400;
+  color: #d1d5db;
+  margin: 20px 0;
+}
+
+.newsletter .trial-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #f97316 0%, #ec4899 100%);
+  color: var(--white);
+  transition: 0.3s !important;
+  border: none;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+}
+
+.newsletter .contact-btn {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  height: 36px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  background: var(--white);
+  color: var(--black);
+  transition: 0.3s !important;
+}
+
+@media screen and (max-width: 768px) {
+  .newsletter .title {
+    font-size: 30px;
+  }
+}
+/* ---------------------------------- */
+/* ------ Newsletter CSS End -------- */
+/* ---------------------------------- */
+
+/* ---------------------------------- */
+/* ------- Footer CSS Start --------- */
+/* ---------------------------------- */
+.footer {
+  width: 100%;
+  padding: 60px 0px 0px 0px;
+  background: linear-gradient(180deg, #111827 0%, #000 100%);
+}
+
+.footer .title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #d1d5db;
+  margin-bottom: 10px;
+}
+
+.footer .desc {
+  font-size: 16px;
+  font-weight: 400;
+  color: #9ca3af;
+  margin: 20px 0;
+}
+
+.footer .social-icons i {
+  font-size: 20px;
+  color: #9ca3af;
+}
+
+.footer .social-icons .icon:hover i {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
+
+.footer .content-menu li {
+  margin: 8px 0;
+}
+
+.footer .content-menu .ftr-menu-item {
+  font-size: 16px;
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.footer .content-menu .ftr-menu-item:hover {
+  margin-left: 4px;
+}
+
+.footer .horizontal-bar {
+  margin: 0;
+  color: #1f2937;
+}
+
+.footer .copyright p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #9ca3af;
+}
+/* ---------------------------------- */
+/* -------- Footer CSS End ---------- */
+/* ---------------------------------- */
