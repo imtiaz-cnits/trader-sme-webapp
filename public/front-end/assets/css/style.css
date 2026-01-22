@@ -145,6 +145,44 @@ input:focus {
 /* --- Default CSS End --- */
 /* -------------------------- */
 
+#intro-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-out;
+}
+
+#intro-video {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+}
+
+#skip-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 4px;
+    z-index: 100000;
+}
+#skip-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
 /* ------------------------ */
 /* --- Navbar CSS Start --- */
 /* ------------------------ */
@@ -344,7 +382,7 @@ input:focus {
 }
 
 .hero-section .sticky-wrap {
-  position: sticky;
+  position: relative;
   top: 200px;
 }
 
@@ -396,8 +434,6 @@ input:focus {
 .hero-section .hero-img {
   position: relative;
   border-radius: 16px;
-  padding: 20px;
-  border: 1px solid var(--border);
   background: var(--bg-color);
   box-shadow: 0 0px 15px -3px rgba(0, 0, 0, 0.144),
     0 4px 6px -4px rgba(0, 0, 0, 0.1);

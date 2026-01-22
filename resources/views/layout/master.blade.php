@@ -6,38 +6,34 @@
   <title>Trader SME | Your Personalized Trading Journal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Fav Icon -->
-    <link rel="icon" type="image/png" href="{{asset('front-end/assets/icon/fav-icon.png')}}" >
+  <!-- Fav Icon -->
+  <link rel="icon" type="image/png" href="{{asset('front-end/assets/icon/fav-icon.png')}}">
 
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- Swiper CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+  <!-- Swiper CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    <!-- Bootstrap JavaScript Bundle -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+  <!-- Bootstrap JavaScript Bundle -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous" />
 
-    <!-- Date Range Picker CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"
-    />
+  <!-- Date Range Picker CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-    <!-- CSS Link -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <link rel="stylesheet" href="{{asset('front-end/assets/css/style.css')}}" />
+  <!-- CSS Link -->
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <link rel="stylesheet" href="{{asset('front-end/assets/css/style.css')}}" />
 
 
 
@@ -49,17 +45,55 @@
   @yield('content')
 
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const preloader = document.getElementById('intro-preloader');
+      const video = document.getElementById('intro-video');
+
+      if (!sessionStorage.getItem('introShown')) {
+
+        preloader.style.display = 'flex';
+
+        document.body.style.overflow = 'hidden';
+
+        video.play().catch(error => {
+          console.log("Autoplay blocked, removing preloader immediately.");
+          removePreloader();
+        });
+
+        video.onended = function() {
+          removePreloader();
+        };
+
+      } else {
+        preloader.style.display = 'none';
+      }
+    });
+
+    function removePreloader() {
+      const preloader = document.getElementById('intro-preloader');
+
+      preloader.style.opacity = '0';
+
+      document.body.style.overflow = 'auto';
+
+      setTimeout(() => {
+        preloader.style.display = 'none';
+        sessionStorage.setItem('introShown', 'true');
+      }, 500);
+    }
+  </script>
+
 
 
   <!-- Bootstrap JavaScript Bundle -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
 
-    <!-- JS Link -->
-     <script src="{{asset('front-end/assets/js/app.js')}}"></script>
+  <!-- JS Link -->
+  <script src="{{asset('front-end/assets/js/app.js')}}"></script>
 
 
 
