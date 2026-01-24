@@ -9,7 +9,7 @@
         <div
           class="header-box d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-2 mb-3 mt-4"
         >
-          <h2 class="dashboard-title">Dashboard</h2>
+          <h2 class="dashboard-title">Daily Trading</h2>
 
           <p id="total-holding" class="total-holding">Total Holdings: <span></span></p>
         </div>

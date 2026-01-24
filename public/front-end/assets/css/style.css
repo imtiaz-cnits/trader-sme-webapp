@@ -466,6 +466,11 @@ input:focus {
   .hero-content .title {
     font-size: 34px;
   }
+
+  .hero-section .sticky-wrap {
+  top: 10px;
+  padding-bottom: 40px;
+  }
 }
 
 /* ---------------------------------- */

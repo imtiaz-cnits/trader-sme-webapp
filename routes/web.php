@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SocialAuthController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\TradeLogController;
+use App\Http\Controllers\ChronologyController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FolderController;
 
 /*
@@ -14,7 +15,7 @@ use App\Http\Controllers\FolderController;
 |--------------------------------------------------------------------------
 */
 
-// 🌐 Locale / Language Switcher
+// 🌐 Locale Switcher
 Route::get('locale/{lang}', function ($lang) {
     if (in_array($lang, ['en', 'es'])) {
         Session::put('locale', $lang);
@@ -22,52 +23,58 @@ Route::get('locale/{lang}', function ($lang) {
     return redirect()->back();
 })->name('locale.change');
 
-// 🏠 Public Routes (Login & Home)
+// 🏠 Public Routes
 Route::view('/', 'components.front-end.home-page');
-Route::view('/login-page', 'components.front-end.auth.registration-form')->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-// 🔒 Authenticated Routes Group
+// 🔐 Authentication
+Route::get('/login-page', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login-page', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/register-page', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register-page', [RegisterController::class, 'register']);
+
+// 🛡️ Admin Protected Routes
 Route::middleware('auth')->group(function () {
 
-    // 🚪 Logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-    // 📊 Admin Pages (Static Views)
+    // 📊 Dashboard (Static View)
     Route::view('/admin-dashboard', 'components.back-end.dashboardsummery')->name('admin.dashboard');
-    Route::view('/setting-page', 'components.back-end.setting-page')->name('admin.setting-page');
-    Route::view('/chronology-page', 'components.back-end.chronology-page')->name('admin.chronology-page');
-    Route::view('/daily-trading-page', 'components.back-end.daily-trading-page')->name('admin.daily-trading-page');
-    Route::view('/trading-analytics', 'components.back-end.trading-analytics')->name('trading.analytics');
-    Route::view('/copy-trader', 'components.back-end.copy-trader')->name('copy-trader');
 
-    // 👤 Profile Management Routes
+    // ⚡ Dashboard API Data (JSON for Charts/Cards)
+    Route::controller(TradeLogController::class)->group(function () {
+        Route::get('/dashboard/stats', 'getDashboardStats')->name('dashboard.stats');
+        Route::get('/dashboard/daily-trend', 'dailyTrendsData')->name('dashboard.trend');
+        Route::get('/dashboard/best-trades', 'getBestTrades')->name('dashboard.best-trades');
+        Route::get('/dashboard/profitable-assets', 'getMostProfitableAssets')->name('dashboard.assets');
+    });
+
+    // 📈 Daily Trading (Main Page containing Tabs)
+    Route::view('/daily-trading', 'components.back-end.daily-trading')->name('admin.daily-trading');
+
+    // ⚡ Daily Trading Actions (API)
+    Route::controller(TradeLogController::class)->group(function () {
+        Route::post('/daily-trading/store', 'store')->name('daily-trading.store');
+        Route::get('/daily-trading/data', 'index')->name('daily-trading.data');
+    });
+
+    // 📅 Chronology (Uncommented to fix the error)
+    Route::get('/chronology-page', [ChronologyController::class, 'index'])->name('admin.chronology');
+    Route::post('/folders/store', [ChronologyController::class, 'storeFolder'])->name('folders.store');
+    Route::get('/folders', [ChronologyController::class, 'getFolders'])->name('folders.index');
+    Route::get('/api/trades/search', [ChronologyController::class, 'searchTrades'])->name('api.trades.search');
+
+    // 👥 Copy Trader & Settings
+    Route::view('/copy-trader', 'components.back-end.copy-trader')->name('admin.copy-trader');
+    Route::view('/settings', 'components.back-end.settings')->name('admin.settings');
+
+    // 👤 Profile Management
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/profile', 'show')->name('profile.show');
         Route::post('/profile/update', 'update');
     });
 
-    // 📈 Trade Logs & Analytics Data (API Endpoints)
-    Route::controller(TradeLogController::class)->group(function () {
-        // Actions
-        Route::post('/trade-log/store', 'store');
-        Route::get('/trade-log/list', 'index');
-
-        // Dashboard Data (JSON Returns)
-        Route::get('/dashboard/stats', 'getDashboardStats');
-        Route::get('/dashboard/best-trades', 'getBestTrades');
-        Route::get('/dashboard/trade-stats', 'getTradeStats');
-        Route::get('/dashboard/most-profitable-assets', 'getMostProfitableAssets');
-        Route::get('/daily-trends-data', 'dailyTrendsData')->name('daily.trends.data');
-    });
-
     // 📂 Folder Management
     Route::controller(FolderController::class)->group(function () {
-        Route::post('/folders', 'store')->name('folders.store');
-        Route::get('/folders/list', 'index')->name('folders.index');
+        Route::get('/folders/list', 'index')->name('folders.list');
     });
 });
-
-// 🚀 Social Auth (Reserved for Future)
-// Route::get('auth/{provider}', [SocialAuthController::class, 'redirect']);
-// Route::get('auth/{provider}/callback', [SocialAuthController::class, 'callback']);

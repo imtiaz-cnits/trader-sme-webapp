@@ -1136,19 +1136,6 @@ input:focus {
   font-size: 14px;
   background-color: var(--bg-color);
   border: 1px solid var(--border);
-  color: var(--text);
-}
-
-.trends-table .btn-custom svg path {
-  fill: var(--text);
-
-  stroke: var(--text);
-}
-
-.trends-table .btn-pagination {
-  font-size: 14px;
-  background-color: var(--bg-color);
-  border: 1px solid var(--border);
   color: var(--text3);
 }
 
@@ -1933,7 +1920,7 @@ input:focus {
   border-radius: 12px;
   box-shadow: 0 4px 21.9px 0 rgba(0, 0, 0, 0.25);
   width: 90%;
-  max-width: 420px;
+  max-width: 520px;
   transform: translateY(-20px);
   font-family: var(--secondary-font);
   opacity: 0;
@@ -1955,6 +1942,7 @@ input:focus {
   z-index: 500 !important;
   border-radius: 8px !important;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: auto;
 }
 .flatpickr-day.selected,
 .flatpickr-day.selected:hover {
@@ -1981,12 +1969,16 @@ input:focus {
   font-size: 14px !important;
 }
 .flatpickr-time {
-  max-width: 150px;
+  max-width: 200px !important;
   margin: 0 auto;
 }
 
 .flatpickr-calendar.animate {
   width: auto !important;
+}
+
+.flatpickr-wrapper {
+  display: block;
 }
 
 /* Custom styles to match original design */
@@ -2041,7 +2033,7 @@ input:focus {
   color: var(--text);
 }
 .new-trend-modal .modal-body {
-  padding: 0px 20px;
+  padding: 10px 20px;
   overflow: auto;
 }
 
@@ -2051,7 +2043,6 @@ input:focus {
 .new-trend-modal .btn-cancel {
   display: inline-block;
   background: transparent;
-  color: var(--text);
   font-size: 14px;
   font-weight: 500;
   border: 1px solid var(--border);
