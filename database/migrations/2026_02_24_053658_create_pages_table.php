@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('folders', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('name');
+            $table->foreignId('folder_id')->nullable()->constrained('folders')->nullOnDelete();
+            $table->string('title')->default('Untitled');
+            $table->string('cover_image')->nullable();
             $table->string('icon')->nullable();
+            $table->longText('content')->nullable();
+            $table->boolean('is_template')->default(false);
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('folders');
+        Schema::dropIfExists('pages');
     }
 };

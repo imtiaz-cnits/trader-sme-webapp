@@ -4,31 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Folder extends Model
 {
     use HasFactory;
 
-   
-    protected $table = 'folders';
+    protected $fillable = ['user_id', 'name', 'icon'];
 
-    protected $fillable = [
-        'user_id',
-        'name',
-    ];
-
-   
-    public function user(): BelongsTo
+    public function pages()
     {
-        return $this->belongsTo(User::class);
-    }
-
-   
-    public function pages(): HasMany
-    {
-       
         return $this->hasMany(Page::class);
     }
 }

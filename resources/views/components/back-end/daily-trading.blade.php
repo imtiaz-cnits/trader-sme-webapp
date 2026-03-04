@@ -3,6 +3,8 @@
 
 @section('content')
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
 <main class="container-fluid px-md-5">
   <div class="main-content pb-4">
 
@@ -129,7 +131,7 @@
         <div class="tab-pane fade show active" id="pills-trades" role="tabpanel" aria-labelledby="pills-trades-tab" tabindex="0">
           <div class="d-flex flex-column gap-2 flex-sm-row justify-content-between mb-3">
             <div class="d-flex align-items-center gap-2">
-              <button id="date-range-btn" class="btn btn-custom d-flex align-items-center gap-2" style="background: #fff; border: 1px solid #e2e8f0; padding: 0.5rem 1rem;">
+              <button id="date-range-btn" class="btn btn-custom d-flex align-items-center gap-2" style="background: var(--bg-color); border: 1px solid var(--border); padding: 0.5rem 1rem;">
                 <i class="fa-regular fa-calendar"></i>
                 <span id="date-range-text">Select Date Range</span>
                 <i class="fa-solid fa-angle-down ms-1"></i>
@@ -196,14 +198,8 @@
                       <h2>Profit/loss Over Time</h2>
                       <p>Track your trading performance over time</p>
                     </div>
-                    <div class="tab chart-pills d-flex gap-1 flex-wrap">
-                      <a href="#" class="nav-link active">Daily</a>
-                      <a href="#" class="nav-link">Weekly</a>
-                      <a href="#" class="nav-link">Monthly</a>
-                      <a href="#" class="nav-link">Yearly</a>
-                    </div>
                   </div>
-                  <div id="chart"></div>
+                  <div id="chart" style="min-height: 350px;"></div>
                 </div>
               </div>
               <div class="col-lg-5 mt-3 mt-lg-0">
@@ -214,7 +210,7 @@
                       <p>Compare profitability across different assets</p>
                     </div>
                   </div>
-                  <div id="asset-chart"></div>
+                  <div id="asset-chart" style="min-height: 350px;"></div>
                 </div>
               </div>
             </div>
@@ -223,36 +219,24 @@
           <div class="box-wrapper mt-4">
             <div class="row">
               <div class="col-lg-4">
-                <div class="trade-outcome-card">
+                <div class="trade-outcome-card" style="height: 100%;">
                   <div class="header d-flex flex-row align-items-start justify-content-between mb-4">
                     <div>
                       <h2>Trade Outcome Breakdown</h2>
                       <p>Distribution of trade outcomes</p>
                     </div>
-                    <div class="menu-toggle" onclick="toggleDropdown(event)">
-                      ⋮
-                      <div id="cardDropdown" class="dropdown-menu">
-                        <a href="#">Edit chart</a>
-                        <a href="#">Export as image</a>
-                        <a href="#">View details</a>
-                      </div>
-                    </div>
                   </div>
-                  <canvas id="tradeChart" width="400" height="400"></canvas>
+                  <div style="height: 250px; position: relative; margin:auto;">
+                    <canvas id="tradeChart"></canvas>
+                  </div>
                 </div>
               </div>
               <div class="col-lg-8 mt-3 mt-lg-0">
-                <div class="trade-outcome-card">
+                <div class="trade-outcome-card" style="height: 100%;">
                   <div class="header">
                     <div>
                       <h2>Most Profitable Assets</h2>
                       <p>Assets ranked by profitability</p>
-                    </div>
-                    <div class="tab chart-pills d-flex gap-1 flex-wrap">
-                      <a href="#" class="nav-link active">Daily</a>
-                      <a href="#" class="nav-link">Weekly</a>
-                      <a href="#" class="nav-link">Monthly</a>
-                      <a href="#" class="nav-link">Yearly</a>
                     </div>
                   </div>
                   <div class="profitable-table-wrap">
@@ -287,21 +271,10 @@
                       <h2>Trading Activity Heatmap</h2>
                       <p>Analyze performance by day and time</p>
                     </div>
-                    <div class="heatmap-container-dropdown" id="dropdown-wrapper">
-                      <button type="button" class="heatmap-dropdown-btn" id="dropdown-button" aria-haspopup="true" aria-expanded="true">
-                        <span id="selected-option-text">Win Rate</span>
-                        <i class="fa-solid fa-angle-down"></i>
-                      </button>
-                      <div class="heatmap-dropdown-options" id="dropdown-options">
-                        <div class="heatmap-dropdown-option" data-value="Win Rate">Win Rate</div>
-                        <div class="heatmap-dropdown-option" data-value="Profit Factor">Profit Factor</div>
-                        <div class="heatmap-dropdown-option" data-value="Drawdown">Drawdown</div>
-                      </div>
-                    </div>
                   </div>
                   <div class="heatmap-container mt-3">
                     <div class="overflow-x-auto pb-2">
-                      <table id="heatmap-table" class="heatmap-table">
+                      <table id="heatmap-table" class="heatmap-table" style="width: 100%;">
                         <thead>
                           <tr id="header-row"></tr>
                         </thead>
@@ -310,13 +283,13 @@
                     </div>
                     <div class="d-flex color-shade-box align-items-center justify-content-center mt-3">
                       <div class="legend-item-text"><span class="text">Low</span></div>
-                      <div class="legend-item">
-                        <div class="legend-color-box" style="background-color: #f87171"></div>
-                        <div class="legend-color-box" style="background-color: #fcd34d"></div>
-                        <div class="legend-color-box" style="background-color: #6ee7b7"></div>
-                        <div class="legend-color-box" style="background-color: #34d399"></div>
-                        <div class="legend-color-box" style="background-color: #10b981"></div>
-                        <div class="legend-color-box" style="background-color: #059669"></div>
+                      <div class="legend-item d-flex gap-1">
+                        <div class="legend-color-box" style="width:20px; height:20px; background-color: #f87171"></div>
+                        <div class="legend-color-box" style="width:20px; height:20px; background-color: #fcd34d"></div>
+                        <div class="legend-color-box" style="width:20px; height:20px; background-color: #6ee7b7"></div>
+                        <div class="legend-color-box" style="width:20px; height:20px; background-color: #34d399"></div>
+                        <div class="legend-color-box" style="width:20px; height:20px; background-color: #10b981"></div>
+                        <div class="legend-color-box" style="width:20px; height:20px; background-color: #059669"></div>
                       </div>
                       <div class="legend-item-text"><span class="text">High</span></div>
                     </div>
@@ -335,30 +308,27 @@
                       <h2>Trading Performance Radar</h2>
                       <p>Compare your current and previous performance metrics</p>
                     </div>
-                    <div class="tab chart-pills d-flex gap-1 flex-wrap">
-                      <a href="#" class="nav-link active">Daily</a>
-                      <a href="#" class="nav-link">Weekly</a>
-                      <a href="#" class="nav-link">Monthly</a>
-                      <a href="#" class="nav-link">Yearly</a>
-                    </div>
                   </div>
-                  <canvas id="radarChart"></canvas>
 
-                  <div class="row g-3 mt-2">
+                  <div style="position: relative; height: 350px; width: 100%; margin: 0 auto;">
+                    <canvas id="radarChart"></canvas>
+                  </div>
+
+                  <div class="row g-3 mt-4">
                     <div class="col-lg-4 col-6 d-flex align-items-lg-stretch">
                       <div class="stat-box">
                         <div class="stat-title">Win Rate</div>
                         <div class="wrap">
                           <div class="stat-name">Current:</div>
-                          <div class="stat-point current">72.3</div>
+                          <div class="stat-point current">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Previous:</div>
-                          <div class="stat-point previous">63.7</div>
+                          <div class="stat-point previous">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Change:</div>
-                          <div class="stat-point change">8.7</div>
+                          <div class="stat-point change">0</div>
                         </div>
                       </div>
                     </div>
@@ -367,15 +337,15 @@
                         <div class="stat-title">Risk/Reward</div>
                         <div class="wrap">
                           <div class="stat-name">Current:</div>
-                          <div class="stat-point current">2.1</div>
+                          <div class="stat-point current">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Previous:</div>
-                          <div class="stat-point previous">2.0</div>
+                          <div class="stat-point previous">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Change:</div>
-                          <div class="stat-point change">0.1</div>
+                          <div class="stat-point change">0</div>
                         </div>
                       </div>
                     </div>
@@ -384,15 +354,15 @@
                         <div class="stat-title">Profit Factor</div>
                         <div class="wrap">
                           <div class="stat-name">Current:</div>
-                          <div class="stat-point current">1.8</div>
+                          <div class="stat-point current">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Previous:</div>
-                          <div class="stat-point previous">1.7</div>
+                          <div class="stat-point previous">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Change:</div>
-                          <div class="stat-point change">0.2</div>
+                          <div class="stat-point change">0</div>
                         </div>
                       </div>
                     </div>
@@ -401,15 +371,15 @@
                         <div class="stat-title">Avg Trade Duration</div>
                         <div class="wrap">
                           <div class="stat-name">Current:</div>
-                          <div class="stat-point current">42.4</div>
+                          <div class="stat-point current">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Previous:</div>
-                          <div class="stat-point previous">56.0</div>
+                          <div class="stat-point previous">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Change:</div>
-                          <div class="stat-point decress">-13.6</div>
+                          <div class="stat-point change">0</div>
                         </div>
                       </div>
                     </div>
@@ -418,15 +388,15 @@
                         <div class="stat-title">Consistency</div>
                         <div class="wrap">
                           <div class="stat-name">Current:</div>
-                          <div class="stat-point current">82.1</div>
+                          <div class="stat-point current">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Previous:</div>
-                          <div class="stat-point previous">66.4</div>
+                          <div class="stat-point previous">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Change:</div>
-                          <div class="stat-point change">15.7</div>
+                          <div class="stat-point change">0</div>
                         </div>
                       </div>
                     </div>
@@ -435,15 +405,15 @@
                         <div class="stat-title">Discipline</div>
                         <div class="wrap">
                           <div class="stat-name">Current:</div>
-                          <div class="stat-point current">79.6</div>
+                          <div class="stat-point current">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Previous:</div>
-                          <div class="stat-point previous">73.5</div>
+                          <div class="stat-point previous">0</div>
                         </div>
                         <div class="wrap">
                           <div class="stat-name">Change:</div>
-                          <div class="stat-point change">6.0</div>
+                          <div class="stat-point change">0</div>
                         </div>
                       </div>
                     </div>
@@ -452,37 +422,15 @@
               </div>
 
               <div class="col-lg-5 mt-3 mt-lg-0">
-                <div class="chart-card p-3">
+                <div class="chart-card p-3" style="height: 100%;">
                   <div class="chart-header">
                     <div>
                       <h2>Strategy Insights</h2>
                       <p>AI-powered trading recommendations</p>
                     </div>
                   </div>
-                  <div class="strategy-card mt-3">
-                    <div class="card-header">
-                      <div class="icon-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                          <path d="M6.37619 10.5466C8.89017 10.5466 10.9282 8.50858 10.9282 5.9946C10.9282 3.48061 8.89017 1.44263 6.37619 1.44263C3.86221 1.44263 1.82422 3.48061 1.82422 5.9946C1.82422 8.50858 3.86221 10.5466 6.37619 10.5466Z" stroke="#18181B" stroke-width="0.910394" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M6.37669 8.72579C7.88508 8.72579 9.10787 7.503 9.10787 5.99461C9.10787 4.48622 7.88508 3.26343 6.37669 3.26343C4.8683 3.26343 3.64551 4.48622 3.64551 5.99461C3.64551 7.503 4.8683 8.72579 6.37669 8.72579Z" stroke="#18181B" stroke-width="0.910394" stroke-linecap="round" stroke-linejoin="round" />
-                          <path d="M6.37621 6.90526C6.87901 6.90526 7.28661 6.49766 7.28661 5.99487C7.28661 5.49207 6.87901 5.08447 6.37621 5.08447C5.87342 5.08447 5.46582 5.49207 5.46582 5.99487C5.46582 6.49766 5.87342 6.90526 6.37621 6.90526Z" stroke="#18181B" stroke-width="0.910394" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg></div>
-                      <div class="text-content">
-                        <h3 class="card-title">Adjust Risk/Reward Ratio</h3>
-                        <p class="card-description">Your current risk/reward ratio is 1:1.5. Increasing it to 1:2 could improve profitability.</p>
-                      </div>
-                    </div>
-                    <a href="#" class="review-link">Review setups <i class="fa-solid fa-arrow-right"></i></a>
-                  </div>
-
-                  <div class="strategy-card mt-3">
-                    <div class="card-header">
-                      <div class="icon-container"><i class="fa-solid fa-clock"></i></div>
-                      <div class="text-content">
-                        <h3 class="card-title">Optimize Trading Hours</h3>
-                        <p class="card-description">Your win rate is 82% during US market hours. Consider adjusting schedule.</p>
-                      </div>
-                    </div>
-                    <a href="#" class="review-link">View optimal hours <i class="fa-solid fa-arrow-right"></i></a>
+                  <div id="insights-container">
+                    <div class="text-center text-muted mt-5">Analyzing data...</div>
                   </div>
                 </div>
               </div>
@@ -499,31 +447,24 @@
                       <p>Common trading mistakes to avoid</p>
                     </div>
                   </div>
-                  <div class="recurring-container">
-                    <table class="recurring-errors-table table-hover">
-                      <thead>
-                        <tr>
-                          <th class="text-start">Error Type</th>
-                          <th>Occurrences</th>
-                          <th>Impact</th>
-                          <th>Improvement</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="text-start">Exiting too early</td>
-                          <td>18</td>
-                          <td class="impact-red">Reduced profit potential by ~30%</td>
-                          <td class="point-incress">+35%</td>
-                        </tr>
-                        <tr>
-                          <td class="text-start">Over-leveraging</td>
-                          <td>12</td>
-                          <td class="impact-red">Increased risk exposure by 2.5x</td>
-                          <td class="point-loss">-15%</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div class="recurring-container mt-3">
+                    <div class="table-responsive">
+                      <table class="recurring-errors-table table-hover w-100">
+                        <thead>
+                          <tr>
+                            <th class="text-start">Error Type</th>
+                            <th>Occurrences</th>
+                            <th>Impact</th>
+                            <th>Improvement</th>
+                          </tr>
+                        </thead>
+                        <tbody id="recurring-errors-body">
+                          <tr>
+                            <td colspan="4" class="text-center text-muted">Analyzing trade logs...</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -536,62 +477,46 @@
   </div>
 </main>
 
-<!-- Log a New Trade pop-up Modal Start -->
 <div class="new-trend-modal" id="tradeModalWrapper" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
-
   <div class="modal-content" style="opacity: 1 !important; transform: none !important; visibility: visible !important; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-
     <div class="modal-header d-flex justify-content-between align-items-center flex-shrink-0">
       <h2 class="modal-title m-0 fw-bold" style="font-size: 1.5rem;">Add a Trade Log</h2>
       <button type="button" class="close-modal-btn" style="border:none; background:none; font-size:1.5rem; cursor: pointer; color: #666;">&times;</button>
     </div>
-
     <div class="modal-body" style="overflow-y: auto;">
       <form id="logTradeForm">
         @csrf
-
         <div class="mb-2">
           <label for="dateOfOperation" class="form-label">Date of Operation</label>
           <div class="position-relative">
             <input type="text" id="dateOfOperation" name="date_of_operation" class="form-control" placeholder="Select Date" autocomplete="off" />
             <button type="button" class="calendar-icon position-absolute top-50 translate-middle-y" style="right: 1rem; border: none; background: none; pointer-events: none;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                <path d="M0.5 12.6665C0.501059 13.5502 0.852588 14.3975 1.47748 15.0224C2.10237 15.6472 2.9496 15.9988 3.83333 15.9998H13.1667C14.0504 15.9988 14.8976 15.6472 15.5225 15.0224C16.1474 14.3975 16.4989 13.5502 16.5 12.6665V6.6665H0.5V12.6665ZM11.8333 9.6665C12.0311 9.6665 12.2245 9.72515 12.3889 9.83503C12.5534 9.94492 12.6815 10.1011 12.7572 10.2838C12.8329 10.4665 12.8527 10.6676 12.8141 10.8616C12.7755 11.0556 12.6803 11.2338 12.5404 11.3736C12.4006 11.5135 12.2224 11.6087 12.0284 11.6473C11.8344 11.6859 11.6334 11.6661 11.4507 11.5904C11.2679 11.5147 11.1117 11.3865 11.0019 11.2221C10.892 11.0576 10.8333 10.8643 10.8333 10.6665C10.8333 10.4013 10.9387 10.1469 11.1262 9.9594C11.3138 9.77186 11.5681 9.6665 11.8333 9.6665ZM8.5 9.6665C8.69778 9.6665 8.89112 9.72515 9.05557 9.83503C9.22002 9.94492 9.34819 10.1011 9.42388 10.2838C9.49957 10.4665 9.51937 10.6676 9.48079 10.8616C9.4422 11.0556 9.34696 11.2338 9.20711 11.3736C9.06726 11.5135 8.88907 11.6087 8.69509 11.6473C8.50111 11.6859 8.30004 11.6661 8.11732 11.5904C7.93459 11.5147 7.77841 11.3865 7.66853 11.2221C7.55865 11.0576 7.5 10.8643 7.5 10.6665C7.5 10.4013 7.60536 10.1469 7.79289 9.9594C7.98043 9.77186 8.23478 9.6665 8.5 9.6665ZM5.16667 9.6665C5.36445 9.6665 5.55779 9.72515 5.72224 9.83503C5.88669 9.94492 6.01486 10.1011 6.09055 10.2838C6.16623 10.4665 6.18604 10.6676 6.14745 10.8616C6.10887 11.0556 6.01363 11.2338 5.87377 11.3736C5.73392 11.5135 5.55574 11.6087 5.36176 11.6473C5.16778 11.6859 4.96671 11.6661 4.78398 11.5904C4.60126 11.5147 4.44508 11.3865 4.3352 11.2221C4.22532 11.0576 4.16667 10.8643 4.16667 10.6665C4.16667 10.4013 4.27202 10.1469 4.45956 9.9594C4.6471 9.77186 4.90145 9.6665 5.16667 9.6665Z" fill="#858D9D" />
-                <path d="M13.1667 1.33333H12.5V0.666667C12.5 0.489856 12.4298 0.320286 12.3047 0.195262C12.1797 0.0702379 12.0101 0 11.8333 0C11.6565 0 11.487 0.0702379 11.3619 0.195262C11.2369 0.320286 11.1667 0.489856 11.1667 0.666667V1.33333H5.83333V0.666667C5.83333 0.489856 5.7631 0.320286 5.63807 0.195262C5.51305 0.0702379 5.34348 0 5.16667 0C4.98986 0 4.82029 0.0702379 4.69526 0.195262C4.57024 0.320286 4.5 0.489856 4.5 0.666667V1.33333H3.83333C2.9496 1.33439 2.10237 1.68592 1.47748 2.31081C0.852588 2.93571 0.501059 3.78294 0.5 4.66667L0.5 5.33333H16.5V4.66667C16.4989 3.78294 16.1474 2.93571 15.5225 2.31081C14.8976 1.68592 14.0504 1.33439 13.1667 1.33333Z" fill="#858D9D" />
-              </svg>
+              <i class="fa-regular fa-calendar"></i>
             </button>
           </div>
         </div>
-
         <div class="mb-2">
           <label for="tradingSession" class="form-label">Trading Session</label>
-          <div class="position-relative">
-            <input class="form-control" list="sessionOptions" name="trading_session" placeholder="Select/Type..." autocomplete="off">
-            <datalist id="sessionOptions">
-              <option value="Asian">
-              <option value="London">
-              <option value="New York">
-              <option value="London/New York Overlap">
-            </datalist>
-          </div>
+          <input class="form-control" list="sessionOptions" name="trading_session" placeholder="Select/Type..." autocomplete="off">
+          <datalist id="sessionOptions">
+            <option value="Asian">
+            <option value="London">
+            <option value="New York">
+            <option value="London/New York Overlap">
+          </datalist>
         </div>
-
         <div class="mb-2">
           <label for="financialInstrument" class="form-label">Financial Instrument</label>
-          <div class="position-relative">
-            <input class="form-control" list="instrumentOptions" name="financial_instrument" placeholder="Select/Type..." autocomplete="off">
-            <datalist id="instrumentOptions">
-              <option value="EUR/USD">
-              <option value="GBP/USD">
-              <option value="USD/JPY">
-              <option value="XAU/USD">
-              <option value="BTC/USD">
-            </datalist>
-          </div>
+          <input class="form-control" list="instrumentOptions" name="financial_instrument" placeholder="Select/Type..." autocomplete="off">
+          <datalist id="instrumentOptions">
+            <option value="EUR/USD">
+            <option value="GBP/USD">
+            <option value="USD/JPY">
+            <option value="XAU/USD">
+            <option value="BTC/USD">
+          </datalist>
         </div>
-
         <div class="mb-2"><label class="form-label">Lot Size</label><input type="number" step="0.01" name="lot_size" class="form-control" placeholder="e.g. 1.00" /></div>
-
         <div class="mb-2">
           <label class="form-label">Position</label>
           <div class="select-wrapper">
@@ -602,36 +527,17 @@
             <span class="select-icon"><i class="fa-solid fa-sort-down"></i></span>
           </div>
         </div>
-
         <div class="mb-2"><label class="form-label">Risk/Reward</label><input type="text" name="risk_benefit_metrics" class="form-control" placeholder="1:2" /></div>
-
         <div class="row mb-2">
           <div class="col-6">
             <label class="form-label">Entry Time</label>
-            <div class="position-relative">
-              <input type="text" name="entry_time" id="entryTime" class="form-control" placeholder="00:00 AM" autocomplete="off" />
-              <button type="button" class="calendar-icon position-absolute top-50 translate-middle-y" style="right: 1rem; border: none; background: none; pointer-events: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                  <path d="M0.5 12.6665C0.501059 13.5502 0.852588 14.3975 1.47748 15.0224C2.10237 15.6472 2.9496 15.9988 3.83333 15.9998H13.1667C14.0504 15.9988 14.8976 15.6472 15.5225 15.0224C16.1474 14.3975 16.4989 13.5502 16.5 12.6665V6.6665H0.5V12.6665Z" fill="#858D9D" />
-                  <path d="M13.1667 1.33333H12.5V0.666667C12.5 0.489856 12.4298 0.320286 12.3047 0.195262C12.1797 0.0702379 12.0101 0 11.8333 0C11.6565 0 11.487 0.0702379 11.3619 0.195262C11.2369 0.320286 11.1667 0.489856 11.1667 0.666667V1.33333H5.83333V0.666667C5.83333 0.489856 5.7631 0.320286 5.63807 0.195262C5.51305 0.0702379 5.34348 0 5.16667 0C4.98986 0 4.82029 0.0702379 4.69526 0.195262C4.57024 0.320286 4.5 0.489856 4.5 0.666667V1.33333H3.83333C2.9496 1.33439 2.10237 1.68592 1.47748 2.31081C0.852588 2.93571 0.501059 3.78294 0.5 4.66667L0.5 5.33333H16.5V4.66667C16.4989 3.78294 16.1474 2.93571 15.5225 2.31081C14.8976 1.68592 14.0504 1.33439 13.1667 1.33333Z" fill="#858D9D" />
-                </svg>
-              </button>
-            </div>
+            <input type="text" name="entry_time" id="entryTime" class="form-control" placeholder="00:00 AM" autocomplete="off" />
           </div>
           <div class="col-6">
             <label class="form-label">Exit Time</label>
-            <div class="position-relative">
-              <input type="text" name="exit_time" id="exitTime" class="form-control" placeholder="00:00 PM" autocomplete="off" />
-              <button type="button" class="calendar-icon position-absolute top-50 translate-middle-y" style="right: 1rem; border: none; background: none; pointer-events: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
-                  <path d="M0.5 12.6665C0.501059 13.5502 0.852588 14.3975 1.47748 15.0224C2.10237 15.6472 2.9496 15.9988 3.83333 15.9998H13.1667C14.0504 15.9988 14.8976 15.6472 15.5225 15.0224C16.1474 14.3975 16.4989 13.5502 16.5 12.6665V6.6665H0.5V12.6665Z" fill="#858D9D" />
-                  <path d="M13.1667 1.33333H12.5V0.666667C12.5 0.489856 12.4298 0.320286 12.3047 0.195262C12.1797 0.0702379 12.0101 0 11.8333 0C11.6565 0 11.487 0.0702379 11.3619 0.195262C11.2369 0.320286 11.1667 0.489856 11.1667 0.666667V1.33333H5.83333V0.666667C5.83333 0.489856 5.7631 0.320286 5.63807 0.195262C5.51305 0.0702379 5.34348 0 5.16667 0C4.98986 0 4.82029 0.0702379 4.69526 0.195262C4.57024 0.320286 4.5 0.489856 4.5 0.666667V1.33333H3.83333C2.9496 1.33439 2.10237 1.68592 1.47748 2.31081C0.852588 2.93571 0.501059 3.78294 0.5 4.66667L0.5 5.33333H16.5V4.66667C16.4989 3.78294 16.1474 2.93571 15.5225 2.31081C14.8976 1.68592 14.0504 1.33439 13.1667 1.33333Z" fill="#858D9D" />
-                </svg>
-              </button>
-            </div>
+            <input type="text" name="exit_time" id="exitTime" class="form-control" placeholder="00:00 PM" autocomplete="off" />
           </div>
         </div>
-
         <div class="mb-2">
           <label class="form-label">Outcome</label>
           <div class="select-wrapper">
@@ -643,151 +549,151 @@
             <span class="select-icon"><i class="fa-solid fa-sort-down"></i></span>
           </div>
         </div>
-
         <div class="mb-2"><label class="form-label">Gross Profit</label><input type="number" step="0.01" name="gross_profit" class="form-control" /></div>
         <div class="mb-2"><label class="form-label">Commission</label><input type="number" step="0.01" name="commission_details" class="form-control" /></div>
         <div class="mb-2"><label class="form-label">Net Profit</label><input type="number" step="0.01" name="net_profit" class="form-control" required /></div>
         <div class="mb-0"><label class="form-label">Image Link</label><input type="url" name="trade_image_link" class="form-control" /></div>
       </form>
     </div>
-
     <div class="modal-footer d-flex justify-content-between gap-2 mt-3 flex-shrink-0">
       <button type="button" class="btn-cancel close-modal-btn px-4 py-2 border rounded bg-light" style="min-width: 100px;">Cancel</button>
       <button type="button" class="btn-submit px-4 py-2 border-0 rounded text-white" id="saveTradeBtn" style="background-color: #1D5053; min-width: 120px;">Save Trade</button>
     </div>
   </div>
 </div>
-<!-- Log a New Trade pop-up Modal End -->
+
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  function toggleDropdown(event) {
-    event.stopPropagation();
-    const dropdown = document.getElementById("cardDropdown");
-    if (dropdown) dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  let notyfInstance = null;
+
+  function showToast(type, message) {
+    if (!notyfInstance && typeof Notyf !== 'undefined') {
+      notyfInstance = new Notyf({
+        duration: 3000,
+        position: {
+          x: 'right',
+          y: 'top'
+        },
+        ripple: true,
+        types: [{
+          type: 'success',
+          background: '#1D5053',
+          icon: {
+            className: 'fa-solid fa-circle-check',
+            tagName: 'i',
+            color: '#fff'
+          }
+        }, {
+          type: 'error',
+          background: '#ff6363',
+          icon: {
+            className: 'fa-solid fa-circle-xmark',
+            tagName: 'i',
+            color: '#fff'
+          }
+        }]
+      });
+    }
+    if (notyfInstance) {
+      type === 'success' ? notyfInstance.success(message) : notyfInstance.error(message);
+    } else {
+      alert(message);
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function() {
 
-    // --- 1. MODAL LOGIC (FIXED) ---
+    let currentPeriod = 'daily';
+    let currentStartDate = '';
+    let currentEndDate = '';
+    window.currentPagination = null;
+
+    let profitChartInstance = null;
+    let assetChartInstance = null;
+    let outcomeChartInstance = null;
+
+    // Modal Logic
     const modalWrapper = document.getElementById('tradeModalWrapper');
-    const openBtns = document.querySelectorAll('.btn-log-trade'); // Handles all "Log Trade" buttons
+    const openBtns = document.querySelectorAll('.btn-log-trade');
     const closeBtns = document.querySelectorAll('.close-modal-btn, .btn-cancel');
     const saveBtn = document.getElementById('saveTradeBtn');
 
     if (modalWrapper) {
-      // Open Modal
-      openBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          // We use flex to center the modal, ensuring it overrides any 'none'
-          modalWrapper.style.display = 'flex';
-        });
-      });
-
-      // Close Modal
-      closeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          modalWrapper.style.display = 'none';
-        });
-      });
-
-      // Close on Outside Click
+      openBtns.forEach(btn => btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modalWrapper.style.display = 'flex';
+      }));
+      closeBtns.forEach(btn => btn.addEventListener('click', () => {
+        modalWrapper.style.display = 'none';
+      }));
       window.addEventListener('click', (e) => {
-        if (e.target === modalWrapper) {
-          modalWrapper.style.display = 'none';
-        }
+        if (e.target === modalWrapper) modalWrapper.style.display = 'none';
       });
     }
 
-    // --- 2. FLATPICKR INITIALIZATION ---
     if (typeof flatpickr !== "undefined") {
-
-      // Modal: Date of Operation
       flatpickr("#dateOfOperation", {
-        dateFormat: "Y-m-d", // Standard format for database
-        allowInput: true,
-        position: "auto center",
-        static: true, // Helps with positioning inside modals
-        onValueUpdate: function(selectedDates, dateStr, instance) {
-          instance.element.value = dateStr;
-        },
+        dateFormat: "Y-m-d",
+        allowInput: true
       });
-
-      // Modal: Time Pickers (Entry & Exit)
-      const timeConfig = {
+      flatpickr("#entryTime", {
         enableTime: true,
         noCalendar: true,
-        dateFormat: "h:i K", // 12-hour format with AM/PM
-        time_24hr: false,
-        minuteIncrement: 1,
-        allowInput: true,
-        position: "auto center",
-        static: true, // Helps with positioning inside modals
-        onValueUpdate: function(selectedDates, dateStr, instance) {
-          instance.element.value = dateStr;
-        },
-      };
+        dateFormat: "h:i K"
+      });
+      flatpickr("#exitTime", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "h:i K"
+      });
 
-      flatpickr("#entryTime", timeConfig);
-      flatpickr("#exitTime", timeConfig);
-
-      // Icon Click Handler (Opens the Flatpickr of the sibling input)
-      document.querySelectorAll(".calendar-icon").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          e.preventDefault();
-          const input = btn.previousElementSibling;
-          if (input && input._flatpickr) {
-            input._flatpickr.toggle();
+      if (typeof $ !== 'undefined' && $.fn.daterangepicker) {
+        $('#date-range-btn').daterangepicker({
+          opens: 'left',
+          autoUpdateInput: false,
+          locale: {
+            format: 'DD MMM YYYY',
+            cancelLabel: 'Clear'
           }
         });
-      });
-
-      // Header: Date Range Filter (Replaced jQuery version with Flatpickr Range)
-      flatpickr("#date-range-btn", {
-        mode: "range",
-        dateFormat: "Y-m-d",
-        showMonths: 2,
-        defaultDate: [
-          new Date(new Date().setDate(new Date().getDate() - 29)),
-          new Date()
-        ],
-        onChange: function(selectedDates, dateStr, instance) {
-          if (selectedDates.length === 2) {
-            const start = instance.formatDate(selectedDates[0], "d M Y");
-            const end = instance.formatDate(selectedDates[1], "d M Y");
-            const textEl = document.getElementById('date-range-text');
-            if (textEl) textEl.textContent = `${start} - ${end}`;
-          }
-        }
-      });
+        $('#date-range-btn').on('apply.daterangepicker', function(ev, picker) {
+          $('#date-range-text').html(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+          currentStartDate = picker.startDate.format('YYYY-MM-DD');
+          currentEndDate = picker.endDate.format('YYYY-MM-DD');
+          currentPeriod = 'custom';
+          document.querySelectorAll('.tab-pills .nav-link').forEach(l => l.classList.remove('active'));
+          reloadAllData();
+        });
+        $('#date-range-btn').on('cancel.daterangepicker', function(ev, picker) {
+          $('#date-range-text').html('Select Date Range');
+          currentStartDate = '';
+          currentEndDate = '';
+          document.getElementById('daily-tab').click();
+        });
+      }
     }
 
-    // --- 3. SAVE TRADE LOGIC ---
     if (saveBtn) {
       saveBtn.addEventListener('click', async function() {
         const btnOriginalText = saveBtn.innerText;
         saveBtn.innerText = 'Saving...';
         saveBtn.disabled = true;
-
         const form = document.getElementById('logTradeForm');
-        const formData = new FormData(form);
-        const payload = Object.fromEntries(formData.entries());
+        const payload = Object.fromEntries(new FormData(form).entries());
 
         try {
           const response = await axios.post("{{ route('daily-trading.store') }}", payload);
-
           if (response.data.success || response.status === 200) {
-            alert('Trade Logged Successfully!');
+            showToast('success', 'Trade Logged Successfully!');
             modalWrapper.style.display = 'none';
             form.reset();
-
-            // Refresh logs & stats (Assuming these functions exist in global scope)
-            if (typeof fetchTradeLogs === 'function') fetchTradeLogs();
-            if (typeof fetchDashboardStats === 'function') fetchDashboardStats('daily');
+            reloadAllData();
           }
         } catch (error) {
-          console.error(error);
-          alert('Error saving trade: ' + (error.response?.data?.message || error.message));
+          showToast('error', 'Error saving trade');
         } finally {
           saveBtn.innerText = btnOriginalText;
           saveBtn.disabled = false;
@@ -795,63 +701,504 @@
       });
     }
 
-    // --- 4. FETCH DATA ---
-    fetchTradeLogs();
-    fetchDashboardStats('daily');
-    loadMostProfitableAssets('daily');
-
-    // Radar Chart Init
-    if (typeof Chart !== 'undefined') {
-      const ctxRadar = document.getElementById('radarChart');
-      if (ctxRadar) {
-        new Chart(ctxRadar, {
-          type: 'radar',
-          data: {
-            labels: ['Win Rate', 'Risk/Reward', 'Profit Factor', 'Avg Duration', 'Consistency', 'Discipline'],
-            datasets: [{
-              label: 'Current',
-              data: [72.3, 70, 60, 42.4, 82.1, 79.6],
-              backgroundColor: 'rgba(16, 185, 129, 0.2)',
-              borderColor: '#10b981',
-            }]
-          },
-          options: {
-            responsive: true
-          }
-        });
-      }
-    }
-
-    // --- 5. TABS LOGIC ---
+    // Main Tabs Logic
     const topTabs = document.querySelectorAll('.tab-pills .nav-link');
     topTabs.forEach(link => {
       link.addEventListener('click', function(e) {
         if (this.dataset.bsToggle !== 'pill') {
           topTabs.forEach(l => l.classList.remove('active'));
           this.classList.add('active');
-          const period = this.getAttribute('data-period') || 'daily';
-          fetchDashboardStats(period);
+          currentPeriod = this.getAttribute('data-period') || 'all_time';
+          currentStartDate = '';
+          currentEndDate = '';
+          const textEl = document.getElementById('date-range-text');
+          if (textEl) textEl.textContent = 'Select Date Range';
+          reloadAllData();
         }
       });
     });
 
-    // --- FUNCTIONS ---
-    async function fetchTradeLogs() {
+    const analysisTabBtn = document.getElementById('pills-analytics-tab');
+    if (analysisTabBtn) {
+      analysisTabBtn.addEventListener('shown.bs.tab', function(e) {
+        fetchAnalyticsCharts(currentPeriod);
+      });
+    }
+
+    function reloadAllData() {
+      fetchTradeLogs(1);
+      fetchDashboardStats(currentPeriod);
+      loadMostProfitableAssets(currentPeriod);
+      fetchAnalyticsCharts(currentPeriod);
+    }
+
+    reloadAllData();
+
+    // --- Analytics Charts Fetch & Render ---
+    async function fetchAnalyticsCharts(period) {
       try {
-        const response = await axios.get("{{ route('daily-trading.data') }}");
-        const logs = response.data;
+        let params = {
+          period: period
+        };
+        if (currentStartDate && currentEndDate) {
+          params.start_date = currentStartDate;
+          params.end_date = currentEndDate;
+        }
+
+        const response = await axios.get("{{ route('analytics.charts') }}", {
+          params: params
+        });
+        const data = response.data;
+
+        renderProfitChart(data.candlestickData);
+        renderAssetChart(data.assetPerformance);
+        renderOutcomeChart(data.outcomes);
+        renderHeatmap(data.heatmapData);
+
+        // Render step 3 Dynamic Data
+        renderRadarChart(data.radarData);
+        renderInsights(data.insights);
+        renderRecurringErrors(data.errors);
+
+      } catch (error) {
+        console.error("API Error or No Data.");
+        renderProfitChart([]);
+        renderAssetChart({
+          categories: [],
+          positive: [],
+          negative: []
+        });
+        renderOutcomeChart({
+          Win: 0,
+          Loss: 0,
+          Breakeven: 0
+        });
+      }
+    }
+
+    function renderProfitChart(data) {
+      let seriesData = (data && data.length > 0) ? data : [{
+        x: 'No Data',
+        y: [0, 0, 0, 0]
+      }];
+      const options = {
+        chart: {
+          type: "candlestick",
+          height: 280,
+          width: "100%",
+          toolbar: {
+            show: false
+          }
+        },
+        series: [{
+          name: "Balance",
+          data: seriesData
+        }],
+        xaxis: {
+          type: "category",
+          tickAmount: 10,
+          axisTicks: {
+            show: false
+          },
+          axisBorder: {
+            show: false
+          }
+        },
+        yaxis: {
+          tooltip: {
+            enabled: true
+          },
+          labels: {
+            formatter: (val) => val >= 1000 ? "$" + (val / 1000).toFixed(1) + "k" : "$" + val,
+            style: {
+              fontSize: "10px",
+              colors: ["#666"]
+            }
+          },
+          forceNiceScale: true
+        },
+        plotOptions: {
+          candlestick: {
+            colors: {
+              upward: "#2F9196",
+              downward: "#D2225A"
+            },
+            wick: {
+              useFillColor: true
+            }
+          }
+        },
+        grid: {
+          borderColor: "#e7e7e7",
+          strokeDashArray: 2,
+          xaxis: {
+            lines: {
+              show: false
+            }
+          },
+          yaxis: {
+            lines: {
+              show: true
+            }
+          }
+        }
+      };
+      if (profitChartInstance) {
+        profitChartInstance.updateOptions(options);
+        profitChartInstance.updateSeries([{
+          data: seriesData
+        }]);
+      } else {
+        profitChartInstance = new ApexCharts(document.querySelector("#chart"), options);
+        profitChartInstance.render();
+      }
+    }
+
+    function renderAssetChart(assetData) {
+      let categories = (assetData && assetData.categories.length > 0) ? assetData.categories : ['EUR', 'USD', 'AAPL'];
+      let positiveData = (assetData && assetData.positive.length > 0) ? assetData.positive : [0, 0, 0];
+      let negativeData = (assetData && assetData.negative.length > 0) ? assetData.negative : [0, 0, 0];
+      const options = {
+        chart: {
+          type: "bar",
+          height: 280,
+          toolbar: {
+            show: false
+          }
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "40%",
+            borderRadius: 4
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        colors: ["#2BB2FE", "#F9C80E"],
+        fill: {
+          type: "gradient",
+          gradient: {
+            shade: "light",
+            type: "vertical",
+            shadeIntensity: 0.5,
+            gradientToColors: ["#22CAAD", "#F86624"],
+            inverseColors: false,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 100]
+          }
+        },
+        series: [{
+          name: "Positive",
+          data: positiveData
+        }, {
+          name: "Negative",
+          data: negativeData
+        }],
+        xaxis: {
+          categories: categories,
+          labels: {
+            style: {
+              fontSize: "10px"
+            }
+          }
+        },
+        yaxis: {
+          labels: {
+            formatter: function(value) {
+              return "$" + value;
+            }
+          }
+        },
+        grid: {
+          borderColor: "#e4e4e7"
+        },
+        legend: {
+          show: false
+        }
+      };
+      if (assetChartInstance) {
+        assetChartInstance.updateOptions({
+          xaxis: {
+            categories: categories
+          }
+        });
+        assetChartInstance.updateSeries([{
+          data: positiveData
+        }, {
+          data: negativeData
+        }]);
+      } else {
+        assetChartInstance = new ApexCharts(document.querySelector("#asset-chart"), options);
+        assetChartInstance.render();
+      }
+    }
+
+    function renderOutcomeChart(data) {
+      const tradeCanvas = document.getElementById("tradeChart");
+      if (!tradeCanvas) return;
+      const ctx = tradeCanvas.getContext("2d");
+      const takeProfitGradient = ctx.createLinearGradient(0, 0, 0, 400);
+      takeProfitGradient.addColorStop(0, "#883DCF");
+      takeProfitGradient.addColorStop(1, "#CFB1EC");
+      const breakEvenGradient = ctx.createLinearGradient(0, 0, 0, 400);
+      breakEvenGradient.addColorStop(0, "#2BB2FE");
+      breakEvenGradient.addColorStop(1, "#AAE0FF");
+      const stopLossGradient = ctx.createLinearGradient(0, 0, 0, 400);
+      stopLossGradient.addColorStop(0, "#EB3D4D");
+      stopLossGradient.addColorStop(1, "#F7B1B8");
+      const win = data ? (data.Win || 0) : 0;
+      const loss = data ? (data.Loss || 0) : 0;
+      const breakeven = data ? (data.Breakeven || 0) : 0;
+      let chartData = [win, breakeven, loss];
+      let bgColors = [takeProfitGradient, breakEvenGradient, stopLossGradient];
+      if (win === 0 && loss === 0 && breakeven === 0) {
+        chartData = [1, 1, 1];
+        bgColors = ["#e4e4e7", "#e4e4e7", "#e4e4e7"];
+      }
+      if (outcomeChartInstance) {
+        outcomeChartInstance.data.datasets[0].data = chartData;
+        outcomeChartInstance.data.datasets[0].backgroundColor = bgColors;
+        outcomeChartInstance.update();
+      } else {
+        outcomeChartInstance = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Take Profit", "Break Even", "Stop Loss"],
+            datasets: [{
+              data: chartData,
+              backgroundColor: bgColors,
+              spacing: 4,
+              borderRadius: 12,
+              borderColor: "transparent"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                align: "start",
+                labels: {
+                  usePointStyle: true,
+                  boxWidth: 10,
+                  padding: 20
+                }
+              }
+            },
+            cutout: "90%"
+          }
+        });
+      }
+    }
+
+    function renderHeatmap(data) {
+      const headerRow = document.getElementById("header-row");
+      const dataRows = document.getElementById("data-rows");
+      if (!headerRow || !dataRows) return;
+      headerRow.innerHTML = "";
+      dataRows.innerHTML = "";
+      const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+      const hours = Array.from({
+        length: 12
+      }, (_, i) => String(i * 2).padStart(2, "0") + ":00");
+      const dayHourHeader = document.createElement("th");
+      dayHourHeader.classList.add("grid-header");
+      dayHourHeader.textContent = "Day / Hour";
+      headerRow.appendChild(dayHourHeader);
+      hours.forEach((hour) => {
+        const header = document.createElement("th");
+        header.classList.add("grid-header");
+        header.textContent = hour;
+        headerRow.appendChild(header);
+      });
+      days.forEach((day) => {
+        const row = document.createElement("tr");
+        const dayHeader = document.createElement("th");
+        dayHeader.classList.add("grid-header");
+        dayHeader.textContent = day;
+        row.appendChild(dayHeader);
+        const dayData = data ? data[day] : null;
+        for (let i = 0; i < 12; i++) {
+          const value = dayData ? dayData[i] : 0;
+          const cell = document.createElement("td");
+          let colorClass = "";
+          if (value >= 80) colorClass = "color-high";
+          else if (value >= 70) colorClass = "color-medium-high";
+          else if (value >= 60) colorClass = "color-medium-high-low";
+          else if (value >= 50) colorClass = "color-medium";
+          else if (value >= 40) colorClass = "color-medium-low";
+          else if (value > 0) colorClass = "color-low";
+          if (colorClass) cell.classList.add("grid-cell", colorClass);
+          else cell.classList.add("grid-cell");
+          cell.textContent = value > 0 ? `${value}%` : "-";
+          row.appendChild(cell);
+        }
+        dataRows.appendChild(row);
+      });
+    }
+
+    // 🔴 FIXED: Professional Radar Chart configuration with Borders and Background
+    function renderRadarChart(data) {
+      const radar = document.getElementById("radarChart");
+      if (!radar || !data) return;
+
+      if (window.radarChartInstance) {
+        window.radarChartInstance.data.datasets[0].data = data.current;
+        window.radarChartInstance.data.datasets[1].data = data.previous;
+        window.radarChartInstance.update();
+      } else {
+        window.radarChartInstance = new Chart(radar, {
+          type: "radar",
+          data: {
+            labels: ["Win Rate", "Risk/Reward", "Profit Factor", "Avg Duration", "Consistency", "Discipline"],
+            datasets: [{
+                label: "Current Period",
+                data: data.current,
+                backgroundColor: "rgba(42, 157, 144, 0.4)",
+                borderColor: "#2A9D90", // Border outline added
+                borderWidth: 2,
+                pointBackgroundColor: "#2A9D90", // Points added
+                order: 2
+              },
+              {
+                label: "Previous Period",
+                data: data.previous,
+                backgroundColor: "rgba(231, 110, 80, 0.4)",
+                borderColor: "#E76E50",
+                borderWidth: 2,
+                pointBackgroundColor: "#E76E50",
+                order: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'bottom'
+              }
+            }, // Show legend
+            scales: {
+              r: {
+                angleLines: {
+                  color: "#e4e4e7"
+                },
+                grid: {
+                  color: "#e4e4e7"
+                },
+                min: 0,
+                max: 100,
+                pointLabels: {
+                  color: "#6c757d",
+                  font: {
+                    size: 12
+                  }
+                },
+                ticks: {
+                  display: false
+                }
+              }
+            }
+          }
+        });
+      }
+
+      if (data.stats) {
+        const updateStatBox = (index, currentVal, previousVal) => {
+          const boxes = document.querySelectorAll('.stat-box');
+          if (!boxes[index]) return;
+          const currentEl = boxes[index].querySelector('.current');
+          const previousEl = boxes[index].querySelector('.previous');
+          const changeEl = boxes[index].querySelector('.change, .decress');
+
+          if (currentEl) currentEl.textContent = currentVal;
+          if (previousEl) previousEl.textContent = previousVal;
+
+          if (changeEl) {
+            const diff = (currentVal - previousVal).toFixed(1);
+            changeEl.textContent = (diff > 0 ? '+' : '') + diff;
+            changeEl.className = 'stat-point ' + (diff >= 0 ? 'change' : 'decress');
+          }
+        };
+        updateStatBox(0, data.stats.win_rate.current, data.stats.win_rate.previous);
+        updateStatBox(1, data.stats.risk_reward.current, data.stats.risk_reward.previous);
+        updateStatBox(2, data.stats.profit_factor.current, data.stats.profit_factor.previous);
+        updateStatBox(3, data.stats.avg_duration.current, data.stats.avg_duration.previous);
+        updateStatBox(4, data.stats.consistency.current, data.stats.consistency.previous);
+        updateStatBox(5, data.stats.discipline.current, data.stats.discipline.previous);
+      }
+    }
+
+    // 🔴 6. Render Dynamic Strategy Insights
+    function renderInsights(insights) {
+      const container = document.getElementById("insights-container");
+      if (!container || !insights) return;
+      container.innerHTML = "";
+
+      insights.forEach(insight => {
+        const card = `
+        <div class="strategy-card mt-3">
+          <div class="card-header">
+            <div class="icon-container"><i class="fa-solid ${insight.icon}"></i></div>
+            <div class="text-content">
+              <h3 class="card-title">${insight.title}</h3>
+              <p class="card-description">${insight.desc}</p>
+            </div>
+          </div>
+          <a href="#" class="review-link" onclick="document.getElementById('pills-trades-tab').click(); return false;">Review setups <i class="fa-solid fa-arrow-right"></i></a>
+        </div>`;
+        container.insertAdjacentHTML("beforeend", card);
+      });
+    }
+
+    // 🔴 7. Render Dynamic Recurring Errors
+    function renderRecurringErrors(errors) {
+      const tbody = document.getElementById("recurring-errors-body");
+      if (!tbody || !errors) return;
+      tbody.innerHTML = "";
+
+      errors.forEach(err => {
+        const isPositive = err.improvement.includes('+');
+        const tr = `
+        <tr>
+          <td class="text-start">${err.type}</td>
+          <td>${err.occurrences}</td>
+          <td class="${err.occurrences !== '-' ? 'impact-red text-danger' : 'text-success'}">${err.impact}</td>
+          <td class="${isPositive ? 'point-incress text-success' : 'text-muted'}">${err.improvement}</td>
+        </tr>`;
+        tbody.insertAdjacentHTML("beforeend", tr);
+      });
+    }
+
+    // --- Core Data Fetch Functions ---
+    async function fetchTradeLogs(page = 1) {
+      try {
+        let url = `{{ route('daily-trading.data') }}?page=${page}&period=${currentPeriod}`;
+        if (currentStartDate && currentEndDate) url += `&start_date=${currentStartDate}&end_date=${currentEndDate}`;
+        const response = await axios.get(url);
+        const logs = response.data.data;
+        const pagination = response.data;
+        window.currentPagination = pagination;
+
         const tableBody = document.getElementById("trade-log-table-body");
         if (!tableBody) return;
-
         tableBody.innerHTML = "";
+
         if (logs.length === 0) {
           tableBody.innerHTML = `<tr><td colspan="14" class="text-center py-4 text-muted">No trades found.</td></tr>`;
+          document.getElementById('selected-entries-text').textContent = 'Showing 0 entries';
           return;
         }
 
         logs.forEach((log) => {
           const row = `<tr>
-                    <td><input class="form-check-input" type="checkbox" /></td>
+                    <td><input class="form-check-input row-checkbox" type="checkbox" /></td>
                     <td class="text-start">${log.date_of_operation ?? '-'}</td>
                     <td>${log.trading_session ?? '-'}</td>
                     <td class="fw-bold">${log.financial_instrument ?? '-'}</td>
@@ -861,87 +1208,78 @@
                     <td>${formatTime(log.entry_time)}</td>
                     <td>${formatTime(log.exit_time)}</td>
                     <td>${log.outcome ?? '-'}</td>
-                    <td>${log.gross_profit ?? '-'}</td>
-                    <td>${log.commission_details ?? '-'}</td>
-                    <td class="fw-bold ${parseFloat(log.net_profit) >= 0 ? 'text-success' : 'text-danger'}">${log.net_profit ?? '-'}</td>
-                    <td class="text-end">${log.trade_image_link ? `<a href="${log.trade_image_link}" target="_blank">View</a>` : '-'}</td>
+                    <td>$${log.gross_profit ?? '-'}</td>
+                    <td>$${log.commission_details ?? '-'}</td>
+                    <td class="fw-bold ${parseFloat(log.net_profit) >= 0 ? 'text-success' : 'text-danger'}">$${log.net_profit ?? '-'}</td>
+                    <td class="text-end">${log.trade_image_link ? `<a href="${log.trade_image_link}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-image"></i></a>` : '-'}</td>
                 </tr>`;
           tableBody.insertAdjacentHTML("beforeend", row);
         });
-      } catch (error) {
-        console.error(error);
-      }
+
+        document.getElementById('selected-entries-text').textContent = `Showing ${pagination.from || 0} to ${pagination.to || 0} of ${pagination.total} entries`;
+      } catch (error) {}
     }
 
     async function fetchDashboardStats(period) {
       try {
+        let params = {
+          period: period
+        };
+        if (currentStartDate && currentEndDate) {
+          params.start_date = currentStartDate;
+          params.end_date = currentEndDate;
+        }
         const response = await axios.get("{{ route('dashboard.stats') }}", {
-          params: {
-            period
-          }
+          params: params
         });
         const data = response.data;
-
         const safeText = (id, txt) => {
           const el = document.getElementById(id);
           if (el) el.textContent = txt;
         };
 
-        // 1. Total Holdings
         const totalEl = document.querySelector('#total-holding span');
         if (totalEl) totalEl.textContent = `$${safeNum(data.total_holdings)}`;
 
-        // 2. Accumulated Profitability
         safeText('accumulated-profit-price', `$${safeNum(data.accumulated_profit)}`);
-        safeText('accumulated-profit-daily-task', `${diffStr(data.accumulated_profit_diff)} from last period`);
-
-        // 3. Win/Loss Rate (Removes existing % before adding one to avoid double %%)
         let wlRate = String(data.win_loss_rate ?? '0').replace('%', '');
         safeText('win-loss-price', wlRate + '%');
-        safeText('win-loss-price-daily-task', `${diffStr(data.win_loss_diff)} from last period`);
-
-        // 4. Risk/Reward Ratio (Checks for '1:' prefix to avoid '1:1:2.5')
-        let rr = data.risk_reward_ratio ?? '0';
-        let rrDisplay = String(rr).startsWith('1:') ? rr : `1:${rr}`;
-        safeText('risk-reward-price', rrDisplay);
-        safeText('risk-reward-daily-task', `${diffStr(data.risk_reward_diff)} from last period`);
-
-        // 5. Average Trading Time
+        safeText('risk-reward-price', data.risk_reward_ratio ?? '1:0');
         safeText('avg-trading-time-price', data.avg_trading_time ?? '0h 0m');
-        safeText('avg-trading-time-daily-task', `${data.avg_trading_time_diff ?? '+0m'} from last period`);
-
-      } catch (error) {
-        console.error("Error fetching stats:", error);
-      }
+      } catch (error) {}
     }
 
     async function loadMostProfitableAssets(period) {
       const tbody = document.querySelector("#profitableAssetsTable tbody");
       if (!tbody) return;
       try {
+        let params = {
+          period: period
+        };
+        if (currentStartDate && currentEndDate) {
+          params.start_date = currentStartDate;
+          params.end_date = currentEndDate;
+        }
         const response = await axios.get("{{ route('dashboard.assets') }}", {
-          params: {
-            period
-          }
+          params: params
         });
-        const data = response.data;
-        const items = data.data || data;
+        const items = response.data.data || response.data;
         if (items.length > 0) {
           tbody.innerHTML = "";
           items.forEach(row => {
             const tr = `<tr>
                         <td class="text-start">${row.asset || row.financial_instrument}</td>
-                        <td class="${row.profit >= 0 ? 'profit' : 'loss'}">${row.profit >= 0 ? '+' : ''}$${safeNum(row.profit)}</td>
+                        <td class="${row.profit >= 0 ? 'text-success' : 'text-danger'}">${row.profit >= 0 ? '+' : ''}$${safeNum(row.profit)}</td>
                         <td>${row.trades}</td>
                         <td>${row.win_rate}%</td>
-                        <td class="${row.trend === 'up' ? 'trend-up' : 'trend-down'}"></td>
+                        <td class="${row.trend === 'up' ? 'text-success' : 'text-danger'}"></td>
                     </tr>`;
             tbody.insertAdjacentHTML("beforeend", tr);
           });
+        } else {
+          tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No data found.</td></tr>`;
         }
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     }
 
     function formatTime(timeStr) {
@@ -949,22 +1287,13 @@
       const [hour, minute] = timeStr.split(':');
       let h = parseInt(hour);
       const ampm = h >= 12 ? 'PM' : 'AM';
-      h = h % 12 || 12;
-      return `${h}:${minute} ${ampm}`;
+      return `${h % 12 || 12}:${minute} ${ampm}`;
     }
 
     function safeNum(n) {
       return n ? parseFloat(n).toFixed(2) : '0.00';
     }
 
-    // Fix: Remove % if it exists before appending to avoid doubling
-    function diffStr(val) {
-      if (!val) return '+0%';
-      let cleanVal = String(val).replace('%', '');
-      let prefix = parseFloat(cleanVal) >= 0 ? '+' : '';
-      return prefix + cleanVal + '%';
-    }
   });
 </script>
-
 @endsection

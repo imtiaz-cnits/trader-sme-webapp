@@ -4,16 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TradeLogController;
 use App\Http\Controllers\ChronologyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FolderController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
 
 // 🌐 Locale Switcher
 Route::get('locale/{lang}', function ($lang) {
@@ -37,16 +32,16 @@ Route::post('/register-page', [RegisterController::class, 'register']);
 // 🛡️ Admin Protected Routes
 Route::middleware('auth')->group(function () {
 
-    // 📊 Dashboard (Static View)
-    Route::view('/admin-dashboard', 'components.back-end.dashboardsummery')->name('admin.dashboard');
+    // 📊 Dashboard (Dynamic View from Controller)
+    Route::get('/admin-dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // ⚡ Dashboard API Data (JSON for Charts/Cards)
-    Route::controller(TradeLogController::class)->group(function () {
-        Route::get('/dashboard/stats', 'getDashboardStats')->name('dashboard.stats');
-        Route::get('/dashboard/daily-trend', 'dailyTrendsData')->name('dashboard.trend');
-        Route::get('/dashboard/best-trades', 'getBestTrades')->name('dashboard.best-trades');
-        Route::get('/dashboard/profitable-assets', 'getMostProfitableAssets')->name('dashboard.assets');
-    });
+    Route::get('/dashboard/trade-stats', [DashboardController::class, 'getTradeStats']);
+    Route::get('/dashboard/best-trades', [DashboardController::class, 'getBestTrades']);
+    Route::get('/daily-trends-data', [DashboardController::class, 'getDailyTrends']);
+
+    // 🔴 New Route for Dynamic News
+    Route::get('/api/dashboard/latest-news', [DashboardController::class, 'getLatestNews']);
 
     // 📈 Daily Trading (Main Page containing Tabs)
     Route::view('/daily-trading', 'components.back-end.daily-trading')->name('admin.daily-trading');
@@ -55,13 +50,23 @@ Route::middleware('auth')->group(function () {
     Route::controller(TradeLogController::class)->group(function () {
         Route::post('/daily-trading/store', 'store')->name('daily-trading.store');
         Route::get('/daily-trading/data', 'index')->name('daily-trading.data');
+
+        Route::get('/dashboard/stats', 'getDashboardStats')->name('dashboard.stats');
+        Route::get('/dashboard/assets', 'getMostProfitableAssets')->name('dashboard.assets');
+
+        // 🔴 New Route for Analytics Charts
+        Route::get('/analytics/charts', 'getAnalyticsCharts')->name('analytics.charts');
     });
 
-    // 📅 Chronology (Uncommented to fix the error)
-    Route::get('/chronology-page', [ChronologyController::class, 'index'])->name('admin.chronology');
-    Route::post('/folders/store', [ChronologyController::class, 'storeFolder'])->name('folders.store');
-    Route::get('/folders', [ChronologyController::class, 'getFolders'])->name('folders.index');
-    Route::get('/api/trades/search', [ChronologyController::class, 'searchTrades'])->name('api.trades.search');
+    // 📅 Chronology
+    Route::controller(ChronologyController::class)->group(function () {
+        Route::get('/chronology-page', 'index')->name('admin.chronology');
+        Route::post('/folders/store', 'storeFolder')->name('folders.store');
+        Route::post('/pages/store', 'storePage')->name('pages.store');
+        Route::get('/pages/{id}/edit', 'editPage')->name('pages.edit');
+        Route::post('/pages/{id}/update', 'updatePage')->name('pages.update');
+        Route::delete('/pages/{id}', 'deletePage')->name('pages.delete');
+    });
 
     // 👥 Copy Trader & Settings
     Route::view('/copy-trader', 'components.back-end.copy-trader')->name('admin.copy-trader');

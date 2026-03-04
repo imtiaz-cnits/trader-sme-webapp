@@ -94,6 +94,7 @@
 [data-theme="dark"] .auth-container .left-panel {
   color: #0d0d0d;
 }
+
 [data-theme="dark"] .left-panel svg path {
   fill: #0d0d0d;
 }
@@ -135,6 +136,7 @@ p {
 ul {
   list-style: none;
 }
+
 input:focus {
   outline: none !important;
   box-shadow: none !important;
@@ -160,6 +162,7 @@ input:focus {
   display: flex;
   overflow: hidden;
 }
+
 .auth-container .tag {
   font-size: 16px;
   text-align: right;
@@ -379,6 +382,7 @@ input:focus {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -390,9 +394,11 @@ input:focus {
     font-size: 18px;
     margin-bottom: 0;
   }
+
   .auth-container .right-panel {
     padding: 10px 80px;
   }
+
   .auth-container .form-wrapper .account-msg {
     margin: 10px 0;
   }
@@ -400,9 +406,11 @@ input:focus {
   .auth-container .form-wrapper .content .desc {
     margin-bottom: 10px;
   }
+
   .auth-container .form-wrapper .bar {
     margin: 8px 0px 4px 0px;
   }
+
   .auth-container .form-wrapper .password-input,
   .auth-container .form-wrapper .form-grp input {
     margin-bottom: 6px;
@@ -417,6 +425,7 @@ input:focus {
   .auth-container .left-panel {
     display: none;
   }
+
   .auth-container .right-panel {
     width: 100%;
     padding: 10px 80px;
@@ -429,6 +438,7 @@ input:focus {
     padding: 10px 30px;
   }
 }
+
 /* -------------------------- */
 /* --- Auth Page CSS End --- */
 /* -------------------------- */
@@ -506,6 +516,7 @@ input:focus {
 .language-list li:hover {
   background-color: #f1f1f1;
 }
+
 /* ------- */
 
 /* ---------------------------------- */
@@ -641,6 +652,7 @@ input:focus {
   background: var(--accent);
   border-bottom: 1px solid var(--border);
 }
+
 .offcanvas.show {
   width: 100%;
   max-width: 300px;
@@ -663,6 +675,7 @@ input:focus {
   font-size: 28px;
   color: var(--white);
 }
+
 /* ---------------------------------- */
 /* --- Dashboard Navbar CSS End ---- */
 /* ---------------------------------- */
@@ -688,6 +701,7 @@ input:focus {
   color: var(--text);
   background-color: var(--bg-color);
 }
+
 .tab-pills .nav-link {
   font-size: 14px;
   color: var(--text3);
@@ -695,6 +709,7 @@ input:focus {
   border-radius: 8px;
   padding: 6px 20px;
 }
+
 .tab-pills .nav-link:hover {
   background-color: var(--bg-color);
   color: var(--text);
@@ -729,6 +744,7 @@ input:focus {
   -ms-transition: 0.3s !important;
   -o-transition: 0.3s !important;
 }
+
 .btn-new-page:hover,
 .btn-log-trade:hover {
   opacity: 0.9;
@@ -805,7 +821,7 @@ input:focus {
 }
 
 .latest-news .card-item img {
-  width: 100px;
+  width: 90px;
   aspect-ratio: 16 / 16;
   border-radius: 6px;
   background-size: cover;
@@ -1070,6 +1086,7 @@ input:focus {
 .daily-trend .swiper-nav-buttons {
   margin-bottom: -24px;
 }
+
 /* ---------------------------------- */
 /* --- Daily Trends CSS End ---- */
 /* ---------------------------------- */
@@ -1194,6 +1211,7 @@ input:focus {
 .trends-table .progress-line-red::after {
   background-color: #dc3545;
 }
+
 /* ---------------------------------- */
 /* ----- Trends Table CSS End ----- */
 /* ---------------------------------- */
@@ -1225,6 +1243,7 @@ input:focus {
   color: var(--text);
   background-color: var(--bg-color);
 }
+
 .analysis-pills .nav-link {
   font-size: 14px;
   color: var(--text3);
@@ -1232,6 +1251,7 @@ input:focus {
   border-radius: 8px;
   padding: 6px 20px;
 }
+
 .analysis-pills .nav-link:hover {
   background-color: var(--bg-color);
   color: var(--text);
@@ -1253,6 +1273,7 @@ input:focus {
   -ms-transition: 0.3s !important;
   -o-transition: 0.3s !important;
 }
+
 .btn-download:hover {
   opacity: 0.9;
 }
@@ -1299,6 +1320,7 @@ input:focus {
     padding: 6px 10px;
   }
 }
+
 /* -------------------------------------- */
 /* ----- Daily Trading Page CSS End ----- */
 /* -------------------------------------- */
@@ -1322,12 +1344,14 @@ input:focus {
   gap: 10px;
   margin-bottom: 0px;
 }
+
 .chart-header h2 {
   font-size: 16px;
   font-weight: 600;
   color: var(--text);
   margin: 0;
 }
+
 .chart-header p {
   margin: 4px 0 0;
   font-size: 14px;
@@ -1349,6 +1373,7 @@ input:focus {
   color: var(--text);
   background-color: var(--bg-color);
 }
+
 .chart-pills .nav-link {
   font-size: 12px;
   color: var(--text3);
@@ -1360,18 +1385,22 @@ input:focus {
   -ms-border-radius: 6px;
   -o-border-radius: 6px;
 }
+
 .chart-pills .nav-link:hover {
   background-color: var(--bg-color);
   color: var(--text);
 }
+
 .apexcharts-xaxis-label {
   font-size: 12px !important;
   fill: var(--text2) !important;
 }
+
 .apexcharts-yaxis-label {
   font-size: 12px !important;
   fill: var(--text2) !important;
 }
+
 .apexcharts-tooltip {
   border-radius: 4px !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
@@ -1383,6 +1412,7 @@ input:focus {
     align-items: start;
   }
 }
+
 /* ------------------------------------------ */
 /* ----- Trading Analytics Page CSS End ----- */
 /* ------------------------------------------ */
@@ -1405,12 +1435,14 @@ input:focus {
   gap: 10px;
   margin-bottom: 0px;
 }
+
 .trade-outcome-card .header h2 {
   font-size: 16px;
   font-weight: 600;
   color: var(--text);
   margin: 0;
 }
+
 .trade-outcome-card .header p {
   margin: 4px 0 0;
   font-size: 14px;
@@ -1440,6 +1472,7 @@ input:focus {
   z-index: 10;
   padding: 0;
 }
+
 .trade-outcome-card .dropdown-menu a {
   display: block;
   padding: 6px 8px;
@@ -1448,9 +1481,11 @@ input:focus {
   color: var(--text2);
   white-space: nowrap;
 }
+
 .trade-outcome-card .dropdown-menu a:hover {
   background-color: #f1f1f1;
 }
+
 .trade-outcome-card .show {
   display: block;
 }
@@ -1486,18 +1521,23 @@ input:focus {
   background: transparent;
   font-weight: 400;
 }
+
 .profitable-table-wrap table tr:last-child td {
   border-bottom: none;
 }
+
 .profitable-table-wrap .profit {
   color: #10b981;
 }
+
 .profitable-table-wrap .loss {
   color: #ef4444;
 }
+
 .profitable-table-wrap .trend-up {
   color: #10b981;
 }
+
 .profitable-table-wrap .trend-down {
   color: #ef4444;
 }
@@ -1508,6 +1548,7 @@ input:focus {
     align-items: start;
   }
 }
+
 /* ------------------------------------------ */
 /* ----- Trade Outcome or Table CSS End ----- */
 /* ------------------------------------------ */
@@ -1518,10 +1559,12 @@ input:focus {
 .heatmap-container {
   width: 100%;
 }
+
 .heatmap-container .heatmap-table {
   width: 100%;
   border: none;
 }
+
 .heatmap-container .grid-header {
   text-align: left !important;
   padding-left: 0px !important;
@@ -1536,6 +1579,7 @@ input:focus {
   color: var(--text);
   border: none;
 }
+
 .heatmap-container .grid-header {
   background-color: transparent;
   font-weight: 600;
@@ -1545,18 +1589,23 @@ input:focus {
 .heatmap-container .color-low {
   background-color: #f87171;
 }
+
 .heatmap-container .color-medium-low {
   background-color: #fcd34d;
 }
+
 .heatmap-container .color-medium {
   background-color: #6ee7b7;
 }
+
 .heatmap-container .color-medium-high-low {
   background-color: #34d399;
 }
+
 .heatmap-container .color-medium-high {
   background-color: #10b981;
 }
+
 .heatmap-container .color-high {
   background-color: #059669;
 }
@@ -1567,10 +1616,12 @@ input:focus {
   align-items: center;
   margin: 0 10px;
 }
+
 .heatmap-container .legend-item-text {
   font-size: 14px;
   color: var(--text);
 }
+
 .heatmap-container .legend-color-box {
   width: 40px;
   height: 16px;
@@ -1625,20 +1676,24 @@ input:focus {
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
 }
+
 .heatmap-dropdown-options.open {
   opacity: 1;
   transform: scale(1);
   pointer-events: auto;
 }
+
 .heatmap-dropdown-option {
   padding: 8px 10px;
   cursor: pointer;
   font-size: 14px;
   color: var(--text);
 }
+
 .heatmap-dropdown-option:hover {
   background-color: var(--accent2);
 }
+
 /* ------------------------------------------ */
 /* ---- Trading Activity Heatmap CSS End ---- */
 /* ------------------------------------------ */
@@ -1655,11 +1710,11 @@ input:focus {
   border: 1px solid var(--border);
 }
 
-.box-wrapper #radarChart {
+/* .box-wrapper #radarChart {
   width: 50% !important;
   height: 50% !important;
   margin: auto;
-}
+} */
 
 .box-wrapper .stat-box .stat-title {
   font-size: 12px;
@@ -1892,6 +1947,7 @@ input:focus {
 .recurring-errors-table .impact-blue {
   color: #3b82f6;
 }
+
 /* ------------------------------------------ */
 /* ---- Recurring Errors Table CSS End ---- */
 /* ------------------------------------------ */
@@ -1911,10 +1967,12 @@ input:focus {
   visibility: hidden;
   z-index: 400;
 }
+
 .new-trend-modal .modal-overlay.open {
   opacity: 1;
   visibility: visible;
 }
+
 .new-trend-modal .modal-content {
   background: var(--bg-color);
   border-radius: 12px;
@@ -1932,6 +1990,7 @@ input:focus {
   -ms-border-radius: 12px;
   -o-border-radius: 12px;
 }
+
 .new-trend-modal .modal-overlay.open .modal-content {
   transform: none;
   opacity: 1;
@@ -1944,6 +2003,7 @@ input:focus {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   margin: auto;
 }
+
 .flatpickr-day.selected,
 .flatpickr-day.selected:hover {
   background: var(--accent) !important;
@@ -1955,19 +2015,23 @@ input:focus {
   -ms-border-radius: 6px !important;
   -o-border-radius: 6px !important;
 }
+
 .flatpickr-calendar .flatpickr-day {
   display: flex !important;
   align-items: center !important;
   font-size: 14px !important;
   padding: 4px !important;
 }
+
 .flatpickr-time input {
   font-size: 14px !important;
   padding: 4px !important;
 }
+
 .flatpickr-time .flatpickr-am-pm {
   font-size: 14px !important;
 }
+
 .flatpickr-time {
   max-width: 200px !important;
   margin: 0 auto;
@@ -1992,12 +2056,14 @@ input:focus {
   background: var(--bg-color);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
+
 .new-trend-modal .form-control:focus,
 .new-trend-modal .form-select:focus {
   border-color: var(--border2);
   box-shadow: none;
   outline: none;
 }
+
 .new-trend-modal .form-control::placeholder {
   color: var(--text3);
 }
@@ -2021,17 +2087,21 @@ input:focus {
   color: var(--text3);
   line-height: 1;
 }
+
 .new-trend-modal .close-modal-btn:hover {
   color: var(--text);
 }
+
 .new-trend-modal .modal-header {
   padding: 20px;
 }
+
 .new-trend-modal .modal-title {
   font-size: 22px;
   font-weight: 600;
   color: var(--text);
 }
+
 .new-trend-modal .modal-body {
   padding: 10px 20px;
   overflow: auto;
@@ -2040,6 +2110,7 @@ input:focus {
 .new-trend-modal .modal-footer {
   padding: 20px;
 }
+
 .new-trend-modal .btn-cancel {
   display: inline-block;
   background: transparent;
@@ -2062,12 +2133,15 @@ input:focus {
   border-radius: 6px;
   cursor: pointer;
 }
+
 .new-trend-modal .btn-submit:hover {
   opacity: 0.9;
 }
+
 .new-trend-modal .select-wrapper {
   position: relative;
 }
+
 .new-trend-modal .calendar-icon {
   border: none;
   display: inline-flex;
@@ -2081,6 +2155,7 @@ input:focus {
   transform: translateY(-50%) !important;
   pointer-events: none !important;
 }
+
 .new-trend-modal .select-icon {
   position: absolute;
   color: var(--text3);
@@ -2089,10 +2164,12 @@ input:focus {
   transform: translateY(-50%);
   pointer-events: none;
 }
-.new-trend-modal .form-select:focus + .select-icon {
+
+.new-trend-modal .form-select:focus+.select-icon {
   transform: translateY(-50%) rotate(-180deg);
   padding-bottom: 10px;
 }
+
 /* ------------------------------------------ */
 /* ---- Log a New Trade pop-up Modal CSS End ---- */
 /* ------------------------------------------ */
@@ -2112,6 +2189,7 @@ input:focus {
   visibility: hidden;
   z-index: 400;
 }
+
 .rr-modal-box .rr-modal-overlay.open {
   opacity: 1;
   visibility: visible;
@@ -2144,17 +2222,20 @@ input:focus {
 .rr-modal-box .title-section {
   width: 100%;
 }
+
 .rr-modal-box .title-section h2 {
   font-size: 22px;
   font-weight: 600;
   color: var(--text);
   margin: 0;
 }
+
 .rr-modal-box .title-section p {
   font-size: 16px;
   color: var(--text3);
   margin: 0;
 }
+
 .rr-modal-box .nav-tabs {
   margin-bottom: 20px;
   border: none;
@@ -2164,6 +2245,7 @@ input:focus {
   border-radius: 8px;
   padding: 6px;
 }
+
 .rr-modal-box .nav-link {
   font-size: 12px;
   color: var(--text3);
@@ -2173,14 +2255,17 @@ input:focus {
   padding: 4px 10px;
   -webkit-border-radius: 6px;
 }
+
 .rr-modal-box .nav-link:hover {
   background-color: var(--bg-color);
   color: var(--text);
 }
+
 .rr-modal-box .nav-link.active {
   background-color: var(--bg-color);
   color: var(--text);
 }
+
 .rr-modal-box .rr-metrics-card {
   background: transparent;
   border: 1px solid var(--border);
@@ -2188,6 +2273,7 @@ input:focus {
   padding: 16px;
   margin-bottom: 20px;
 }
+
 .rr-modal-box .rr-metrics-card .title {
   font-size: 16px;
   color: var(--text);
@@ -2212,6 +2298,7 @@ input:focus {
 .rr-modal-box .metric-value.optimized {
   color: #10b981;
 }
+
 .rr-modal-box .close-modal-btn {
   background: none;
   border: none;
@@ -2219,12 +2306,15 @@ input:focus {
   color: var(--text3);
   line-height: 1;
 }
+
 .rr-modal-box .close-modal-btn:hover {
   color: var(--text);
 }
+
 .rr-modal-box .modal-header {
   padding: 20px;
 }
+
 /* ------------------------------------------ */
 /* ---- Risk/Reward Analysis Modal CSS End ---- */
 /* ------------------------------------------ */
@@ -2275,6 +2365,7 @@ input:focus {
   color: var(--text7);
   border: none;
 }
+
 #sidebar-content .heading-box .add-template-btn:hover {
   opacity: 0.9;
 }
@@ -2290,6 +2381,7 @@ input:focus {
   color: var(--text7);
   border: none;
 }
+
 #sidebar-content .heading-box .btn-add-page:hover {
   opacity: 0.9;
 }
@@ -2322,10 +2414,12 @@ input:focus {
   width: 8px;
   height: 8px;
 }
+
 #sidebar-wrapper .side-content::-webkit-scrollbar-track {
   background: transparent;
   border-radius: 10px;
 }
+
 #sidebar-wrapper .side-content::-webkit-scrollbar-thumb {
   background: #f4f4f5 !important;
   border-radius: 10px;
@@ -2391,6 +2485,7 @@ input:focus {
   background-color: var(--bg-color);
   padding: 1.5rem;
 }
+
 #page-content-wrapper .input-group {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -2398,13 +2493,16 @@ input:focus {
   overflow: hidden;
   background-color: var(--bg-color);
 }
+
 #page-content-wrapper .input-group .input-group-text {
   background: transparent;
   border: none;
 }
+
 #page-content-wrapper .input-group .input-group-text i {
   color: var(--text3);
 }
+
 #page-content-wrapper .input-group input {
   border: none;
   box-shadow: none;
@@ -2413,6 +2511,7 @@ input:focus {
   background: transparent;
   padding-left: 0;
 }
+
 #page-content-wrapper #filtersDropdown {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -2421,22 +2520,27 @@ input:focus {
   overflow: hidden;
   background-color: var(--bg-color);
 }
+
 #page-content-wrapper #filtersDropdown svg {
   width: 14px;
   height: 14px;
   margin-top: -4px;
 }
+
 #page-content-wrapper .dropdown-toggle::after {
   display: none;
 }
+
 #page-content-wrapper .filters-dropdown .dropdown-menu {
   background: var(--bg-color);
   border: 1px solid var(--border);
 }
+
 #page-content-wrapper .filters-dropdown .dropdown-item {
   color: var(--text2);
   font-size: 14px;
 }
+
 #page-content-wrapper .filters-dropdown .dropdown-divider {
   border-top: 1px solid var(--border);
 }
@@ -2503,14 +2607,17 @@ input:focus {
 #sidebar-content.filters-dropdown .dropdown-menu {
   border-radius: 8px;
 }
+
 #sidebar-content .file-card-custom .dropdownMenuButton {
   padding: 0;
   color: var(--text3);
 }
+
 #sidebar-content .file-card-custom .dropdown-menu {
   background: var(--bg-color) !important;
   border: 1px solid var(--border);
 }
+
 #sidebar-content .file-card-custom .dropdown-item {
   color: var(--text2) !important;
 }
@@ -2555,6 +2662,7 @@ input:focus {
     border: 1px solid var(--border);
   }
 }
+
 /* ------------------------------------------ */
 /* ------ Chronology Page all CSS End ------ */
 /* ------------------------------------------ */
@@ -2567,16 +2675,19 @@ input:focus {
   background: var(--bg-color);
   padding-bottom: 20px;
 }
+
 .settings-container .heading {
   font-size: 26px;
   color: var(--text);
   font-weight: 600;
   margin: 16px 0;
 }
+
 .settings-container .tab-item-box {
   width: 100%;
   min-height: 100vh;
 }
+
 .settings-container .tab-item-box .tab-item {
   position: sticky;
   top: 76px;
@@ -2611,9 +2722,11 @@ input:focus {
 .settings-container .tab-content {
   width: 100%;
 }
+
 .settings-container .form-control {
   margin-bottom: 15px;
 }
+
 .settings-container .btn-dark {
   width: 100%;
 }
@@ -2799,6 +2912,7 @@ textarea:focus {
   margin: 0;
   cursor: pointer;
 }
+
 /* toggle */
 .settings-container .content-area .toggle {
   display: flex;
@@ -2814,26 +2928,31 @@ textarea:focus {
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
 }
+
 .settings-container .content-area .toggle h4 {
   font-size: 14px;
   color: var(--text);
   margin: 0;
 }
+
 .settings-container .content-area .toggle span {
   font-size: 16px;
   color: var(--text3);
 }
+
 .settings-container .content-area .switch {
   position: relative;
   display: inline-block;
   width: 40px;
   height: 20px;
 }
+
 .settings-container .content-area .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
+
 .settings-container .content-area .slider {
   position: absolute;
   cursor: pointer;
@@ -2844,6 +2963,7 @@ textarea:focus {
   background-color: #e4e4e7;
   border-radius: 20px;
 }
+
 .settings-container .content-area .slider:before {
   position: absolute;
   content: "";
@@ -2855,10 +2975,12 @@ textarea:focus {
   transition: 0.4s;
   border-radius: 50%;
 }
-.settings-container .content-area input:checked + .slider {
+
+.settings-container .content-area input:checked+.slider {
   background-color: var(--bg-black);
 }
-.settings-container .content-area input:checked + .slider:before {
+
+.settings-container .content-area input:checked+.slider:before {
   transform: translateX(20px);
 }
 
@@ -2888,6 +3010,7 @@ textarea:focus {
   margin: 0;
   padding-top: 10px;
 }
+
 .settings-container .account-plan .account .desc {
   font-size: 14px;
   color: var(--text2);
@@ -2905,19 +3028,23 @@ textarea:focus {
   width: 40px;
   height: 40px;
 }
+
 .settings-container .account-plan .icon svg path {
   fill: var(--text);
 }
+
 .settings-container .plan-wrapper {
   background: var(--accent2);
   border-radius: 8px;
   padding: 16px;
 }
+
 .settings-container .Plan-box {
   background: var(--bg-color);
   border-radius: 8px;
   padding: 16px;
 }
+
 .settings-container .Plan-box .send-invite {
   display: inline-flex;
   white-space: nowrap;
@@ -2932,6 +3059,7 @@ textarea:focus {
   color: var(--text7);
   border: none;
 }
+
 .settings-container .Plan-box h5 {
   display: block;
   font-weight: 500;
@@ -2939,6 +3067,7 @@ textarea:focus {
   margin-bottom: 10px;
   color: var(--text4);
 }
+
 .settings-container .Plan-box .filter-src-box {
   display: flex;
   align-items: center;
@@ -2997,6 +3126,7 @@ textarea:focus {
 .settings-container .user-list-container {
   width: 100%;
 }
+
 .settings-container .user-list-container .user-item {
   display: flex;
   align-items: center;
@@ -3004,14 +3134,17 @@ textarea:focus {
   gap: 10px;
   padding: 10px 0px;
 }
+
 .settings-container .user-list-container .user-item:last-child {
   border-bottom: none;
 }
+
 .settings-container .user-list-container .user-info {
   display: flex;
   align-items: center;
   flex-grow: 1;
 }
+
 .settings-container .user-list-container .user-avatar {
   width: 36px;
   height: 36px;
@@ -3019,11 +3152,13 @@ textarea:focus {
   object-fit: cover;
   margin-right: 10px;
 }
+
 .settings-container .user-list-container .user-name {
   font-size: 16px;
   font-weight: 500;
   color: var(--text);
 }
+
 .settings-container .user-list-container .action-button {
   display: flex;
   align-items: center;
@@ -3033,6 +3168,7 @@ textarea:focus {
   padding: 8px 15px;
   text-align: center;
 }
+
 .settings-container .user-list-container .btn-owner {
   background-color: var(--accent2);
   color: var(--text);
@@ -3041,6 +3177,7 @@ textarea:focus {
   border: none;
   cursor: default;
 }
+
 .settings-container .plan-wrapper .save-btn {
   font-size: 14px;
   font-weight: 400;
@@ -3052,6 +3189,7 @@ textarea:focus {
   border: none;
   margin-top: 20px;
 }
+
 .settings-container .user-list-container .btn-can-edit {
   background-color: var(--bg-black);
   color: var(--text7);
@@ -3063,35 +3201,43 @@ textarea:focus {
   align-items: center;
   justify-content: center;
 }
+
 .settings-container .user-list-container .btn-can-edit .dropdown-menu {
   position: absolute !important;
   inset: 0px 0px auto auto !important;
 }
+
 .settings-container .user-list-container .btn-can-edit svg {
   width: 14px;
   height: 14px;
 }
+
 .settings-container .user-list-container .btn-can-edit svg path {
   stroke: var(--text7);
 }
+
 .settings-container .user-list-container .btn-can-edit::after {
   display: none;
 }
+
 .settings-container .user-list-container .dropdown-icon {
   margin-left: 8px;
   width: 12px;
   height: 12px;
   fill: currentColor;
 }
+
 /* Responsive adjustments */
 @media (max-width: 576px) {
   .settings-container .user-list-container .user-info {
     margin-bottom: 10px;
   }
+
   .settings-container .user-list-container .action-button {
     display: flex;
     justify-content: center;
   }
+
   .settings-container .user-list-container {
     padding: 15px 0;
   }
@@ -3109,6 +3255,7 @@ textarea:focus {
   .settings-container .nav-tabs {
     flex-direction: row;
   }
+
   .settings-container .nav-link {
     flex: 1;
     text-align: center;
@@ -3122,6 +3269,16 @@ textarea:focus {
     flex-direction: column;
   }
 }
+
 /* ------------------------------------------ */
 /* ------ Settings Page all CSS End ------ */
 /* ------------------------------------------ */
+
+
+/* Notyf Custom Styling (Border Radius & Font) */
+.notyf,
+.notyf__toast,
+.notyf__message {
+  border-radius: 12px !important;
+  font-family: var(--primary-font), sans-serif !important;
+}
