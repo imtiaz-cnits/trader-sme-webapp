@@ -21,7 +21,7 @@
             {{ __('What isn\'t measured can\'t be improved.') }}
           </h2>
           <p class="desc">
-            {{ __('If you don\'t record your trades, you don\'t know if your results come from a method or from chance. Without records, you can\'t identify patterns, evaluate decisions, or make sound adjustments. Every adjustment becomes a guess, and every winning streak, an illusion. Recording is what transforms trading into a measurable process and progress into something real. Control begins when you start measuring.') }}
+            {{ __('If you don\'t record your trades, you don\'t know if your results come from a method or from chance. Without records, you can\'t identify patterns, evaluate decisions, or make sound adjustments. Every adjustment becomes a guess, and every winning streak, an illusion. Recording is what transforms trading into a measurable process and progress into something real! Control begins when you start measuring.') }}
           </p>
           <div class="d-flex align-items-center gap-2 justify-content-center justify-content-lg-start">
             <button class="trial-btn">{{ __('Start Free Trial') }}</button>
