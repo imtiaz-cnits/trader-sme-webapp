@@ -61,11 +61,18 @@ Route::middleware('auth')->group(function () {
     // 📅 Chronology
     Route::controller(ChronologyController::class)->group(function () {
         Route::get('/chronology-page', 'index')->name('admin.chronology');
+
+        // folder routes
         Route::post('/folders/store', 'storeFolder')->name('folders.store');
+        Route::post('/folders/{id}/update', 'updateFolder')->name('folders.update'); // Rename
+        Route::delete('/folders/{id}', 'destroyFolder')->name('folders.destroy'); // Delete
+
+        // page routes
         Route::post('/pages/store', 'storePage')->name('pages.store');
+        Route::post('/pages/store-from-template', 'storeFromTemplate')->name('pages.storeFromTemplate'); // New route for template
         Route::get('/pages/{id}/edit', 'editPage')->name('pages.edit');
         Route::post('/pages/{id}/update', 'updatePage')->name('pages.update');
-        Route::delete('/pages/{id}', 'deletePage')->name('pages.delete');
+        Route::delete('/pages/{id}', 'deletePage')->name('pages.destroy'); // Delete
     });
 
     // 👥 Copy Trader & Settings
