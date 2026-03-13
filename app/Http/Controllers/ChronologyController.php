@@ -14,7 +14,11 @@ class ChronologyController extends Controller
     {
         $userId = Auth::id();
 
-        $folders = Folder::where('user_id', $userId)->withCount('pages')->get();
+        $folders = Folder::where('user_id', $userId)
+            ->withCount(['pages' => function ($query) {
+                $query->where('is_template', false);
+            }])->get();
+
         $templates = Page::where('user_id', $userId)->where('is_template', true)->get();
 
         // folder filtering logic
@@ -65,11 +69,21 @@ class ChronologyController extends Controller
         ]);
     }
 
-    // 5. Page Edit View (Placeholder)
+    // 5. Edit Page View (Updated to load Sidebar Data)
     public function editPage($id)
     {
-        $page = Page::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-        return view('components.back-end.page-editor', compact('page'));
+        $userId = Auth::id();
+        $page = Page::where('id', $id)->where('user_id', $userId)->firstOrFail();
+
+        $folders = Folder::where('user_id', $userId)
+            ->withCount(['pages' => function ($query) {
+                $query->where('is_template', false);
+            }])->get();
+
+        $templates = Page::where('user_id', $userId)->where('is_template', true)->get();
+        $pages = Page::where('user_id', $userId)->where('is_template', false)->orderBy('updated_at', 'desc')->get();
+
+        return view('components.back-end.page-editor', compact('page', 'folders', 'templates', 'pages'));
     }
 
     // 6. Update Page (Auto-save for Title, Editor.js Content, and Cover Image)
@@ -104,7 +118,21 @@ class ChronologyController extends Controller
         return response()->json(['success' => true, 'message' => 'Page updated!']);
     }
 
-    // 8. Rename Folder
+    // 8. Delete Page
+    public function deletePage($id)
+    {
+        $page = Page::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        if (method_exists($page, 'forceDelete')) {
+            $page->forceDelete();
+        } else {
+            $page->delete();
+        }
+
+        return response()->json(['success' => true, 'message' => 'Page deleted successfully!']);
+    }
+
+    // 9. Rename Folder
     public function updateFolder(Request $request, $id)
     {
         $request->validate([
@@ -119,7 +147,7 @@ class ChronologyController extends Controller
         return response()->json(['success' => true, 'message' => 'Folder renamed successfully!']);
     }
 
-    // 9. Delete Folder
+    // 10. Delete Folder
     public function destroyFolder($id)
     {
         $folder = Folder::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
@@ -128,7 +156,7 @@ class ChronologyController extends Controller
         return response()->json(['success' => true, 'message' => 'Folder deleted successfully!']);
     }
 
-    // 10. Create Page from Template
+    // 11. Create Page from Template
     public function storeFromTemplate(Request $request)
     {
         $request->validate([

@@ -296,34 +296,37 @@
     }
   });
 
-  // 5. Delete Folder
+  // 5. Delete Folder (Bulletproof Method)
   async function deleteFolder(id) {
     if (confirm('Are you sure you want to delete this folder?')) {
       try {
-        const response = await axios.delete(`/folders/${id}`, {
-          data: {
-            _token: "{{ csrf_token() }}"
-          }
+        // Instead of using DELETE, we use POST with method spoofing for better compatibility with Laravel
+        const response = await axios.post(`/folders/${id}`, {
+          _method: 'DELETE',
+          _token: "{{ csrf_token() }}"
         });
         if (response.data.success) location.reload();
       } catch (error) {
-        alert('Error deleting folder.');
+        console.error("Folder Delete Error:", error.response ? error.response.data : error);
+        alert('Error: ' + (error.response?.data?.message || 'Could not delete folder.'));
       }
     }
   }
 
-  // 6. Delete Page
+  // 6. Delete Page (Bulletproof Method)
   async function deletePage(id) {
     if (confirm('Are you sure you want to delete this file?')) {
       try {
-        const response = await axios.delete(`/pages/${id}`, {
-          data: {
-            _token: "{{ csrf_token() }}"
-          }
+        const response = await axios.post(`/pages/${id}`, {
+          _method: 'DELETE',
+          _token: "{{ csrf_token() }}"
         });
-        if (response.data.success) location.reload();
+        if (response.data.success) {
+          window.location.href = window.location.pathname + window.location.search;
+        }
       } catch (error) {
-        alert('Error deleting file.');
+        console.error("Page Delete Error:", error.response ? error.response.data : error);
+        alert('Error: ' + (error.response?.data?.message || 'Could not delete file.'));
       }
     }
   }
