@@ -73,7 +73,6 @@
         border-color: var(--border);
     }
 
-    /* Checklist & Misc */
     .cdx-checklist__item-text {
         color: var(--text);
     }
@@ -181,25 +180,8 @@
         background-color: var(--bg-color);
         color: var(--text);
         min-height: 100vh;
-    }
-
-    .chronology-sidebar {
-        width: 260px;
-        border-right: 1px solid var(--border);
-        height: calc(100vh - 80px);
-        overflow-y: auto;
-        padding-right: 20px;
-        position: sticky;
-        top: 80px;
-    }
-
-    .chronology-sidebar::-webkit-scrollbar {
-        width: 4px;
-    }
-
-    .chronology-sidebar::-webkit-scrollbar-thumb {
-        background: var(--border2);
-        border-radius: 4px;
+        overflow: visible !important;
+        overflow-x: clip !important;
     }
 
     .sidebar-menu-item {
@@ -231,6 +213,7 @@
         font-size: 14px;
         color: var(--text3);
         font-weight: 500;
+        white-space: nowrap;
     }
 
     .breadcrumb-text.active {
@@ -247,6 +230,7 @@
         font-size: 14px;
         font-weight: 500;
         transition: 0.2s;
+        white-space: nowrap;
     }
 
     .action-btn:hover {
@@ -283,14 +267,6 @@
         color: var(--text3);
     }
 
-    .editor-main-area {
-        width: 100%;
-        padding-bottom: 100px;
-        margin-left: 80px;
-        margin-right: 80px;
-        transition: 0.3s ease;
-    }
-
     .ce-block__content,
     .ce-toolbar__content {
         max-width: 100% !important;
@@ -300,6 +276,136 @@
         color: var(--text3);
     }
 
+    /* 🔥 Hide Scrollbar Utility (Fix 1) 🔥 */
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* ==========================================
+       🌟 Sidebar & Layout Animations (FIXED) 🌟
+       ========================================== */
+    .chronology-sidebar {
+        background: var(--bg-color);
+    }
+
+    .chronology-sidebar::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .chronology-sidebar::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 4px;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1055;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+        opacity: 1;
+    }
+
+    @media (min-width: 1200px) {
+        .chronology-sidebar {
+            width: 260px;
+            min-width: 260px;
+            border-right: 1px solid var(--border);
+            height: calc(100vh - 80px);
+            top: 80px;
+            padding-right: 24px;
+            z-index: 990;
+            align-self: flex-start;
+            margin-right: 24px;
+            position: sticky !important;
+            overflow-y: auto !important;
+
+            transition: width 0.3s ease, min-width 0.3s ease, margin-right 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
+        }
+
+        .chronology-sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chronology-sidebar::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 4px;
+        }
+
+        .chronology-sidebar.desktop-collapsed {
+            width: 0 !important;
+            min-width: 0 !important;
+            margin-right: 0 !important;
+            padding-right: 0 !important;
+            border-right: none !important;
+            opacity: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .editor-main-area {
+            width: calc(100% - 284px);
+            transition: width 0.3s ease;
+            padding-bottom: 100px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+
+        /* 🔥 Fixes right-side gap on desktop (Fix 2 & 3) 🔥 */
+        .editor-main-area.desktop-expanded {
+            width: 100% !important;
+        }
+
+        .floating-footer {
+            width: calc(100% - 284px);
+        }
+
+        .floating-footer.desktop-expanded {
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 1199.98px) {
+        .chronology-sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            height: 100vh;
+            max-width: 280px;
+            z-index: 1060;
+            padding: 20px;
+            transition: left 0.3s ease;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .chronology-sidebar.show-mobile {
+            left: 0;
+        }
+
+        .editor-main-area {
+            width: 100%;
+            padding-bottom: 100px;
+        }
+
+        .floating-footer {
+            width: 100%;
+        }
+    }
+
     /* ==========================================
        Floating Footer & Focus Mode
        ========================================== */
@@ -307,7 +413,6 @@
         position: fixed;
         bottom: 0;
         right: 0;
-        width: 100%;
         background: var(--bg-color);
         border-top: 1px solid var(--border);
         padding: 12px 30px;
@@ -315,13 +420,45 @@
         justify-content: space-between;
         align-items: center;
         z-index: 1050;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
         transition: width 0.3s ease;
     }
 
-    @media (min-width: 992px) {
+    @media (max-width: 767.98px) {
         .floating-footer {
-            width: calc(100% - 290px);
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            padding: 12px 15px;
+        }
+
+        .quick-tools {
+            display: flex;
+            flex-wrap: nowrap !important;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            -webkit-overflow-scrolling: touch;
+            justify-content: flex-start !important;
+            width: 100%;
+        }
+
+        .quick-tools::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick-tools>* {
+            flex-shrink: 0;
+        }
+
+        .bottom-actions {
+            width: 100%;
+            justify-content: space-between;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .editor-main-area {
+            padding-bottom: 140px;
         }
     }
 
@@ -344,7 +481,7 @@
     }
 
     /* ==========================================
-       Kanban Board Modern UI Styles
+       Kanban & Table Styles
        ========================================== */
     .kanban-board-wrapper {
         display: flex;
@@ -353,6 +490,7 @@
         padding-bottom: 20px;
         margin-top: 20px;
         align-items: flex-start;
+        -webkit-overflow-scrolling: touch;
     }
 
     .kanban-board-wrapper::-webkit-scrollbar {
@@ -555,9 +693,6 @@
         border: 2px dashed var(--border2);
     }
 
-    /* ==================================================
-       🌟 2. Database Table Modern UI Styles 🌟
-       ================================================== */
     .database-tool-wrapper .tabulator {
         background-color: var(--bg-color) !important;
         border: 1px solid var(--border) !important;
@@ -641,11 +776,13 @@
 </style>
 
 <main class="container-fluid px-md-4 editor-wrapper">
-    <div class="d-flex flex-column flex-lg-row gap-4 mt-4 align-items-start">
+    <div class="d-flex flex-column flex-xl-row align-items-start w-100">
 
-        <div class="chronology-sidebar" id="chronologySidebar">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-            <div class="d-flex justify-content-between align-items-center d-lg-none mb-4">
+        <div class="chronology-sidebar pt-4" id="chronologySidebar">
+
+            <div class="d-flex justify-content-between align-items-center d-xl-none mb-4">
                 <h5 class="m-0 fw-bold" style="color: var(--text);">Menu</h5>
                 <button class="btn-close shadow-none" id="mobileSidebarClose" style="filter: var(--invert-icon);"></button>
             </div>
@@ -675,24 +812,30 @@
                 @endforeach
             </div>
         </div>
-        <div class="flex-grow-1 editor-main-area">
 
-            <div class="editor-topbar d-flex justify-content-between align-items-center">
-                <div class="breadcrumbs d-flex align-items-center gap-2">
-                    <a href="{{ route('admin.chronology') }}" class="text-decoration-none breadcrumb-text">
+        <div class="flex-grow-1 editor-main-area pt-4">
+
+            <div class="editor-topbar d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+
+                <div class="d-flex align-items-center flex-nowrap hide-scrollbar" style="overflow-x: auto; white-space: nowrap; max-width: 100%;">
+                    <button class="btn btn-sm border shadow-none px-2 py-1 me-2 flex-shrink-0" id="sidebarToggle" style="background: var(--bg-color); color: var(--text);">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <a href="{{ route('admin.chronology') }}" class="text-decoration-none breadcrumb-text d-flex align-items-center me-2">
                         <i class="fa-solid fa-book-open me-1" style="color: var(--accent);"></i> Chronology
                     </a>
-                    <span style="color: var(--text3);"><i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i></span>
-                    <span class="breadcrumb-text active">
-                        <i class="fa-regular fa-file-lines me-1"></i> {{ $page->title ?? 'Draft Page' }}
+                    <span style="color: var(--text3);" class="me-2"><i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i></span>
+                    <span class="breadcrumb-text active d-flex align-items-center">
+                        <i class="fa-regular fa-file-lines me-1"></i> <span class="text-truncate" style="max-width: 150px;">{{ $page->title ?? 'Draft Page' }}</span>
                     </span>
                 </div>
 
-                <div class="top-actions d-flex align-items-center gap-2">
-                    <span id="status-text" class="small px-3 py-1 rounded-pill me-2" style="color: var(--text3); background: var(--accent2); font-weight: 500;">Saved</span>
-                    <button class="action-btn">Share</button>
-                    <button class="action-btn-icon" title="Favorite"><i class="fa-regular fa-star"></i></button>
-                    <button class="action-btn-icon" title="Menu"><i class="fa-solid fa-ellipsis"></i></button>
+                <div class="top-actions d-flex align-items-center flex-nowrap gap-2 w-100 w-md-auto justify-content-start justify-content-md-end mt-2 mt-md-0 hide-scrollbar" style="overflow-x: auto;">
+                    <span id="status-text" class="small px-3 py-1 rounded-pill flex-shrink-0" style="color: var(--text3); background: var(--accent2); font-weight: 500;">Saved</span>
+                    <button class="action-btn flex-shrink-0">Share</button>
+                    <button class="action-btn-icon flex-shrink-0" title="Favorite"><i class="fa-regular fa-star"></i></button>
+                    <button class="action-btn-icon flex-shrink-0" title="Menu"><i class="fa-solid fa-ellipsis"></i></button>
                 </div>
             </div>
 
@@ -716,7 +859,7 @@
             <div class="mb-4 border-bottom pb-3" style="border-color: var(--border) !important;">
                 <input type="text" id="page-title" class="form-control border-0 px-0 fw-bold"
                     value="{{ $page->title }}"
-                    style="font-size: 38px; box-shadow: none; background: transparent;"
+                    style="font-size: clamp(24px, 5vw, 38px); box-shadow: none; background: transparent;"
                     placeholder="Untitled Page">
             </div>
 
@@ -726,12 +869,12 @@
     </div>
 
     <div class="floating-footer">
-        <div class="quick-tools d-flex gap-2 align-items-center">
+        <div class="quick-tools d-flex align-items-center w-md-auto">
             <span class="text-muted fw-bold me-2" style="font-size: 12px; text-transform: uppercase;">Quick Insert:</span>
-            <button class="btn btn-sm" id="btn-add-board" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-weight: 500; border-radius: 6px;">
+            <button class="btn btn-sm" id="btn-add-board" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-weight: 500; border-radius: 6px; margin-right: 8px;">
                 <i class="fa-solid fa-table-columns text-primary me-1"></i> Board
             </button>
-            <button class="btn btn-sm" id="btn-add-table" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-weight: 500; border-radius: 6px;">
+            <button class="btn btn-sm" id="btn-add-table" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-weight: 500; border-radius: 6px; margin-right: 8px;">
                 <i class="fa-solid fa-table text-success me-1"></i> Database
             </button>
             <button class="btn btn-sm" id="btn-add-checklist" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-weight: 500; border-radius: 6px;">
@@ -1280,30 +1423,57 @@
     }
 
     // ==========================================
-    // 🌟 Mobile Sidebar Toggle Script 🌟
+    // 🌟 Universal Sidebar Toggle Script 🌟
     // ==========================================
     document.addEventListener("DOMContentLoaded", function() {
         const sidebar = document.getElementById('chronologySidebar');
         const overlay = document.getElementById('sidebarOverlay');
-        const toggleBtn = document.getElementById('mobileSidebarToggle');
+        const toggleBtn = document.getElementById('sidebarToggle');
         const closeBtn = document.getElementById('mobileSidebarClose');
+        const floatingFooter = document.querySelector('.floating-footer');
 
-        if (toggleBtn && closeBtn && sidebar && overlay) {
-            const openSidebar = () => {
+        if (toggleBtn && sidebar && overlay) {
+
+            const openMobileSidebar = () => {
                 sidebar.classList.add('show-mobile');
                 overlay.classList.add('show');
-                document.body.style.overflow = 'hidden'; // Prevent background scroll
+                document.body.style.overflow = 'hidden';
             };
-
-            const closeSidebar = () => {
+            const closeMobileSidebar = () => {
                 sidebar.classList.remove('show-mobile');
                 overlay.classList.remove('show');
-                document.body.style.overflow = ''; // Restore scroll
+                document.body.style.overflow = '';
             };
 
-            toggleBtn.addEventListener('click', openSidebar);
-            closeBtn.addEventListener('click', closeSidebar);
-            overlay.addEventListener('click', closeSidebar);
+            const toggleDesktopSidebar = () => {
+                sidebar.classList.toggle('desktop-collapsed');
+                if (floatingFooter) {
+                    floatingFooter.classList.toggle('desktop-expanded');
+                }
+
+                // 🔥 Fix 2 & 3: Toggling width on the main area to remove right-side gap 🔥
+                const editorMain = document.querySelector('.editor-main-area');
+                if (editorMain) {
+                    editorMain.classList.toggle('desktop-expanded');
+                }
+            };
+
+            toggleBtn.addEventListener('click', () => {
+                if (window.innerWidth < 1200) {
+                    openMobileSidebar();
+                } else {
+                    toggleDesktopSidebar();
+                }
+            });
+
+            if (closeBtn) closeBtn.addEventListener('click', closeMobileSidebar);
+            overlay.addEventListener('click', closeMobileSidebar);
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 1200) {
+                    closeMobileSidebar();
+                }
+            });
         }
     });
 </script>
