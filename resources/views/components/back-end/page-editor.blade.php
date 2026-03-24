@@ -16,7 +16,166 @@
 <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
 
 <style>
-    /* CSS Variables from your style.css will automatically handle Dark/Light mode */
+    /* ==========================================
+       Editor.js Dark Mode Overrides
+       ========================================== */
+    .ce-block__content,
+    .ce-toolbar__content {
+        color: var(--text);
+    }
+
+    .ce-header,
+    .ce-paragraph {
+        color: var(--text);
+    }
+
+    .cdx-input {
+        background: var(--bg-color) !important;
+        color: var(--text) !important;
+        border-color: var(--border) !important;
+    }
+
+    .ce-inline-toolbar,
+    .ce-popover,
+    .ce-conversion-toolbar {
+        background-color: var(--bg-color);
+        border: 1px solid var(--border);
+    }
+
+    .ce-inline-toolbar__dropdown:hover,
+    .ce-inline-tool:hover,
+    .ce-popover-item:hover,
+    .ce-conversion-tool:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    .ce-inline-tool,
+    .ce-popover-item,
+    .ce-conversion-tool {
+        color: var(--text);
+    }
+
+    .ce-toolbar__settings-btn,
+    .ce-toolbar__plus {
+        color: var(--text2);
+    }
+
+    .ce-toolbar__settings-btn:hover,
+    .ce-toolbar__plus:hover {
+        color: var(--text);
+        background: var(--accent2);
+    }
+
+    .ce-popover-item__icon,
+    .ce-conversion-tool__icon {
+        background-color: var(--accent2);
+        color: var(--text);
+        border-color: var(--border);
+    }
+
+    /* Checklist & Misc */
+    .cdx-checklist__item-text {
+        color: var(--text);
+    }
+
+    .cdx-checklist__item-checkbox {
+        border-color: var(--border);
+        background: var(--bg-color);
+    }
+
+    .cdx-checklist__item--checked .cdx-checklist__item-checkbox {
+        background: var(--accent);
+        border-color: var(--accent);
+    }
+
+    .cdx-checklist__item--checked .cdx-checklist__item-text {
+        text-decoration: line-through;
+        color: var(--text3);
+    }
+
+    /* ==================================================
+       🌟 1. Editor.js Basic Table Dark Mode Fix 🌟
+       ================================================== */
+    .editor-wrapper .tc-wrap,
+    .editor-wrapper .tc-table,
+    .editor-wrapper .tc-row,
+    .editor-wrapper .tc-cell,
+    .editor-wrapper .tc-toolbox {
+        background-color: var(--bg-color) !important;
+        color: var(--text) !important;
+        border-color: var(--border) !important;
+    }
+
+    .editor-wrapper .tc-cell {
+        border: 1px solid var(--border) !important;
+    }
+
+    .editor-wrapper .tc-toolbox:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    .tc-add-column,
+    .tc-add-row {
+        background-color: var(--bg-color) !important;
+        transition: 0.2s;
+    }
+
+    .tc-add-column svg path,
+    .tc-add-row svg path {
+        stroke: var(--text) !important;
+    }
+
+    .tc-add-column:hover,
+    .tc-add-row:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    [data-theme="dark"] .tc-add-column {
+        background-color: #ffffff !important;
+    }
+
+    [data-theme="dark"] .tc-add-column svg path {
+        stroke: #000 !important;
+    }
+
+    [data-theme="dark"] .tc-add-row svg path {
+        stroke: #fff !important;
+    }
+
+    [data-theme="dark"] .tc-add-column:hover,
+    [data-theme="dark"] .tc-add-row:hover {
+        background-color: #e4e4e7 !important;
+    }
+
+    /* 🔥 Table Popover / Settings Menu Fix (100% Forceful) 🔥 */
+    [data-theme="dark"] .tc-popover {
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    [data-theme="dark"] .tc-popover__item {
+        background-color: var(--bg-color) !important;
+        color: var(--text) !important;
+    }
+
+    [data-theme="dark"] .tc-popover__item:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    [data-theme="dark"] .tc-popover__item-icon {
+        background-color: var(--accent2) !important;
+        border-color: var(--border) !important;
+        color: var(--text) !important;
+    }
+
+    [data-theme="dark"] .tc-popover__item-label {
+        color: var(--text) !important;
+    }
+
+    /* ==========================================
+       Global & Layout Styles
+       ========================================== */
     .editor-wrapper {
         font-family: var(--primary-font, 'Inter', sans-serif);
         background-color: var(--bg-color);
@@ -24,13 +183,14 @@
         min-height: 100vh;
     }
 
-    /* Sidebar Styling */
     .chronology-sidebar {
         width: 260px;
         border-right: 1px solid var(--border);
         height: calc(100vh - 80px);
         overflow-y: auto;
         padding-right: 20px;
+        position: sticky;
+        top: 80px;
     }
 
     .chronology-sidebar::-webkit-scrollbar {
@@ -61,7 +221,6 @@
         font-weight: 500;
     }
 
-    /* Topbar & Breadcrumb Styling */
     .editor-topbar {
         padding-bottom: 12px;
         margin-bottom: 24px;
@@ -79,32 +238,6 @@
         font-weight: 600;
     }
 
-    /* Floating Footer Navigation */
-    .floating-footer {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        background: var(--bg-color);
-        border-top: 1px solid var(--border);
-        padding: 12px 30px;
-        display: flex;
-        justify-content: center;
-        /* Centered the font tools */
-        align-items: center;
-        z-index: 1050;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
-        transition: width 0.3s ease;
-    }
-
-    @media (min-width: 992px) {
-        .floating-footer {
-            width: calc(100% - 290px);
-            /* Adjusts for sidebar width */
-        }
-    }
-
-    /* Action Buttons */
     .action-btn {
         background: transparent;
         border: 1px solid var(--border);
@@ -136,7 +269,6 @@
         color: var(--text);
     }
 
-    /* Cover & Title */
     .cover-image-wrapper {
         border: 1px dashed var(--border2);
         background-color: var(--bg-color);
@@ -151,16 +283,12 @@
         color: var(--text3);
     }
 
-    .font-selector-box select {
-        color: var(--text);
-    }
-
-    /* Full Width Editor Adjustments */
     .editor-main-area {
         width: 100%;
         padding-bottom: 100px;
         margin-left: 80px;
         margin-right: 80px;
+        transition: 0.3s ease;
     }
 
     .ce-block__content,
@@ -172,13 +300,52 @@
         color: var(--text3);
     }
 
-    /* Checklist Custom Styling */
-    .cdx-checklist__item--checked .cdx-checklist__item-text {
-        text-decoration: line-through;
-        color: var(--text3);
+    /* ==========================================
+       Floating Footer & Focus Mode
+       ========================================== */
+    .floating-footer {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        background: var(--bg-color);
+        border-top: 1px solid var(--border);
+        padding: 12px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1050;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
+        transition: width 0.3s ease;
     }
 
-    /* Kanban Board Modern UI Styles */
+    @media (min-width: 992px) {
+        .floating-footer {
+            width: calc(100% - 290px);
+        }
+    }
+
+    body.focus-mode .chronology-sidebar {
+        display: none !important;
+    }
+
+    body.focus-mode .editor-topbar {
+        display: none !important;
+    }
+
+    body.focus-mode .floating-footer {
+        width: 100% !important;
+    }
+
+    body.focus-mode .editor-main-area {
+        margin: 0 auto !important;
+        max-width: 900px;
+        padding-top: 30px;
+    }
+
+    /* ==========================================
+       Kanban Board Modern UI Styles
+       ========================================== */
     .kanban-board-wrapper {
         display: flex;
         gap: 20px;
@@ -199,11 +366,11 @@
 
     .kanban-column {
         background-color: var(--accent2);
-        border: 1px solid var(--border);
+        border: 1px solid transparent;
         border-radius: 10px;
-        min-width: 300px;
-        max-width: 300px;
-        padding: 15px;
+        min-width: 290px;
+        max-width: 290px;
+        padding: 14px;
         flex-shrink: 0;
     }
 
@@ -215,9 +382,22 @@
     }
 
     .kanban-column-header .column-title {
-        font-size: 15px;
+        font-size: 14px;
+        font-weight: 600;
         color: var(--text);
         outline: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .kanban-column-header .card-count {
+        background: var(--border);
+        color: var(--text2);
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-left: 8px;
+        font-weight: 600;
     }
 
     .add-card-btn {
@@ -227,6 +407,7 @@
         font-size: 16px;
         cursor: pointer;
         transition: 0.2s;
+        padding: 0;
     }
 
     .add-card-btn:hover {
@@ -235,17 +416,19 @@
 
     .kanban-cards-container {
         min-height: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
 
     .kanban-card {
         background: var(--bg-color);
         border: 1px solid var(--border);
         border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 12px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
         cursor: grab;
-        transition: box-shadow 0.2s;
+        transition: box-shadow 0.2s, border-color 0.2s;
     }
 
     .kanban-card:active {
@@ -254,23 +437,116 @@
 
     .kanban-card:hover {
         border-color: var(--border2);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
 
     .card-tag {
         display: inline-block;
-        font-size: 11px;
-        font-weight: 600;
-        padding: 3px 8px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 10px;
         border-radius: 4px;
         outline: none;
-        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
     }
 
-    .card-text {
+    .card-title {
         font-size: 14px;
+        font-weight: 600;
         color: var(--text);
         outline: none;
+        line-height: 1.4;
+        margin-bottom: 6px;
+    }
+
+    .card-desc {
+        font-size: 12px;
+        color: var(--text3);
+        outline: none;
         line-height: 1.5;
+        margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .card-progress-wrapper {
+        margin-bottom: 16px;
+    }
+
+    .card-progress-text {
+        font-size: 11px;
+        color: var(--text2);
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+
+    .card-progress-bar {
+        height: 6px;
+        background: var(--border);
+        border-radius: 4px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .card-progress-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+
+    .card-footer-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px dashed var(--border);
+        padding-top: 12px;
+    }
+
+    .card-date {
+        font-size: 11px;
+        color: var(--text3);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 500;
+        outline: none;
+    }
+
+    .card-avatars {
+        display: flex;
+        align-items: center;
+    }
+
+    .card-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid var(--bg-color);
+        background: var(--border2);
+        color: #fff;
+        font-size: 9px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        margin-left: -8px;
+    }
+
+    .delete-card {
+        color: var(--text3);
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 13px;
+    }
+
+    .delete-card:hover {
+        color: #ef4444;
     }
 
     .kanban-ghost {
@@ -279,25 +555,41 @@
         border: 2px dashed var(--border2);
     }
 
-    /* Database Table Modern UI Styles */
+    /* ==================================================
+       🌟 2. Database Table Modern UI Styles 🌟
+       ================================================== */
     .database-tool-wrapper .tabulator {
-        background-color: transparent;
-        border: 1px solid var(--border);
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
         border-radius: 8px;
         overflow: hidden;
     }
 
     .database-tool-wrapper .tabulator-header {
-        background-color: var(--accent2);
-        border-bottom: 1px solid var(--border);
-        color: var(--text2);
+        background-color: var(--accent2) !important;
+        border-bottom: 1px solid var(--border) !important;
+        color: var(--text2) !important;
         font-weight: 600;
         font-size: 13px;
     }
 
+    .database-tool-wrapper .tabulator-col {
+        background-color: var(--accent2) !important;
+        border-right: 1px solid var(--border) !important;
+    }
+
+    .database-tool-wrapper .tabulator-col-title {
+        color: var(--text) !important;
+    }
+
     .database-tool-wrapper .tabulator-row {
-        background-color: transparent;
-        border-bottom: 1px solid var(--border);
+        background-color: var(--bg-color) !important;
+        border-bottom: 1px solid var(--border) !important;
+        color: var(--text) !important;
+    }
+
+    .database-tool-wrapper .tabulator-row.tabulator-row-even {
+        background-color: var(--bg-color) !important;
     }
 
     .database-tool-wrapper .tabulator-row:hover {
@@ -307,23 +599,57 @@
     .database-tool-wrapper .tabulator-cell {
         padding: 12px 10px;
         font-size: 14px;
-        color: var(--text);
+        color: var(--text) !important;
+        border-right: 1px solid var(--border) !important;
     }
 
     .database-tool-wrapper .tabulator-cell input {
         padding: 4px;
-        border: 1px solid var(--border);
+        border: 1px solid var(--border) !important;
         border-radius: 4px;
         width: 100%;
-        background: var(--bg-color);
-        color: var(--text);
+        background: var(--bg-color) !important;
+        color: var(--text) !important;
+    }
+
+    .tabulator-menu {
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+    }
+
+    .tabulator-menu-item {
+        color: var(--text) !important;
+    }
+
+    .tabulator-menu-item:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    .tabulator-edit-list {
+        background: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text) !important;
+    }
+
+    .tabulator-edit-list-item {
+        color: var(--text) !important;
+    }
+
+    .tabulator-edit-list-item:hover {
+        background: var(--accent2) !important;
     }
 </style>
 
 <main class="container-fluid px-md-4 editor-wrapper">
-    <div class="d-flex flex-column flex-lg-row gap-4 mt-4">
+    <div class="d-flex flex-column flex-lg-row gap-4 mt-4 align-items-start">
 
-        <div class="chronology-sidebar d-none d-lg-block">
+        <div class="chronology-sidebar" id="chronologySidebar">
+
+            <div class="d-flex justify-content-between align-items-center d-lg-none mb-4">
+                <h5 class="m-0 fw-bold" style="color: var(--text);">Menu</h5>
+                <button class="btn-close shadow-none" id="mobileSidebarClose" style="filter: var(--invert-icon);"></button>
+            </div>
+
             <div class="search-box mb-4 position-relative">
                 <input type="text" class="form-control border-0" placeholder="Search..." style="background: var(--accent2); color: var(--text); padding-left: 35px; font-size: 14px; border-radius: 8px;">
                 <i class="fa-solid fa-magnifying-glass position-absolute" style="color: var(--text3); left: 12px; top: 12px; font-size: 12px;"></i>
@@ -349,7 +675,6 @@
                 @endforeach
             </div>
         </div>
-
         <div class="flex-grow-1 editor-main-area">
 
             <div class="editor-topbar d-flex justify-content-between align-items-center">
@@ -401,29 +726,37 @@
     </div>
 
     <div class="floating-footer">
-        <div class="font-selector-box d-flex gap-2 align-items-center">
-            <select id="dynamic-font-family" class="form-select form-select-sm border-0 bg-transparent shadow-none" style="width: 100px; font-weight: 500; cursor: pointer;">
-                <option value="var(--primary-font)">Roboto</option>
-                <option value="var(--secondary-font)">Public Sans</option>
-                <option value="'Courier New', Courier, monospace">Mono</option>
-            </select>
-            <div style="width: 1px; height: 16px; background: var(--border);"></div>
-            <select id="dynamic-font-size" class="form-select form-select-sm border-0 bg-transparent shadow-none" style="width: 90px; font-weight: 500; cursor: pointer;">
-                <option value="16px">Normal</option>
-                <option value="20px">Heading</option>
-                <option value="14px">Small</option>
-            </select>
-            <div style="width: 1px; height: 16px; background: var(--border);"></div>
-            <button id="dynamic-line-height" class="btn btn-sm border-0 shadow-none" style="color: var(--text); font-weight: 500;" data-state="normal">x2</button>
+        <div class="quick-tools d-flex gap-2 align-items-center">
+            <span class="text-muted fw-bold me-2" style="font-size: 12px; text-transform: uppercase;">Quick Insert:</span>
+            <button class="btn btn-sm" id="btn-add-board" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-weight: 500; border-radius: 6px;">
+                <i class="fa-solid fa-table-columns text-primary me-1"></i> Board
+            </button>
+            <button class="btn btn-sm" id="btn-add-table" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-weight: 500; border-radius: 6px;">
+                <i class="fa-solid fa-table text-success me-1"></i> Database
+            </button>
+            <button class="btn btn-sm" id="btn-add-checklist" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-weight: 500; border-radius: 6px;">
+                <i class="fa-solid fa-list-check text-warning me-1"></i> Checklist
+            </button>
+        </div>
+
+        <div class="bottom-actions d-flex align-items-center gap-2">
+            <button class="action-btn-icon" id="btn-focus-mode" title="Toggle Focus Mode">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+            <div style="width: 1px; height: 16px; background: var(--border); margin: 0 5px;"></div>
+            <button class="btn btn-sm text-danger" onclick="deletePage({{ $page->id }})" style="background: transparent; border: 1px solid #ef444450; font-weight: 500; border-radius: 6px;">
+                <i class="fa-regular fa-trash-can me-1"></i> Delete Page
+            </button>
         </div>
     </div>
 </main>
 
 <script>
-    // 1. Bulletproof Data Parsing (Prevents VS Code formatting errors)
+    // ==========================================
+    // 1. Data Parsing
+    // ==========================================
     let editorData = {};
     const rawData = <?php echo json_encode($page->content); ?>;
-
     if (rawData) {
         try {
             editorData = JSON.parse(rawData);
@@ -432,9 +765,9 @@
         }
     }
 
-    // ---------------------------------------------------------
-    // Custom Editor.js Tool: Interactive Kanban Board
-    // ---------------------------------------------------------
+    // ==========================================
+    // 2. Custom Tool: Kanban Board
+    // ==========================================
     class KanbanTool {
         static get toolbox() {
             return {
@@ -445,17 +778,18 @@
 
         constructor({
             data,
-            config,
             api
         }) {
             this.api = api;
-            // Default columns if no data exists
             this.data = data && data.columns ? data : {
                 columns: [{
                         title: 'To Do',
                         cards: [{
-                            text: 'New Task',
-                            tag: 'High'
+                            title: 'New Task',
+                            desc: 'Type description...',
+                            tag: 'High',
+                            progress: 0,
+                            date: 'Today'
                         }]
                     },
                     {
@@ -479,44 +813,46 @@
                 const colEl = document.createElement('div');
                 colEl.classList.add('kanban-column');
 
-                // Column Header
+                let dotColor = '#cbd5e1';
+                let colName = column.title.toLowerCase();
+                if (colName.includes('progress')) dotColor = '#3b82f6';
+                if (colName.includes('done')) dotColor = '#10b981';
+
                 const header = document.createElement('div');
                 header.classList.add('kanban-column-header');
                 header.innerHTML = `
-                    <div class="d-flex align-items-center gap-2">
-                        <span class="column-title fw-bold" contenteditable="true">${column.title}</span>
-                        <span class="badge bg-secondary rounded-pill card-count">${column.cards.length}</span>
+                    <div class="d-flex align-items-center">
+                        <div style="width: 8px; height: 8px; border-radius: 50%; background: ${dotColor}; margin-right: 8px;"></div>
+                        <span class="column-title" contenteditable="true">${column.title}</span>
+                        <span class="card-count">${column.cards.length}</span>
                     </div>
                     <button class="add-card-btn" title="Add Task"><i class="fa-solid fa-plus"></i></button>
                 `;
                 colEl.appendChild(header);
 
-                // Cards Container
                 const cardsContainer = document.createElement('div');
                 cardsContainer.classList.add('kanban-cards-container');
 
                 column.cards.forEach(card => {
-                    cardsContainer.appendChild(this.createCard(card.text, card.tag));
+                    cardsContainer.appendChild(this.createCard(card.title, card.desc, card.tag, card.progress, card.date));
                 });
 
                 colEl.appendChild(cardsContainer);
                 this.wrapper.appendChild(colEl);
 
-                // Initialize SortableJS for Drag & Drop
                 new Sortable(cardsContainer, {
-                    group: 'kanban', // Allows dragging between different columns
+                    group: 'kanban',
                     animation: 150,
                     ghostClass: 'kanban-ghost',
                     onEnd: () => {
                         this.updateCounts();
-                        savePageData(); // Auto-save on drop
+                        savePageData();
                     }
                 });
 
-                // Add Card Event Listener
                 header.querySelector('.add-card-btn').addEventListener('click', () => {
-                    const newCard = this.createCard('New Task', 'Tag');
-                    cardsContainer.prepend(newCard); // Add to top
+                    const newCard = this.createCard('New Task', 'Description...', 'Low', 0, 'Today');
+                    cardsContainer.prepend(newCard);
                     this.updateCounts();
                     savePageData();
                 });
@@ -525,39 +861,88 @@
             return this.wrapper;
         }
 
-        createCard(text, tag = '') {
+        createCard(title, desc = '', tag = 'Low', progress = 0, date = 'Today') {
             const card = document.createElement('div');
             card.classList.add('kanban-card');
 
-            // Randomly assign a tag color for modern UI feel
-            let tagColor = 'var(--border)';
-            let textColor = 'var(--text)';
+            let tagBg = 'var(--accent2)',
+                tagColor = 'var(--text)';
             if (tag.toLowerCase() === 'high') {
-                tagColor = 'var(--text-shade3)';
-                textColor = '#fff';
-            }
-            if (tag.toLowerCase() === 'progress') {
-                tagColor = 'var(--accent)';
-                textColor = '#fff';
+                tagBg = '#ef444420';
+                tagColor = '#ef4444';
+            } else if (tag.toLowerCase() === 'medium') {
+                tagBg = '#f59e0b20';
+                tagColor = '#f59e0b';
+            } else if (tag.toLowerCase() === 'low') {
+                tagBg = '#10b98120';
+                tagColor = '#10b981';
             }
 
+            let progressColor = '#ef4444';
+            if (progress === 100) progressColor = '#10b981';
+            else if (progress >= 70) progressColor = '#3b82f6';
+            else if (progress >= 40) progressColor = '#f59e0b';
+
             card.innerHTML = `
-                <div class="card-tag" contenteditable="true" style="background:${tagColor}; color:${textColor};">${tag}</div>
-                <div class="card-text mt-2" contenteditable="true">${text}</div>
-                <div class="card-actions mt-3 d-flex justify-content-between text-muted" style="font-size: 11px;">
-                    <span><i class="fa-regular fa-clock me-1"></i> Just now</span>
-                    <i class="fa-solid fa-trash-can delete-card" style="cursor: pointer;" title="Delete"></i>
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="card-tag" style="background:${tagBg}; color:${tagColor}; cursor: pointer; user-select: none;">${tag}</div>
+                    <i class="fa-solid fa-trash-can delete-card" title="Delete Task"></i>
+                </div>
+                <div class="card-title" contenteditable="true">${title}</div>
+                <div class="card-desc" contenteditable="true">${desc}</div>
+                <div class="card-progress-wrapper">
+                    <div class="card-progress-text"><span>Progress</span><span class="progress-val" contenteditable="true">${progress}%</span></div>
+                    <div class="card-progress-bar"><div class="card-progress-fill" style="width: ${progress}%; background: ${progressColor};"></div></div>
+                </div>
+                <div class="card-footer-meta">
+                    <div class="card-date" contenteditable="true"><i class="fa-regular fa-calendar"></i> ${date}</div>
+                    <div class="card-avatars"><div class="card-avatar" style="z-index: 2; margin-left: 0;">IA</div><div class="card-avatar" style="z-index: 1;">+2</div></div>
                 </div>
             `;
 
-            // Delete Card Logic
             card.querySelector('.delete-card').addEventListener('click', (e) => {
                 e.target.closest('.kanban-card').remove();
                 this.updateCounts();
                 savePageData();
             });
 
-            // Auto-save on text edit
+            card.querySelector('.card-tag').addEventListener('click', (e) => {
+                let currentTag = e.target.innerText.trim().toLowerCase();
+                let newTag, newBg, newColor;
+                if (currentTag === 'low') {
+                    newTag = 'Medium';
+                    newBg = '#f59e0b20';
+                    newColor = '#f59e0b';
+                } else if (currentTag === 'medium') {
+                    newTag = 'High';
+                    newBg = '#ef444420';
+                    newColor = '#ef4444';
+                } else {
+                    newTag = 'Low';
+                    newBg = '#10b98120';
+                    newColor = '#10b981';
+                }
+                e.target.innerText = newTag;
+                e.target.style.background = newBg;
+                e.target.style.color = newColor;
+                savePageData();
+            });
+
+            const progressVal = card.querySelector('.progress-val');
+            const progressFill = card.querySelector('.card-progress-fill');
+            progressVal.addEventListener('input', (e) => {
+                let val = parseInt(e.target.innerText.replace('%', ''));
+                if (!isNaN(val)) {
+                    if (val > 100) val = 100;
+                    if (val < 0) val = 0;
+                    progressFill.style.width = val + '%';
+                    if (val === 100) progressFill.style.background = '#10b981';
+                    else if (val >= 70) progressFill.style.background = '#3b82f6';
+                    else if (val >= 40) progressFill.style.background = '#f59e0b';
+                    else progressFill.style.background = '#ef4444';
+                }
+            });
+
             card.addEventListener('input', () => {
                 clearTimeout(window.cardSaveTimeout);
                 window.cardSaveTimeout = setTimeout(() => savePageData(), 1000);
@@ -568,8 +953,7 @@
 
         updateCounts() {
             this.wrapper.querySelectorAll('.kanban-column').forEach(col => {
-                const count = col.querySelectorAll('.kanban-card').length;
-                col.querySelector('.card-count').innerText = count;
+                col.querySelector('.card-count').innerText = col.querySelectorAll('.kanban-card').length;
             });
         }
 
@@ -579,11 +963,12 @@
                 const title = colEl.querySelector('.column-title').innerText;
                 const cards = [];
                 colEl.querySelectorAll('.kanban-card').forEach(cardEl => {
-                    const text = cardEl.querySelector('.card-text').innerText;
-                    const tag = cardEl.querySelector('.card-tag').innerText;
                     cards.push({
-                        text,
-                        tag
+                        title: cardEl.querySelector('.card-title').innerText,
+                        desc: cardEl.querySelector('.card-desc').innerText,
+                        tag: cardEl.querySelector('.card-tag').innerText,
+                        progress: parseInt(cardEl.querySelector('.progress-val').innerText.replace('%', '')) || 0,
+                        date: cardEl.querySelector('.card-date').innerText.trim()
                     });
                 });
                 columns.push({
@@ -597,9 +982,9 @@
         }
     }
 
-    // ---------------------------------------------------------
-    // Custom Editor.js Tool: Notion-like Database Table
-    // ---------------------------------------------------------
+    // ==========================================
+    // 3. Custom Tool: Database Table
+    // ==========================================
     class DatabaseTool {
         static get toolbox() {
             return {
@@ -628,28 +1013,20 @@
             this.wrapper = document.createElement('div');
             this.wrapper.classList.add('database-tool-wrapper', 'mt-4', 'mb-4');
 
-            // Header with buttons
             const header = document.createElement('div');
             header.classList.add('d-flex', 'justify-content-between', 'align-items-center', 'mb-2');
-            header.innerHTML = `
-                <div class="fw-bold text-muted" style="font-size: 14px;"><i class="fa-solid fa-table me-2"></i> Table View</div>
-                <div>
-                    <button class="btn btn-sm btn-light add-row-btn" style="font-size: 12px; font-weight: 600;">+ New</button>
-                </div>
-            `;
+            header.innerHTML = `<div class="fw-bold text-muted" style="font-size: 14px;"><i class="fa-solid fa-table me-2"></i> Table View</div><div><button class="btn btn-sm btn-light add-row-btn" style="font-size: 12px; font-weight: 600;">+ New</button></div>`;
             this.wrapper.appendChild(header);
 
-            // Container for Tabulator
             const tableContainer = document.createElement('div');
             this.wrapper.appendChild(tableContainer);
 
-            // Initialize Tabulator slightly after DOM injection
             setTimeout(() => {
                 this.table = new Tabulator(tableContainer, {
                     data: this.tableData,
                     layout: "fitColumns",
                     responsiveLayout: "hide",
-                    history: true, // Enable undo/redo
+                    history: true,
                     columns: [{
                             title: "Task ID",
                             field: "task",
@@ -695,14 +1072,11 @@
                         }
                     ],
                 });
-
-                // Auto-save when any cell is edited
                 this.table.on("cellEdited", () => {
                     savePageData();
                 });
             }, 100);
 
-            // Add new row logic
             header.querySelector('.add-row-btn').addEventListener('click', () => {
                 const newId = this.table.getData().length + 1;
                 this.table.addRow({
@@ -718,7 +1092,6 @@
             return this.wrapper;
         }
 
-        // Custom Formatters for Badges
         statusFormatter(cell) {
             let value = cell.getValue();
             let color = value === 'Done' ? '#10b981' : (value === 'In Progress' ? '#3b82f6' : '#64748b');
@@ -739,7 +1112,9 @@
         }
     }
 
-    // 2. Initialize Editor.js
+    // ==========================================
+    // 4. Initialize Editor.js
+    // ==========================================
     const editor = new EditorJS({
         holder: 'editorjs',
         placeholder: 'Press "/" or click "+" for commands...',
@@ -756,29 +1131,29 @@
             },
             list: {
                 class: EditorjsList,
-                inlineToolbar: true,
+                inlineToolbar: true
             },
             checklist: {
                 class: Checklist,
-                inlineToolbar: true,
+                inlineToolbar: true
             },
             table: {
                 class: Table,
-                inlineToolbar: true,
+                inlineToolbar: true
             },
             board: {
-                class: KanbanTool,
+                class: KanbanTool
             },
             database: {
-                class: DatabaseTool,
+                class: DatabaseTool
             },
             quote: {
                 class: Quote,
                 inlineToolbar: true,
                 config: {
                     quotePlaceholder: 'Enter a quote',
-                    captionPlaceholder: 'Author',
-                },
+                    captionPlaceholder: 'Author'
+                }
             },
             code: CodeTool,
             image: SimpleImage,
@@ -788,48 +1163,39 @@
         }
     });
 
-    // 3. Auto-save Function
+    // ==========================================
+    // 5. Auto-Save & API Logic
+    // ==========================================
     async function savePageData() {
         document.getElementById('status-text').innerText = 'Saving...';
-
         try {
             const savedData = await editor.save();
             const title = document.getElementById('page-title').value;
-
             const response = await axios.post("{{ route('pages.update', $page->id) }}", {
                 title: title,
                 content: JSON.stringify(savedData),
                 _token: "{{ csrf_token() }}"
             });
-
-            if (response.data.success) {
-                document.getElementById('status-text').innerText = 'All changes saved';
-            }
+            if (response.data.success) document.getElementById('status-text').innerText = 'All changes saved';
         } catch (error) {
             document.getElementById('status-text').innerText = 'Error saving';
         }
     }
 
-    // 4. Trigger auto-save when title is changed
     let titleSaveTimeout;
     document.getElementById('page-title').addEventListener('input', () => {
         document.getElementById('status-text').innerText = 'Saving...';
-
         clearTimeout(titleSaveTimeout);
         titleSaveTimeout = setTimeout(() => {
             savePageData();
         }, 1000);
     });
 
-    // 5. Cover Image Upload Logic
     document.getElementById('cover-input').addEventListener('change', async function() {
         if (!this.files || this.files.length === 0) return;
-
-        const file = this.files[0];
         const formData = new FormData();
-        formData.append('cover_image', file);
+        formData.append('cover_image', this.files[0]);
         formData.append('_token', "{{ csrf_token() }}");
-
         document.getElementById('status-text').innerText = 'Uploading Cover...';
 
         try {
@@ -838,27 +1204,22 @@
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
             if (response.data.success) {
                 let coverWrapper = document.querySelector('.cover-image-wrapper');
                 let existingImg = document.getElementById('cover-preview');
-
                 if (existingImg) {
                     existingImg.src = response.data.cover_image;
                 } else {
                     const icon = coverWrapper.querySelector('.fa-image');
                     if (icon) icon.remove();
-
                     const newImg = document.createElement('img');
                     newImg.id = 'cover-preview';
                     newImg.src = response.data.cover_image;
                     newImg.style.width = '100%';
                     newImg.style.height = '100%';
                     newImg.style.objectFit = 'cover';
-
                     coverWrapper.insertBefore(newImg, coverWrapper.firstChild);
                 }
-
                 document.getElementById('status-text').innerText = 'Cover updated';
             }
         } catch (error) {
@@ -867,34 +1228,82 @@
     });
 
     // ==========================================
-    // 6. DYNAMIC TYPOGRAPHY LOGIC
+    // 6. Productivity Shortcuts Logic
     // ==========================================
-    const editorContainer = document.getElementById('editorjs');
-    const titleInput = document.getElementById('page-title');
-
-    // Font Family Change
-    document.getElementById('dynamic-font-family').addEventListener('change', function() {
-        editorContainer.style.fontFamily = this.value;
-        titleInput.style.fontFamily = this.value;
+    document.getElementById('btn-add-board').addEventListener('click', () => {
+        editor.blocks.insert('board');
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
     });
 
-    // Font Size Change
-    document.getElementById('dynamic-font-size').addEventListener('change', function() {
-        editorContainer.style.fontSize = this.value;
+    document.getElementById('btn-add-table').addEventListener('click', () => {
+        editor.blocks.insert('database');
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
     });
 
-    // Line Spacing (x2 Button) Toggle
-    document.getElementById('dynamic-line-height').addEventListener('click', function() {
-        if (this.dataset.state === 'normal') {
-            editorContainer.style.lineHeight = '2.5'; // Extra space
-            this.dataset.state = 'x2';
-            this.innerText = 'x1';
-            this.style.background = 'var(--border)';
+    document.getElementById('btn-add-checklist').addEventListener('click', () => {
+        editor.blocks.insert('checklist');
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        });
+    });
+
+    document.getElementById('btn-focus-mode').addEventListener('click', function() {
+        document.body.classList.toggle('focus-mode');
+        if (document.body.classList.contains('focus-mode')) {
+            this.innerHTML = '<i class="fa-solid fa-compress"></i>';
+            this.title = "Exit Focus Mode";
         } else {
-            editorContainer.style.lineHeight = '1.6'; // Normal space
-            this.dataset.state = 'normal';
-            this.innerText = 'x2';
-            this.style.background = 'transparent';
+            this.innerHTML = '<i class="fa-solid fa-expand"></i>';
+            this.title = "Toggle Focus Mode";
+        }
+    });
+
+    async function deletePage(id) {
+        if (confirm('Are you sure you want to delete this page? This cannot be undone.')) {
+            try {
+                const response = await axios.post(`/pages/${id}`, {
+                    _method: 'DELETE',
+                    _token: "{{ csrf_token() }}"
+                });
+                if (response.data.success) window.location.href = "{{ route('admin.chronology') }}";
+            } catch (error) {
+                alert('Error deleting page.');
+            }
+        }
+    }
+
+    // ==========================================
+    // 🌟 Mobile Sidebar Toggle Script 🌟
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", function() {
+        const sidebar = document.getElementById('chronologySidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const toggleBtn = document.getElementById('mobileSidebarToggle');
+        const closeBtn = document.getElementById('mobileSidebarClose');
+
+        if (toggleBtn && closeBtn && sidebar && overlay) {
+            const openSidebar = () => {
+                sidebar.classList.add('show-mobile');
+                overlay.classList.add('show');
+                document.body.style.overflow = 'hidden'; // Prevent background scroll
+            };
+
+            const closeSidebar = () => {
+                sidebar.classList.remove('show-mobile');
+                overlay.classList.remove('show');
+                document.body.style.overflow = ''; // Restore scroll
+            };
+
+            toggleBtn.addEventListener('click', openSidebar);
+            closeBtn.addEventListener('click', closeSidebar);
+            overlay.addEventListener('click', closeSidebar);
         }
     });
 </script>

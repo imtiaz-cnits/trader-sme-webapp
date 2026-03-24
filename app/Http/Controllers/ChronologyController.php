@@ -160,7 +160,8 @@ class ChronologyController extends Controller
     public function storeFromTemplate(Request $request)
     {
         $request->validate([
-            'template_id' => 'required|exists:pages,id'
+            'template_id' => 'required|exists:pages,id',
+            'title' => 'nullable|string|max:255'
         ]);
 
         // Get the selected template
@@ -172,8 +173,8 @@ class ChronologyController extends Controller
         // Create a new page copying the template's content
         $page = Page::create([
             'user_id' => Auth::id(),
-            'folder_id' => $request->folder_id ?? null,
-            'title' => $template->title . ' (Copy)',
+            'folder_id' => $request->folder_id ?: null,
+            'title' => $request->title ? $request->title : $template->title . ' (Copy)',
             'is_template' => false,
             'content' => $template->content,
         ]);
