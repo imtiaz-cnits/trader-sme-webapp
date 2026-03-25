@@ -1,0 +1,149 @@
+    /* ==========================================
+       Typography
+       ========================================== */
+    .dashboard-title {
+        color: var(--text);
+    }
+
+    .text-muted-custom {
+        color: var(--text3) !important;
+    }
+
+    /* ==========================================
+       Cards & Icons
+       ========================================== */
+    .folder-card,
+    .file-card {
+        background: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    .folder-card:hover,
+    .file-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        border-color: var(--border2) !important;
+    }
+
+    .folder-card.active-folder {
+        background: var(--accent2) !important;
+        border-color: var(--accent) !important;
+    }
+
+    .folder-card h6,
+    .file-card h6 {
+        color: var(--text) !important;
+    }
+
+    .folder-card small,
+    .file-card small {
+        color: var(--text3) !important;
+    }
+
+    .icon-wrapper-folder {
+        background: var(--accent2) !important;
+        color: var(--accent) !important;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .icon-wrapper-file {
+        background: var(--accent2) !important;
+        color: var(--text2) !important;
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* ==========================================
+       Dropdowns & Modals
+       ========================================== */
+    .dropdown-menu {
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+    }
+
+    .dropdown-item {
+        color: var(--text2) !important;
+    }
+
+    .dropdown-item:hover {
+        background-color: var(--accent2) !important;
+        color: var(--text) !important;
+    }
+
+    .modal-content {
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text) !important;
+    }
+
+    .modal-header .modal-title,
+    .modal-header h6 {
+        color: var(--text) !important;
+    }
+
+    .modal-body label {
+        color: var(--text2) !important;
+    }
+
+    .modal-body input,
+    .modal-body select,
+    .modal-body option,
+    .form-control,
+    .form-select {
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text) !important;
+    }
+
+    .modal-body input::placeholder {
+        color: var(--text3) !important;
+    }
+
+    .modal-body input:focus,
+    .modal-body select:focus {
+        border-color: var(--accent) !important;
+        box-shadow: none !important;
+    }
+
+    [data-theme="dark"] .btn-close {
+        filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    /* ==========================================
+       Primary Buttons
+       ========================================== */
+    .btn-primary-custom {
+        background-color: var(--accent) !important;
+        color: #ffffff !important;
+        border: none;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    .btn-primary-custom:hover {
+        opacity: 0.9;
+    }
+
+    .btn-outline-custom {
+        background: transparent !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text) !important;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+
+    .btn-outline-custom:hover {
+        background: var(--accent2) !important;
+    }

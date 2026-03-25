@@ -1,0 +1,717 @@
+    /* ==========================================
+    Editor.js Dark Mode Overrides
+    ========================================== */
+    .ce-block__content,
+    .ce-toolbar__content {
+        color: var(--text);
+    }
+
+    .ce-header,
+    .ce-paragraph {
+        color: var(--text);
+    }
+
+    .cdx-input {
+        background: var(--bg-color) !important;
+        color: var(--text) !important;
+        border-color: var(--border) !important;
+    }
+
+    .ce-inline-toolbar,
+    .ce-popover,
+    .ce-conversion-toolbar {
+        background-color: var(--bg-color);
+        border: 1px solid var(--border);
+    }
+
+    .ce-inline-toolbar__dropdown:hover,
+    .ce-inline-tool:hover,
+    .ce-popover-item:hover,
+    .ce-conversion-tool:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    .ce-inline-tool,
+    .ce-popover-item,
+    .ce-conversion-tool {
+        color: var(--text);
+    }
+
+    .ce-toolbar__settings-btn,
+    .ce-toolbar__plus {
+        color: var(--text2);
+    }
+
+    .ce-toolbar__settings-btn:hover,
+    .ce-toolbar__plus:hover {
+        color: var(--text);
+        background: var(--accent2);
+    }
+
+    .ce-popover-item__icon,
+    .ce-conversion-tool__icon {
+        background-color: var(--accent2);
+        color: var(--text);
+        border-color: var(--border);
+    }
+
+    .cdx-checklist__item-text {
+        color: var(--text);
+    }
+
+    .cdx-checklist__item-checkbox {
+        border-color: var(--border);
+        background: var(--bg-color);
+    }
+
+    .cdx-checklist__item--checked .cdx-checklist__item-checkbox {
+        background: var(--accent);
+        border-color: var(--accent);
+    }
+
+    .cdx-checklist__item--checked .cdx-checklist__item-text {
+        text-decoration: line-through;
+        color: var(--text3);
+    }
+
+    /* ==================================================
+       🌟 1. Editor.js Basic Table Dark Mode Fix 🌟
+       ================================================== */
+    .editor-wrapper .tc-wrap,
+    .editor-wrapper .tc-table,
+    .editor-wrapper .tc-row,
+    .editor-wrapper .tc-cell,
+    .editor-wrapper .tc-toolbox {
+        background-color: var(--bg-color) !important;
+        color: var(--text) !important;
+        border-color: var(--border) !important;
+    }
+
+    .editor-wrapper .tc-cell {
+        border: 1px solid var(--border) !important;
+    }
+
+    .editor-wrapper .tc-toolbox:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    .tc-add-column,
+    .tc-add-row {
+        background-color: var(--bg-color) !important;
+        transition: 0.2s;
+    }
+
+    .tc-add-column svg path,
+    .tc-add-row svg path {
+        stroke: var(--text) !important;
+    }
+
+    .tc-add-column:hover,
+    .tc-add-row:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    [data-theme="dark"] .tc-add-column {
+        background-color: #ffffff !important;
+    }
+
+    [data-theme="dark"] .tc-add-column svg path {
+        stroke: #000 !important;
+    }
+
+    [data-theme="dark"] .tc-add-row svg path {
+        stroke: #fff !important;
+    }
+
+    [data-theme="dark"] .tc-add-column:hover,
+    [data-theme="dark"] .tc-add-row:hover {
+        background-color: #e4e4e7 !important;
+    }
+
+    /* 🔥 Table Popover / Settings Menu Fix (100% Forceful) 🔥 */
+    [data-theme="dark"] .tc-popover {
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    [data-theme="dark"] .tc-popover__item {
+        background-color: var(--bg-color) !important;
+        color: var(--text) !important;
+    }
+
+    [data-theme="dark"] .tc-popover__item:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    [data-theme="dark"] .tc-popover__item-icon {
+        background-color: var(--accent2) !important;
+        border-color: var(--border) !important;
+        color: var(--text) !important;
+    }
+
+    [data-theme="dark"] .tc-popover__item-label {
+        color: var(--text) !important;
+    }
+
+    /* ==========================================
+    Global & Layout Styles
+    ========================================== */
+    .editor-wrapper {
+        font-family: var(--primary-font, 'Inter', sans-serif);
+        background-color: var(--bg-color);
+        color: var(--text);
+        min-height: 100vh;
+        overflow: visible !important;
+        overflow-x: clip !important;
+    }
+
+    .editor-topbar {
+        padding-bottom: 12px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid var(--border);
+        position: relative;
+        z-index: 50;
+    }
+
+    .breadcrumb-text {
+        font-size: 14px;
+        color: var(--text3);
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .breadcrumb-text.active {
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .action-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text2);
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+    .action-btn:hover {
+        background: var(--accent2);
+        color: var(--text);
+    }
+
+    .action-btn-icon {
+        background: transparent;
+        border: none;
+        color: var(--text2);
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: 0.2s;
+    }
+
+    .action-btn-icon:hover {
+        background: var(--accent2);
+        color: var(--text);
+    }
+
+    .cover-image-wrapper {
+        border: 1px dashed var(--border2);
+        background-color: var(--bg-color);
+    }
+
+    #page-title {
+        color: var(--text);
+        transition: font-family 0.3s;
+    }
+
+    #page-title::placeholder {
+        color: var(--text3);
+    }
+
+    .ce-block__content,
+    .ce-toolbar__content {
+        max-width: 100% !important;
+    }
+
+    .codex-editor--empty .ce-block::before {
+        color: var(--text3);
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    @media (min-width: 1200px) {
+        .editor-main-area {
+            width: calc(100% - 284px);
+            transition: width 0.3s ease;
+            padding-bottom: 100px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+
+        /* 🔥 Fixes right-side gap on desktop (Fix 2 & 3) 🔥 */
+        .editor-main-area.desktop-expanded {
+            width: 100% !important;
+        }
+
+        .floating-footer {
+            width: calc(100% - 284px);
+        }
+
+        .floating-footer.desktop-expanded {
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 1199.98px) {
+        .editor-main-area {
+            width: 100%;
+            padding-bottom: 100px;
+        }
+
+        .floating-footer {
+            width: 100%;
+        }
+    }
+
+    /* ==========================================
+       Floating Footer & Focus Mode
+       ========================================== */
+    .floating-footer {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        background: var(--bg-color);
+        border-top: 1px solid var(--border);
+        padding: 12px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1050;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+        transition: width 0.3s ease;
+    }
+
+    @media (max-width: 767.98px) {
+        .floating-footer {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            padding: 12px 15px;
+        }
+
+        .quick-tools {
+            display: flex;
+            flex-wrap: nowrap !important;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            -webkit-overflow-scrolling: touch;
+            justify-content: flex-start !important;
+            width: 100%;
+        }
+
+        .quick-tools::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick-tools>* {
+            flex-shrink: 0;
+        }
+
+        .bottom-actions {
+            width: 100%;
+            justify-content: space-between;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .editor-main-area {
+            padding-bottom: 140px;
+        }
+    }
+
+    body.focus-mode .chronology-sidebar {
+        display: none !important;
+    }
+
+    body.focus-mode .editor-topbar {
+        display: none !important;
+    }
+
+    body.focus-mode .floating-footer {
+        width: 100% !important;
+    }
+
+    body.focus-mode .editor-main-area {
+        margin: 0 auto !important;
+        max-width: 900px;
+        padding-top: 30px;
+    }
+
+    /* ==========================================
+       Kanban & Table Styles
+       ========================================== */
+    .kanban-board-wrapper {
+        display: flex;
+        gap: 20px;
+        overflow-x: auto;
+        padding-bottom: 20px;
+        margin-top: 20px;
+        align-items: flex-start;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .kanban-board-wrapper::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .kanban-board-wrapper::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 10px;
+    }
+
+    .kanban-column {
+        background-color: var(--accent2);
+        border: 1px solid transparent;
+        border-radius: 10px;
+        min-width: 290px;
+        max-width: 290px;
+        padding: 14px;
+        flex-shrink: 0;
+    }
+
+    .kanban-column-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .kanban-column-header .column-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        outline: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .kanban-column-header .card-count {
+        background: var(--border);
+        color: var(--text2);
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-left: 8px;
+        font-weight: 600;
+    }
+
+    .add-card-btn {
+        background: transparent;
+        border: none;
+        color: var(--text3);
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+        padding: 0;
+    }
+
+    .add-card-btn:hover {
+        color: var(--text);
+    }
+
+    .kanban-cards-container {
+        min-height: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .kanban-card {
+        background: var(--bg-color);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        cursor: grab;
+        transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .kanban-card:active {
+        cursor: grabbing;
+    }
+
+    .kanban-card:hover {
+        border-color: var(--border2);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-tag {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 4px;
+        outline: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+    }
+
+    .card-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        outline: none;
+        line-height: 1.4;
+        margin-bottom: 6px;
+    }
+
+    .card-desc {
+        font-size: 12px;
+        color: var(--text3);
+        outline: none;
+        line-height: 1.5;
+        margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .card-progress-wrapper {
+        margin-bottom: 16px;
+    }
+
+    .card-progress-text {
+        font-size: 11px;
+        color: var(--text2);
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+        font-weight: 500;
+    }
+
+    .card-progress-bar {
+        height: 6px;
+        background: var(--border);
+        border-radius: 4px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .card-progress-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+
+    .card-footer-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px dashed var(--border);
+        padding-top: 12px;
+    }
+
+    .card-date {
+        font-size: 11px;
+        color: var(--text3);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 500;
+        outline: none;
+    }
+
+    .card-avatars {
+        display: flex;
+        align-items: center;
+    }
+
+    .card-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid var(--bg-color);
+        background: var(--border2);
+        color: #fff;
+        font-size: 9px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        margin-left: -8px;
+    }
+
+    .delete-card {
+        color: var(--text3);
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 13px;
+    }
+
+    .delete-card:hover {
+        color: #ef4444;
+    }
+
+    .kanban-ghost {
+        opacity: 0.4;
+        background: var(--accent2);
+        border: 2px dashed var(--border2);
+    }
+
+    .database-tool-wrapper .tabulator {
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .database-tool-wrapper .tabulator-header {
+        background-color: var(--accent2) !important;
+        border-bottom: 1px solid var(--border) !important;
+        color: var(--text2) !important;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .database-tool-wrapper .tabulator-col {
+        background-color: var(--accent2) !important;
+        border-right: 1px solid var(--border) !important;
+    }
+
+    .database-tool-wrapper .tabulator-col-title {
+        color: var(--text) !important;
+    }
+
+    .database-tool-wrapper .tabulator-row {
+        background-color: var(--bg-color) !important;
+        border-bottom: 1px solid var(--border) !important;
+        color: var(--text) !important;
+    }
+
+    .database-tool-wrapper .tabulator-row.tabulator-row-even {
+        background-color: var(--bg-color) !important;
+    }
+
+    .database-tool-wrapper .tabulator-row:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    .database-tool-wrapper .tabulator-cell {
+        padding: 12px 10px;
+        font-size: 14px;
+        color: var(--text) !important;
+        border-right: 1px solid var(--border) !important;
+    }
+
+    .database-tool-wrapper .tabulator-cell input {
+        padding: 4px;
+        border: 1px solid var(--border) !important;
+        border-radius: 4px;
+        width: 100%;
+        background: var(--bg-color) !important;
+        color: var(--text) !important;
+    }
+
+    .tabulator-menu {
+        background-color: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+    }
+
+    .tabulator-menu-item {
+        color: var(--text) !important;
+    }
+
+    .tabulator-menu-item:hover {
+        background-color: var(--accent2) !important;
+    }
+
+    .tabulator-edit-list {
+        background: var(--bg-color) !important;
+        border: 1px solid var(--border) !important;
+        color: var(--text) !important;
+    }
+
+    .tabulator-edit-list-item {
+        color: var(--text) !important;
+    }
+
+    .tabulator-edit-list-item:hover {
+        background: var(--accent2) !important;
+    }
+
+    /* ==========================================
+       🔥 PDF Export Ultimate Layout Fix (100% Working) 🔥
+       ========================================== */
+    body.exporting-pdf {
+        overflow: visible !important;
+        background: #ffffff !important;
+    }
+
+    body.exporting-pdf .chronology-sidebar,
+    body.exporting-pdf .floating-footer,
+    body.exporting-pdf .editor-topbar,
+    body.exporting-pdf .add-card-btn,
+    body.exporting-pdf .delete-card,
+    body.exporting-pdf .add-row-btn {
+        display: none !important;
+    }
+
+    body.exporting-pdf .editor-main-area {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    body.exporting-pdf #printableArea {
+        width: 800px !important;
+        max-width: 800px !important;
+        margin: 0 !important;
+        padding: 40px !important;
+        background: #ffffff !important;
+    }
+
+    body.exporting-pdf .kanban-board-wrapper {
+        display: block !important;
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+
+    body.exporting-pdf .kanban-column {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 20px !important;
+        page-break-inside: avoid !important;
+    }
+
+    body.exporting-pdf .kanban-card {
+        page-break-inside: avoid !important;
+        margin-bottom: 15px !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+
+    body.exporting-pdf .cover-image-wrapper {
+        page-break-inside: avoid !important;
+    }
+
+    body.exporting-pdf .tabulator {
+        width: 100% !important;
+        page-break-inside: avoid !important;
+    }

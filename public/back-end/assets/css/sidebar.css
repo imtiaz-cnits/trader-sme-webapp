@@ -1,0 +1,168 @@
+/* ==========================================
+   🌟 Base Layout, Menu Items & Search Box 🌟
+   ========================================== */
+.editor-wrapper {
+    font-family: var(--primary-font, 'Inter', sans-serif);
+    min-height: 100vh;
+    overflow: visible !important;
+    overflow-x: clip !important;
+}
+
+.sidebar-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: var(--text2) !important;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.sidebar-menu-item:hover,
+.sidebar-menu-item.active {
+    background: var(--accent2) !important;
+    color: var(--text) !important;
+    font-weight: 500;
+}
+
+.chronology-sidebar .search-box input {
+    background: var(--accent2) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text) !important;
+}
+
+.chronology-sidebar .search-box input::placeholder {
+    color: var(--text3) !important;
+}
+
+
+/* ==========================================
+   🌟 Sidebar & Layout Animations (FIXED) 🌟
+   ========================================== */
+.chronology-sidebar {
+    background: var(--bg-color);
+}
+
+.chronology-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.chronology-sidebar::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 4px;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1055;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+@media (min-width: 1200px) {
+    .chronology-sidebar {
+        width: 260px;
+        min-width: 260px;
+        border-right: 1px solid var(--border);
+        height: calc(100vh - 80px);
+        top: 80px;
+        padding-right: 24px;
+        z-index: 10;
+        /* 🔥 হেডারের নিচে রাখার জন্য 990 থেকে 10 করা হলো 🔥 */
+        align-self: flex-start;
+        margin-right: 24px;
+        position: sticky !important;
+        overflow-y: auto !important;
+
+        transition: width 0.3s ease, min-width 0.3s ease, margin-right 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
+    }
+
+    .chronology-sidebar::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .chronology-sidebar::-webkit-scrollbar-thumb {
+        background: var(--border2);
+        border-radius: 4px;
+    }
+
+    .chronology-sidebar.desktop-collapsed {
+        width: 0 !important;
+        min-width: 0 !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+        border-right: none !important;
+        opacity: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .editor-main-area {
+        width: calc(100% - 284px);
+        transition: width 0.3s ease;
+        padding-bottom: 100px;
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+
+    .chronology-main-area {
+        width: calc(100% - 284px);
+        transition: width 0.3s ease;
+        padding-bottom: 100px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    /* 🔥 Fixes right-side gap on desktop (Fix 2 & 3) 🔥 */
+    .editor-main-area.desktop-expanded {
+        width: 100% !important;
+    }
+
+    .floating-footer {
+        width: calc(100% - 284px);
+    }
+
+    .floating-footer.desktop-expanded {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .chronology-sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        height: 100vh;
+        max-width: 280px;
+        z-index: 1060;
+        padding: 20px;
+        transition: left 0.3s ease;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .chronology-sidebar.show-mobile {
+        left: 0;
+    }
+
+    .editor-main-area {
+        width: 100%;
+        padding-bottom: 100px;
+    }
+
+    .floating-footer {
+        width: 100%;
+    }
+}

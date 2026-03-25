@@ -21,6 +21,13 @@ class ChronologyController extends Controller
 
         $templates = Page::where('user_id', $userId)->where('is_template', true)->get();
 
+        // favorite pages for sidebar
+        $favorites = Page::where('user_id', $userId)
+            ->where('is_template', false)
+            ->where('is_favorite', true)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
         // folder filtering logic
         $query = Page::where('user_id', $userId)->where('is_template', false);
         $currentFolder = null;
@@ -32,7 +39,7 @@ class ChronologyController extends Controller
 
         $pages = $query->orderBy('updated_at', 'desc')->get();
 
-        return view('components.back-end.chronology', compact('folders', 'pages', 'templates', 'currentFolder'));
+        return view('components.back-end.chronology', compact('folders', 'pages', 'templates', 'currentFolder', 'favorites'));
     }
 
     // 2. New Folder Creation
@@ -69,7 +76,7 @@ class ChronologyController extends Controller
         ]);
     }
 
-    // 5. Edit Page View (Updated to load Sidebar Data)
+    // 5. Edit Page View (Updated to load Sidebar Data & Favorites)
     public function editPage($id)
     {
         $userId = Auth::id();
@@ -83,7 +90,13 @@ class ChronologyController extends Controller
         $templates = Page::where('user_id', $userId)->where('is_template', true)->get();
         $pages = Page::where('user_id', $userId)->where('is_template', false)->orderBy('updated_at', 'desc')->get();
 
-        return view('components.back-end.page-editor', compact('page', 'folders', 'templates', 'pages'));
+        $favorites = Page::where('user_id', $userId)
+            ->where('is_template', false)
+            ->where('is_favorite', true)
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return view('components.back-end.page-editor', compact('page', 'folders', 'templates', 'pages', 'favorites'));
     }
 
     // 6. Update Page (Auto-save for Title, Editor.js Content, and Cover Image)
@@ -184,5 +197,43 @@ class ChronologyController extends Controller
             'page_id' => $page->id,
             'redirect_url' => route('pages.edit', $page->id)
         ]);
+    }
+
+    // 12. Toggle Favorite Status of a Page
+    public function toggleFavorite(Request $request, $id)
+    {
+        $page = Page::findOrFail($id);
+        $page->is_favorite = $request->is_favorite;
+        $page->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    // 13. Move Page to another Folder
+    public function movePage(Request $request, $id)
+    {
+        $page = Page::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        $page->folder_id = $request->folder_id ? $request->folder_id : null;
+        $page->save();
+
+        return response()->json(['success' => true, 'message' => 'Page moved successfully!']);
+    }
+
+    // 14. Save Current Page as Template
+    public function saveAsTemplate(Request $request, $id)
+    {
+        $originalPage = Page::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        Page::create([
+            'user_id' => Auth::id(),
+            'folder_id' => null,
+            'title' => $request->title ? $request->title . ' (Template)' : $originalPage->title . ' (Template)',
+            'cover_image' => $originalPage->cover_image,
+            'content' => $request->content ? $request->content : $originalPage->content,
+            'is_template' => true,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Saved as template successfully!']);
     }
 }

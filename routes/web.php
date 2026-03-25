@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
 
     // 📅 Chronology
     Route::controller(ChronologyController::class)->group(function () {
-        Route::get('/chronology-page', 'index')->name('admin.chronology');
+        Route::get('/chronology', 'index')->name('admin.chronology');
 
         // folder routes
         Route::post('/folders/store', 'storeFolder')->name('folders.store');
@@ -72,7 +72,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/pages/store-from-template', 'storeFromTemplate')->name('pages.storeFromTemplate'); // New route for template
         Route::get('/pages/{id}/edit', 'editPage')->name('pages.edit');
         Route::post('/pages/{id}/update', 'updatePage')->name('pages.update');
+        Route::post('/pages/{id}/favorite', 'toggleFavorite')->name('pages.favorite');  // New route for favorite toggle
         Route::delete('/pages/{id}', 'deletePage')->name('pages.destroy'); // Delete
+        Route::post('/pages/{id}/move', 'movePage')->name('pages.move'); // New route for moving page to another folder
+        Route::post('/pages/{id}/save-as-template', 'saveAsTemplate')->name('pages.saveAsTemplate'); // New route for saving page as template
     });
 
     // 👥 Copy Trader & Settings

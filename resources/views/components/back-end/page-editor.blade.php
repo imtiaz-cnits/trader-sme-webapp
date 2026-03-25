@@ -2,6 +2,8 @@
 @section('title', $page->title ?? 'Draft Page')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('back-end/assets/css/page-editor.css?v=1.0') }}">
+
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
@@ -14,811 +16,20 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator.min.css" rel="stylesheet">
 <script src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<style>
-    /* ==========================================
-       Editor.js Dark Mode Overrides
-       ========================================== */
-    .ce-block__content,
-    .ce-toolbar__content {
-        color: var(--text);
-    }
-
-    .ce-header,
-    .ce-paragraph {
-        color: var(--text);
-    }
-
-    .cdx-input {
-        background: var(--bg-color) !important;
-        color: var(--text) !important;
-        border-color: var(--border) !important;
-    }
-
-    .ce-inline-toolbar,
-    .ce-popover,
-    .ce-conversion-toolbar {
-        background-color: var(--bg-color);
-        border: 1px solid var(--border);
-    }
-
-    .ce-inline-toolbar__dropdown:hover,
-    .ce-inline-tool:hover,
-    .ce-popover-item:hover,
-    .ce-conversion-tool:hover {
-        background-color: var(--accent2) !important;
-    }
-
-    .ce-inline-tool,
-    .ce-popover-item,
-    .ce-conversion-tool {
-        color: var(--text);
-    }
-
-    .ce-toolbar__settings-btn,
-    .ce-toolbar__plus {
-        color: var(--text2);
-    }
-
-    .ce-toolbar__settings-btn:hover,
-    .ce-toolbar__plus:hover {
-        color: var(--text);
-        background: var(--accent2);
-    }
-
-    .ce-popover-item__icon,
-    .ce-conversion-tool__icon {
-        background-color: var(--accent2);
-        color: var(--text);
-        border-color: var(--border);
-    }
-
-    .cdx-checklist__item-text {
-        color: var(--text);
-    }
-
-    .cdx-checklist__item-checkbox {
-        border-color: var(--border);
-        background: var(--bg-color);
-    }
-
-    .cdx-checklist__item--checked .cdx-checklist__item-checkbox {
-        background: var(--accent);
-        border-color: var(--accent);
-    }
-
-    .cdx-checklist__item--checked .cdx-checklist__item-text {
-        text-decoration: line-through;
-        color: var(--text3);
-    }
-
-    /* ==================================================
-       🌟 1. Editor.js Basic Table Dark Mode Fix 🌟
-       ================================================== */
-    .editor-wrapper .tc-wrap,
-    .editor-wrapper .tc-table,
-    .editor-wrapper .tc-row,
-    .editor-wrapper .tc-cell,
-    .editor-wrapper .tc-toolbox {
-        background-color: var(--bg-color) !important;
-        color: var(--text) !important;
-        border-color: var(--border) !important;
-    }
-
-    .editor-wrapper .tc-cell {
-        border: 1px solid var(--border) !important;
-    }
-
-    .editor-wrapper .tc-toolbox:hover {
-        background-color: var(--accent2) !important;
-    }
-
-    .tc-add-column,
-    .tc-add-row {
-        background-color: var(--bg-color) !important;
-        transition: 0.2s;
-    }
-
-    .tc-add-column svg path,
-    .tc-add-row svg path {
-        stroke: var(--text) !important;
-    }
-
-    .tc-add-column:hover,
-    .tc-add-row:hover {
-        background-color: var(--accent2) !important;
-    }
-
-    [data-theme="dark"] .tc-add-column {
-        background-color: #ffffff !important;
-    }
-
-    [data-theme="dark"] .tc-add-column svg path {
-        stroke: #000 !important;
-    }
-
-    [data-theme="dark"] .tc-add-row svg path {
-        stroke: #fff !important;
-    }
-
-    [data-theme="dark"] .tc-add-column:hover,
-    [data-theme="dark"] .tc-add-row:hover {
-        background-color: #e4e4e7 !important;
-    }
-
-    /* 🔥 Table Popover / Settings Menu Fix (100% Forceful) 🔥 */
-    [data-theme="dark"] .tc-popover {
-        background-color: var(--bg-color) !important;
-        border: 1px solid var(--border) !important;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
-    }
-
-    [data-theme="dark"] .tc-popover__item {
-        background-color: var(--bg-color) !important;
-        color: var(--text) !important;
-    }
-
-    [data-theme="dark"] .tc-popover__item:hover {
-        background-color: var(--accent2) !important;
-    }
-
-    [data-theme="dark"] .tc-popover__item-icon {
-        background-color: var(--accent2) !important;
-        border-color: var(--border) !important;
-        color: var(--text) !important;
-    }
-
-    [data-theme="dark"] .tc-popover__item-label {
-        color: var(--text) !important;
-    }
-
-    /* ==========================================
-       Global & Layout Styles
-       ========================================== */
-    .editor-wrapper {
-        font-family: var(--primary-font, 'Inter', sans-serif);
-        background-color: var(--bg-color);
-        color: var(--text);
-        min-height: 100vh;
-        overflow: visible !important;
-        overflow-x: clip !important;
-    }
-
-    .sidebar-menu-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 6px;
-        color: var(--text2);
-        font-size: 14px;
-        text-decoration: none;
-        transition: 0.2s;
-    }
-
-    .sidebar-menu-item:hover,
-    .sidebar-menu-item.active {
-        background: var(--accent2);
-        color: var(--text);
-        font-weight: 500;
-    }
-
-    .editor-topbar {
-        padding-bottom: 12px;
-        margin-bottom: 24px;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .breadcrumb-text {
-        font-size: 14px;
-        color: var(--text3);
-        font-weight: 500;
-        white-space: nowrap;
-    }
-
-    .breadcrumb-text.active {
-        color: var(--text);
-        font-weight: 600;
-    }
-
-    .action-btn {
-        background: transparent;
-        border: 1px solid var(--border);
-        color: var(--text2);
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        transition: 0.2s;
-        white-space: nowrap;
-    }
-
-    .action-btn:hover {
-        background: var(--accent2);
-        color: var(--text);
-    }
-
-    .action-btn-icon {
-        background: transparent;
-        border: none;
-        color: var(--text2);
-        padding: 6px 10px;
-        border-radius: 6px;
-        font-size: 16px;
-        transition: 0.2s;
-    }
-
-    .action-btn-icon:hover {
-        background: var(--accent2);
-        color: var(--text);
-    }
-
-    .cover-image-wrapper {
-        border: 1px dashed var(--border2);
-        background-color: var(--bg-color);
-    }
-
-    #page-title {
-        color: var(--text);
-        transition: font-family 0.3s;
-    }
-
-    #page-title::placeholder {
-        color: var(--text3);
-    }
-
-    .ce-block__content,
-    .ce-toolbar__content {
-        max-width: 100% !important;
-    }
-
-    .codex-editor--empty .ce-block::before {
-        color: var(--text3);
-    }
-
-    /* 🔥 Hide Scrollbar Utility (Fix 1) 🔥 */
-    .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-
-    .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    /* ==========================================
-       🌟 Sidebar & Layout Animations (FIXED) 🌟
-       ========================================== */
-    .chronology-sidebar {
-        background: var(--bg-color);
-    }
-
-    .chronology-sidebar::-webkit-scrollbar {
-        width: 4px;
-    }
-
-    .chronology-sidebar::-webkit-scrollbar-thumb {
-        background: var(--border2);
-        border-radius: 4px;
-    }
-
-    .sidebar-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 1055;
-        display: none;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .sidebar-overlay.show {
-        display: block;
-        opacity: 1;
-    }
-
-    @media (min-width: 1200px) {
-        .chronology-sidebar {
-            width: 260px;
-            min-width: 260px;
-            border-right: 1px solid var(--border);
-            height: calc(100vh - 80px);
-            top: 80px;
-            padding-right: 24px;
-            z-index: 990;
-            align-self: flex-start;
-            margin-right: 24px;
-            position: sticky !important;
-            overflow-y: auto !important;
-
-            transition: width 0.3s ease, min-width 0.3s ease, margin-right 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
-        }
-
-        .chronology-sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .chronology-sidebar::-webkit-scrollbar-thumb {
-            background: var(--border2);
-            border-radius: 4px;
-        }
-
-        .chronology-sidebar.desktop-collapsed {
-            width: 0 !important;
-            min-width: 0 !important;
-            margin-right: 0 !important;
-            padding-right: 0 !important;
-            border-right: none !important;
-            opacity: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .editor-main-area {
-            width: calc(100% - 284px);
-            transition: width 0.3s ease;
-            padding-bottom: 100px;
-            padding-left: 60px;
-            padding-right: 60px;
-        }
-
-        /* 🔥 Fixes right-side gap on desktop (Fix 2 & 3) 🔥 */
-        .editor-main-area.desktop-expanded {
-            width: 100% !important;
-        }
-
-        .floating-footer {
-            width: calc(100% - 284px);
-        }
-
-        .floating-footer.desktop-expanded {
-            width: 100% !important;
-        }
-    }
-
-    @media (max-width: 1199.98px) {
-        .chronology-sidebar {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            height: 100vh;
-            max-width: 280px;
-            z-index: 1060;
-            padding: 20px;
-            transition: left 0.3s ease;
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .chronology-sidebar.show-mobile {
-            left: 0;
-        }
-
-        .editor-main-area {
-            width: 100%;
-            padding-bottom: 100px;
-        }
-
-        .floating-footer {
-            width: 100%;
-        }
-    }
-
-    /* ==========================================
-       Floating Footer & Focus Mode
-       ========================================== */
-    .floating-footer {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        background: var(--bg-color);
-        border-top: 1px solid var(--border);
-        padding: 12px 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        z-index: 1050;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
-        transition: width 0.3s ease;
-    }
-
-    @media (max-width: 767.98px) {
-        .floating-footer {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 12px;
-            padding: 12px 15px;
-        }
-
-        .quick-tools {
-            display: flex;
-            flex-wrap: nowrap !important;
-            overflow-x: auto;
-            padding-bottom: 5px;
-            -webkit-overflow-scrolling: touch;
-            justify-content: flex-start !important;
-            width: 100%;
-        }
-
-        .quick-tools::-webkit-scrollbar {
-            display: none;
-        }
-
-        .quick-tools>* {
-            flex-shrink: 0;
-        }
-
-        .bottom-actions {
-            width: 100%;
-            justify-content: space-between;
-            padding-top: 8px;
-            border-top: 1px dashed var(--border);
-        }
-
-        .editor-main-area {
-            padding-bottom: 140px;
-        }
-    }
-
-    body.focus-mode .chronology-sidebar {
-        display: none !important;
-    }
-
-    body.focus-mode .editor-topbar {
-        display: none !important;
-    }
-
-    body.focus-mode .floating-footer {
-        width: 100% !important;
-    }
-
-    body.focus-mode .editor-main-area {
-        margin: 0 auto !important;
-        max-width: 900px;
-        padding-top: 30px;
-    }
-
-    /* ==========================================
-       Kanban & Table Styles
-       ========================================== */
-    .kanban-board-wrapper {
-        display: flex;
-        gap: 20px;
-        overflow-x: auto;
-        padding-bottom: 20px;
-        margin-top: 20px;
-        align-items: flex-start;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .kanban-board-wrapper::-webkit-scrollbar {
-        height: 6px;
-    }
-
-    .kanban-board-wrapper::-webkit-scrollbar-thumb {
-        background: var(--border2);
-        border-radius: 10px;
-    }
-
-    .kanban-column {
-        background-color: var(--accent2);
-        border: 1px solid transparent;
-        border-radius: 10px;
-        min-width: 290px;
-        max-width: 290px;
-        padding: 14px;
-        flex-shrink: 0;
-    }
-
-    .kanban-column-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .kanban-column-header .column-title {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text);
-        outline: none;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .kanban-column-header .card-count {
-        background: var(--border);
-        color: var(--text2);
-        font-size: 11px;
-        padding: 2px 8px;
-        border-radius: 12px;
-        margin-left: 8px;
-        font-weight: 600;
-    }
-
-    .add-card-btn {
-        background: transparent;
-        border: none;
-        color: var(--text3);
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.2s;
-        padding: 0;
-    }
-
-    .add-card-btn:hover {
-        color: var(--text);
-    }
-
-    .kanban-cards-container {
-        min-height: 50px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .kanban-card {
-        background: var(--bg-color);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 16px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-        cursor: grab;
-        transition: box-shadow 0.2s, border-color 0.2s;
-    }
-
-    .kanban-card:active {
-        cursor: grabbing;
-    }
-
-    .kanban-card:hover {
-        border-color: var(--border2);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .card-tag {
-        display: inline-block;
-        font-size: 10px;
-        font-weight: 700;
-        padding: 4px 10px;
-        border-radius: 4px;
-        outline: none;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 12px;
-    }
-
-    .card-title {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text);
-        outline: none;
-        line-height: 1.4;
-        margin-bottom: 6px;
-    }
-
-    .card-desc {
-        font-size: 12px;
-        color: var(--text3);
-        outline: none;
-        line-height: 1.5;
-        margin-bottom: 16px;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .card-progress-wrapper {
-        margin-bottom: 16px;
-    }
-
-    .card-progress-text {
-        font-size: 11px;
-        color: var(--text2);
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 6px;
-        font-weight: 500;
-    }
-
-    .card-progress-bar {
-        height: 6px;
-        background: var(--border);
-        border-radius: 4px;
-        overflow: hidden;
-        width: 100%;
-    }
-
-    .card-progress-fill {
-        height: 100%;
-        border-radius: 4px;
-        transition: width 0.3s ease;
-    }
-
-    .card-footer-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px dashed var(--border);
-        padding-top: 12px;
-    }
-
-    .card-date {
-        font-size: 11px;
-        color: var(--text3);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-weight: 500;
-        outline: none;
-    }
-
-    .card-avatars {
-        display: flex;
-        align-items: center;
-    }
-
-    .card-avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        border: 2px solid var(--bg-color);
-        background: var(--border2);
-        color: #fff;
-        font-size: 9px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        margin-left: -8px;
-    }
-
-    .delete-card {
-        color: var(--text3);
-        cursor: pointer;
-        transition: 0.2s;
-        font-size: 13px;
-    }
-
-    .delete-card:hover {
-        color: #ef4444;
-    }
-
-    .kanban-ghost {
-        opacity: 0.4;
-        background: var(--accent2);
-        border: 2px dashed var(--border2);
-    }
-
-    .database-tool-wrapper .tabulator {
-        background-color: var(--bg-color) !important;
-        border: 1px solid var(--border) !important;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .database-tool-wrapper .tabulator-header {
-        background-color: var(--accent2) !important;
-        border-bottom: 1px solid var(--border) !important;
-        color: var(--text2) !important;
-        font-weight: 600;
-        font-size: 13px;
-    }
-
-    .database-tool-wrapper .tabulator-col {
-        background-color: var(--accent2) !important;
-        border-right: 1px solid var(--border) !important;
-    }
-
-    .database-tool-wrapper .tabulator-col-title {
-        color: var(--text) !important;
-    }
-
-    .database-tool-wrapper .tabulator-row {
-        background-color: var(--bg-color) !important;
-        border-bottom: 1px solid var(--border) !important;
-        color: var(--text) !important;
-    }
-
-    .database-tool-wrapper .tabulator-row.tabulator-row-even {
-        background-color: var(--bg-color) !important;
-    }
-
-    .database-tool-wrapper .tabulator-row:hover {
-        background-color: var(--accent2) !important;
-    }
-
-    .database-tool-wrapper .tabulator-cell {
-        padding: 12px 10px;
-        font-size: 14px;
-        color: var(--text) !important;
-        border-right: 1px solid var(--border) !important;
-    }
-
-    .database-tool-wrapper .tabulator-cell input {
-        padding: 4px;
-        border: 1px solid var(--border) !important;
-        border-radius: 4px;
-        width: 100%;
-        background: var(--bg-color) !important;
-        color: var(--text) !important;
-    }
-
-    .tabulator-menu {
-        background-color: var(--bg-color) !important;
-        border: 1px solid var(--border) !important;
-    }
-
-    .tabulator-menu-item {
-        color: var(--text) !important;
-    }
-
-    .tabulator-menu-item:hover {
-        background-color: var(--accent2) !important;
-    }
-
-    .tabulator-edit-list {
-        background: var(--bg-color) !important;
-        border: 1px solid var(--border) !important;
-        color: var(--text) !important;
-    }
-
-    .tabulator-edit-list-item {
-        color: var(--text) !important;
-    }
-
-    .tabulator-edit-list-item:hover {
-        background: var(--accent2) !important;
-    }
-</style>
 
 <main class="container-fluid px-md-4 editor-wrapper">
     <div class="d-flex flex-column flex-xl-row align-items-start w-100">
 
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-        <div class="chronology-sidebar pt-4" id="chronologySidebar">
-
-            <div class="d-flex justify-content-between align-items-center d-xl-none mb-4">
-                <h5 class="m-0 fw-bold" style="color: var(--text);">Menu</h5>
-                <button class="btn-close shadow-none" id="mobileSidebarClose" style="filter: var(--invert-icon);"></button>
-            </div>
-
-            <div class="search-box mb-4 position-relative">
-                <input type="text" class="form-control border-0" placeholder="Search..." style="background: var(--accent2); color: var(--text); padding-left: 35px; font-size: 14px; border-radius: 8px;">
-                <i class="fa-solid fa-magnifying-glass position-absolute" style="color: var(--text3); left: 12px; top: 12px; font-size: 12px;"></i>
-            </div>
-
-            <div class="mb-4">
-                <h6 class="mb-2 ps-2" style="color: var(--text3); font-size: 12px; font-weight: 700; text-transform: uppercase;">Pages</h6>
-                @foreach($pages->take(5) as $p)
-                <a href="{{ route('pages.edit', $p->id) }}" class="sidebar-menu-item {{ $p->id == $page->id ? 'active' : '' }}">
-                    <i class="fa-regular fa-file-lines"></i>
-                    <span class="text-truncate">{{ $p->title ?? 'Draft Page' }}</span>
-                </a>
-                @endforeach
-            </div>
-
-            <div class="mb-4">
-                <h6 class="mb-2 ps-2" style="color: var(--text3); font-size: 12px; font-weight: 700; text-transform: uppercase;">Templates</h6>
-                @foreach($templates->take(5) as $t)
-                <a href="#" class="sidebar-menu-item">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <span class="text-truncate">{{ $t->title }}</span>
-                </a>
-                @endforeach
-            </div>
-        </div>
+        @include('layout.sidebar')
 
         <div class="flex-grow-1 editor-main-area pt-4">
 
             <div class="editor-topbar d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
 
-                <div class="d-flex align-items-center flex-nowrap hide-scrollbar" style="overflow-x: auto; white-space: nowrap; max-width: 100%;">
-                    <button class="btn btn-sm border shadow-none px-2 py-1 me-2 flex-shrink-0" id="sidebarToggle" style="background: var(--bg-color); color: var(--text);">
+                <div class="d-flex align-items-center flex-nowrap">
+                    <button class="btn btn-sm border shadow-none px-2 py-1 me-3 flex-shrink-0" id="sidebarToggle" style="background: var(--bg-color); color: var(--text);">
                         <i class="fa-solid fa-bars"></i>
                     </button>
 
@@ -831,39 +42,75 @@
                     </span>
                 </div>
 
-                <div class="top-actions d-flex align-items-center flex-nowrap gap-2 w-100 w-md-auto justify-content-start justify-content-md-end mt-2 mt-md-0 hide-scrollbar" style="overflow-x: auto;">
-                    <span id="status-text" class="small px-3 py-1 rounded-pill flex-shrink-0" style="color: var(--text3); background: var(--accent2); font-weight: 500;">Saved</span>
-                    <button class="action-btn flex-shrink-0">Share</button>
-                    <button class="action-btn-icon flex-shrink-0" title="Favorite"><i class="fa-regular fa-star"></i></button>
-                    <button class="action-btn-icon flex-shrink-0" title="Menu"><i class="fa-solid fa-ellipsis"></i></button>
+                <div class="top-actions d-flex align-items-center flex-nowrap gap-2 w-100 w-md-auto justify-content-start justify-content-md-end mt-md-0 hide-scrollbar">
+
+                    <span id="status-indicator" class="small px-3 py-1 rounded-pill flex-shrink-0 d-flex align-items-center gap-1" style="color: var(--text3); background: var(--accent2); font-weight: 500; transition: all 0.3s ease;">
+                        <i class="fa-solid fa-check text-success" id="status-icon"></i>
+                        <span id="status-text">Saved</span>
+                    </span>
+
+                    <button class="action-btn flex-shrink-0" data-bs-toggle="modal" data-bs-target="#shareModal">Share</button>
+
+                    <button class="action-btn-icon flex-shrink-0" id="btn-favorite" title="Favorite" data-favorited="{{ $page->is_favorite ?? false ? 'true' : 'false' }}">
+                        <i class="{{ $page->is_favorite ?? false ? 'fa-solid text-warning' : 'fa-regular' }} fa-star" style="transition: color 0.2s, transform 0.2s;"></i>
+                    </button>
+
+                    <div class="dropdown d-inline-block flex-shrink-0">
+                        <button class="action-btn-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Menu">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm" style="background-color: var(--bg-color); border: 1px solid var(--border) !important; border-radius: 8px; min-width: 200px;">
+                            <li>
+                                <h6 class="dropdown-header text-muted" style="font-size: 11px; text-transform: uppercase;">Page Actions</h6>
+                            </li>
+
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#" data-bs-toggle="modal" data-bs-target="#pageDetailsModal" style="color: var(--text); font-size: 14px;"><i class="fa-solid fa-circle-info text-muted"></i> Page Details</a></li>
+
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#" data-bs-toggle="modal" data-bs-target="#moveToModal" style="color: var(--text); font-size: 14px;"><i class="fa-solid fa-folder-tree text-muted"></i> Move to...</a></li>
+
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#" data-bs-toggle="modal" data-bs-target="#saveTemplateModal" style="color: var(--text); font-size: 14px;"><i class="fa-solid fa-layer-group text-muted"></i> Save as Template</a></li>
+
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#" id="exportPdfBtn" style="color: var(--text); font-size: 14px;"><i class="fa-solid fa-file-export text-muted"></i> Export as PDF</a></li>
+
+                            <li>
+                                <hr class="dropdown-divider" style="border-color: var(--border);">
+                            </li>
+
+                            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2 text-danger" href="#" onclick="deletePage({{ $page->id }}); return false;" style="font-size: 14px;"><i class="fa-regular fa-trash-can"></i> Delete Page</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="cover-image-wrapper mb-4 position-relative" style="height: 220px; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                @if($page->cover_image)
-                <img src="{{ asset($page->cover_image) }}" id="cover-preview" style="width: 100%; height: 100%; object-fit: cover;">
-                @else
-                <i class="fa-regular fa-image" style="font-size: 3rem; color: var(--text3); opacity: 0.3;"></i>
-                @endif
-                <div class="position-absolute bottom-0 start-0 p-3 w-100" style="background: linear-gradient(transparent, rgba(0,0,0,0.6));">
-                    <button class="btn btn-sm" onclick="document.getElementById('cover-input').click()" style="background: var(--bg-color); color: var(--text); font-weight: 500; border-radius: 6px;">
-                        <i class="fa-regular fa-image me-1"></i> Add cover
-                    </button>
-                    <button class="btn btn-sm ms-2" style="background: var(--bg-color); color: var(--text); font-weight: 500; border-radius: 6px;">
-                        <i class="fa-regular fa-comment me-1"></i> Add comment
-                    </button>
-                    <input type="file" id="cover-input" class="d-none" accept="image/*">
+            <div id="printableArea" class="w-100 p-2">
+
+                <div class="cover-image-wrapper mb-4 position-relative" style="height: 220px; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    @if($page->cover_image)
+                    <img src="{{ asset($page->cover_image) }}" id="cover-preview" style="width: 100%; height: 100%; object-fit: cover;">
+                    @else
+                    <i class="fa-regular fa-image" style="font-size: 3rem; color: var(--text3); opacity: 0.3;"></i>
+                    @endif
+                    <div class="position-absolute bottom-0 start-0 p-3 w-100" data-html2canvas-ignore="true" style="background: linear-gradient(transparent, rgba(0,0,0,0.6));">
+                        <button class="btn btn-sm" onclick="document.getElementById('cover-input').click()" style="background: var(--bg-color); color: var(--text); font-weight: 500; border-radius: 6px;">
+                            <i class="fa-regular fa-image me-1"></i> Add cover
+                        </button>
+                        <button class="btn btn-sm ms-2" style="background: var(--bg-color); color: var(--text); font-weight: 500; border-radius: 6px;">
+                            <i class="fa-regular fa-comment me-1"></i> Add comment
+                        </button>
+                        <input type="file" id="cover-input" class="d-none" accept="image/*">
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-4 border-bottom pb-3" style="border-color: var(--border) !important;">
-                <input type="text" id="page-title" class="form-control border-0 px-0 fw-bold"
-                    value="{{ $page->title }}"
-                    style="font-size: clamp(24px, 5vw, 38px); box-shadow: none; background: transparent;"
-                    placeholder="Untitled Page">
-            </div>
+                <div class="mb-4 border-bottom pb-3" style="border-color: var(--border) !important;">
+                    <input type="text" id="page-title" class="form-control border-0 px-0 fw-bold"
+                        value="{{ $page->title }}"
+                        style="font-size: clamp(24px, 5vw, 38px); box-shadow: none; background: transparent;"
+                        placeholder="Untitled Page">
+                </div>
 
-            <div id="editorjs" class="mt-3" style="min-height: 50vh; font-size: 16px; transition: all 0.3s ease; line-height: 1.6;"></div>
+                <div id="editorjs" class="mt-3" style="min-height: 50vh; font-size: 16px; transition: all 0.3s ease; line-height: 1.6;"></div>
+
+            </div>
 
         </div>
     </div>
@@ -892,6 +139,130 @@
             </button>
         </div>
     </div>
+
+    <!-- Share Modal Start -->
+    <div class="modal fade" id="shareModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; background-color: var(--bg-color);">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" style="color: var(--text); font-size: 18px;">Share Page</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close" style="filter: var(--invert-icon);"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h6 class="mb-1 fw-bold" style="color: var(--text); font-size: 15px;">Publish to Web</h6>
+                            <small style="color: var(--text3); font-size: 13px;">Anyone with the link will be able to view this page.</small>
+                        </div>
+                        <div class="form-check form-switch" style="font-size: 22px;">
+                            <input class="form-check-input shadow-none" type="checkbox" id="publishToggle" style="cursor: pointer;" {{ $page->is_published ?? false ? 'checked' : '' }}>
+                        </div>
+                    </div>
+
+                    <div id="shareLinkContainer" style="opacity: {{ $page->is_published ?? false ? '1' : '0.4' }}; pointer-events: {{ $page->is_published ?? false ? 'auto' : 'none' }}; transition: 0.3s ease;">
+                        <label class="form-label fw-bold" style="color: var(--text); font-size: 12px; text-transform: uppercase;">Public Link</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control shadow-none" id="publicLinkInput" value="{{ url('/p/' . ($page->slug ?? uniqid())) }}" readonly style="background-color: var(--accent2); border: 1px solid var(--border); color: var(--text); font-size: 14px;">
+                            <button class="btn shadow-none" type="button" id="copyLinkBtn" style="border: 1px solid var(--border); color: var(--text); background: var(--bg-color); font-weight: 500;">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <small class="text-success d-none" id="copySuccessText" style="font-size: 12px; font-weight: 500;"><i class="fa-solid fa-check"></i> Link copied to clipboard!</small>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Share Modal End -->
+
+    <!-- Page Details Modal Start -->
+    <div class="modal fade" id="pageDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; background-color: var(--bg-color);">
+                <div class="modal-header border-0 pb-0">
+                    <h6 class="modal-title fw-bold" style="color: var(--text);"><i class="fa-solid fa-circle-info me-2 text-muted"></i>Page Details</h6>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close" style="filter: var(--invert-icon); font-size: 10px;"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    @php
+                    $currentFolderName = 'No Folder (Root)';
+                    foreach($folders as $folder) {
+                    if($folder->id == $page->folder_id) {
+                    $currentFolderName = $folder->name;
+                    break;
+                    }
+                    }
+                    @endphp
+                    <ul class="list-unstyled mb-0" style="font-size: 13px; color: var(--text2);">
+                        <li class="mb-3 d-flex justify-content-between border-bottom pb-2" style="border-color: var(--border) !important;"><strong>Created:</strong> <span>{{ $page->created_at->format('M d, Y') }}</span></li>
+                        <li class="mb-3 d-flex justify-content-between border-bottom pb-2" style="border-color: var(--border) !important;"><strong>Last Updated:</strong> <span>{{ $page->updated_at->format('M d, Y') }}</span></li>
+                        <li class="mb-3 d-flex justify-content-between border-bottom pb-2" style="border-color: var(--border) !important;"><strong>Location:</strong> <span class="badge bg-secondary">{{ $currentFolderName }}</span></li>
+                        <li class="d-flex justify-content-between text-success"><strong>Word Count:</strong> <span id="word-count-display"><i class="fa-solid fa-spinner fa-spin"></i></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Details Modal End -->
+
+    <!-- Page Move Modal Start -->
+    <div class="modal fade" id="moveToModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; background-color: var(--bg-color);">
+                <div class="modal-header border-0 pb-0">
+                    <h6 class="modal-title fw-bold" style="color: var(--text);"><i class="fa-solid fa-folder-tree me-2 text-muted"></i>Move Page</h6>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close" style="filter: var(--invert-icon); font-size: 10px;"></button>
+                </div>
+                <form id="moveToForm">
+                    <div class="modal-body px-4 py-4">
+                        <label class="form-label" style="font-size: 12px; color: var(--text3); font-weight: bold; text-transform: uppercase;">Select Destination</label>
+                        <select class="form-select shadow-none" id="moveFolderSelect" style="background-color: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-size: 14px; border-radius: 8px; cursor: pointer;">
+                            <option value="">📁 No Folder (Root)</option>
+                            @foreach($folders as $folder)
+                            <option value="{{ $folder->id }}" {{ $page->folder_id == $folder->id ? 'selected' : '' }}>📁 {{ $folder->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="modal-footer border-0 pt-0 pb-3">
+                        <button type="submit" class="btn w-100 fw-bold" style="background: var(--accent); color: #fff; font-size: 14px; border-radius: 8px; transition: 0.2s;">Confirm Move</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Page Move Modal End -->
+
+    <!-- Save Template Modal Start -->
+    <div class="modal fade" id="saveTemplateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; background-color: var(--bg-color);">
+                <div class="modal-header border-0 pb-0">
+                    <h6 class="modal-title fw-bold" style="color: var(--text);"><i class="fa-solid fa-layer-group me-2 text-muted"></i>Save as Template</h6>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close" style="filter: var(--invert-icon); font-size: 10px;"></button>
+                </div>
+                <form id="saveTemplateForm">
+                    <div class="modal-body px-4 py-4">
+                        <div class="mb-3">
+                            <label class="form-label" style="font-size: 12px; color: var(--text3); font-weight: bold; text-transform: uppercase;">Template Name</label>
+                            <input type="text" class="form-control shadow-none" id="templateNameInput" value="{{ $page->title }} (Template)" required style="background-color: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-size: 14px; border-radius: 8px;">
+                        </div>
+                        <div>
+                            <label class="form-label" style="font-size: 12px; color: var(--text3); font-weight: bold; text-transform: uppercase;">Note / Info (Optional)</label>
+                            <textarea class="form-control shadow-none" id="templateDescInput" rows="2" placeholder="e.g. Use this for weekly reports..." style="background-color: var(--bg-color); border: 1px solid var(--border); color: var(--text); font-size: 14px; border-radius: 8px;"></textarea>
+                            <small style="font-size: 11px; color: var(--text3);">*Notes will be saved inside the template content.</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0 pb-3">
+                        <button type="submit" class="btn w-100 fw-bold" style="background: var(--accent); color: #fff; font-size: 14px; border-radius: 8px; transition: 0.2s;">Save Template</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Save Template Modal End -->
+
 </main>
 
 <script>
@@ -1307,10 +678,30 @@
     });
 
     // ==========================================
-    // 5. Auto-Save & API Logic
+    // 5. Auto-Save & API Logic (Dynamic Status)
     // ==========================================
+    const statusText = document.getElementById('status-text');
+    const statusIcon = document.getElementById('status-icon');
+    const statusIndicator = document.getElementById('status-indicator');
+
+    function setStatus(state) {
+        if (state === 'saving') {
+            statusText.innerText = 'Saving...';
+            statusIcon.className = 'fa-solid fa-spinner fa-spin text-muted';
+            statusIndicator.style.background = 'var(--accent2)';
+        } else if (state === 'saved') {
+            statusText.innerText = 'Saved';
+            statusIcon.className = 'fa-solid fa-check text-success';
+            statusIndicator.style.background = 'var(--accent2)';
+        } else if (state === 'error') {
+            statusText.innerText = 'Save Failed';
+            statusIcon.className = 'fa-solid fa-circle-exclamation text-danger';
+            statusIndicator.style.background = '#ef444420';
+        }
+    }
+
     async function savePageData() {
-        document.getElementById('status-text').innerText = 'Saving...';
+        setStatus('saving');
         try {
             const savedData = await editor.save();
             const title = document.getElementById('page-title').value;
@@ -1319,20 +710,92 @@
                 content: JSON.stringify(savedData),
                 _token: "{{ csrf_token() }}"
             });
-            if (response.data.success) document.getElementById('status-text').innerText = 'All changes saved';
+            if (response.data.success) {
+                setTimeout(() => setStatus('saved'), 500);
+            }
         } catch (error) {
-            document.getElementById('status-text').innerText = 'Error saving';
+            setStatus('error');
         }
     }
 
+    // ==========================================
+    // 🔥 1. Auto-Save & Title Sync Logic 🔥
+    // ==========================================
     let titleSaveTimeout;
-    document.getElementById('page-title').addEventListener('input', () => {
-        document.getElementById('status-text').innerText = 'Saving...';
+    document.getElementById('page-title')?.addEventListener('input', function() {
+
+        const activeSidebarItems = document.querySelectorAll('.sidebar-menu-item.active .text-truncate');
+        activeSidebarItems.forEach(item => {
+            item.innerText = this.value || 'Untitled Page';
+        });
+
+        setStatus('saving');
         clearTimeout(titleSaveTimeout);
         titleSaveTimeout = setTimeout(() => {
             savePageData();
         }, 1000);
     });
+
+    // ==========================================
+    // 🔥 Dynamic Favorite & Real-Time Sidebar Logic 🔥
+    // ==========================================
+    document.getElementById('btn-favorite')?.addEventListener('click', async function() {
+        const icon = this.querySelector('i');
+        const isFavorited = this.getAttribute('data-favorited') === 'true';
+
+        const pageId = "{{ $page->id }}";
+        const pageTitle = document.getElementById('page-title').value || 'Untitled Page';
+        const editRoute = "{{ route('pages.edit', $page->id) }}";
+
+        const favList = document.getElementById('sidebar-favorites-list');
+        let noFavText = document.getElementById('no-favorites-text');
+
+        if (isFavorited) {
+            icon.classList.remove('fa-solid', 'text-warning');
+            icon.classList.add('fa-regular');
+            icon.style.transform = 'scale(1)';
+            this.setAttribute('data-favorited', 'false');
+
+            const existingItem = document.querySelector(`.sidebar-menu-item[data-fav-id="${pageId}"]`);
+            if (existingItem) existingItem.remove();
+
+            if (favList && favList.children.length === 0) {
+                favList.innerHTML = '<div class="ps-3 text-muted" id="no-favorites-text" style="font-size: 12px;">No favorites yet</div>';
+            }
+
+        } else {
+            icon.classList.remove('fa-regular');
+            icon.classList.add('fa-solid', 'text-warning');
+            icon.style.transform = 'scale(1.2)';
+            setTimeout(() => icon.style.transform = 'scale(1)', 200);
+            this.setAttribute('data-favorited', 'true');
+
+            if (noFavText) noFavText.remove();
+
+            if (favList && !document.querySelector(`.sidebar-menu-item[data-fav-id="${pageId}"]`)) {
+                const newItem = document.createElement('a');
+                newItem.href = editRoute;
+                newItem.className = 'sidebar-menu-item active';
+                newItem.setAttribute('data-fav-id', pageId);
+                newItem.innerHTML = `
+                    <i class="fa-solid fa-star text-warning"></i>
+                    <span class="text-truncate">${pageTitle}</span>
+                `;
+                favList.prepend(newItem);
+            }
+        }
+
+        // 2. API Call to backend
+        try {
+            await axios.post("{{ route('pages.favorite', $page->id) }}", {
+                is_favorite: !isFavorited,
+                _token: "{{ csrf_token() }}"
+            });
+        } catch (error) {
+            console.error('Favorite API failed. UI is out of sync.');
+        }
+    });
+
 
     document.getElementById('cover-input').addEventListener('change', async function() {
         if (!this.files || this.files.length === 0) return;
@@ -1474,6 +937,213 @@
                     closeMobileSidebar();
                 }
             });
+        }
+    });
+
+
+    // ==========================================
+    // 🔥 Share Modal & Copy Link Logic 🔥
+    // ==========================================
+    const publishToggle = document.getElementById('publishToggle');
+    const shareLinkContainer = document.getElementById('shareLinkContainer');
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const publicLinkInput = document.getElementById('publicLinkInput');
+    const copySuccessText = document.getElementById('copySuccessText');
+
+    publishToggle?.addEventListener('change', async function() {
+        const isPublished = this.checked;
+
+        // UI Update
+        if (isPublished) {
+            shareLinkContainer.style.opacity = '1';
+            shareLinkContainer.style.pointerEvents = 'auto';
+        } else {
+            shareLinkContainer.style.opacity = '0.4';
+            shareLinkContainer.style.pointerEvents = 'none';
+        }
+
+        // Backend Update (ভবিষ্যতের জন্য API রেডি রাখা হলো)
+        /*
+        try {
+            await axios.post("{{ route('pages.update', $page->id) }}", {
+                is_published: isPublished,
+                _token: "{{ csrf_token() }}"
+            });
+        } catch (error) {
+            console.error('Failed to update publish status');
+        }
+        */
+    });
+
+    copyLinkBtn?.addEventListener('click', function() {
+        // Copy to clipboard
+        navigator.clipboard.writeText(publicLinkInput.value).then(() => {
+            // Button Animation
+            const originalHtml = this.innerHTML;
+            this.innerHTML = '<i class="fa-solid fa-check text-success"></i> Copied';
+            copySuccessText.classList.remove('d-none');
+
+            setTimeout(() => {
+                this.innerHTML = originalHtml;
+                copySuccessText.classList.add('d-none');
+            }, 2000);
+        });
+    });
+
+    // ==========================================
+    // 🔥 Export as PDF Logic (Ultimate Fix) 🔥
+    // ==========================================
+    document.getElementById('exportPdfBtn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const btn = this;
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-muted"></i> Generating...';
+
+        const element = document.getElementById('printableArea');
+        const pageTitle = document.getElementById('page-title').value || 'Traders_SME_Document';
+
+        document.body.classList.add('exporting-pdf');
+
+        setTimeout(() => {
+            const opt = {
+                margin: [0.5, 0],
+                filename: pageTitle + '.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    windowWidth: 800,
+                    x: 0,
+                    y: 0,
+                    scrollY: 0
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                document.body.classList.remove('exporting-pdf');
+                btn.innerHTML = originalHtml;
+            }).catch(err => {
+                console.error("PDF Export Error:", err);
+                alert("Something went wrong while exporting PDF.");
+                document.body.classList.remove('exporting-pdf');
+                btn.innerHTML = originalHtml;
+            });
+
+        }, 300);
+    });
+
+    // ==========================================
+    // 🔥 Page Details & Word Count Logic 🔥
+    // ==========================================
+    const pageDetailsModal = document.getElementById('pageDetailsModal');
+    if (pageDetailsModal) {
+        pageDetailsModal.addEventListener('show.bs.modal', async function() {
+            const wordCountDisplay = document.getElementById('word-count-display');
+            wordCountDisplay.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+            try {
+                const savedData = await editor.save();
+                let text = '';
+
+                savedData.blocks.forEach(block => {
+                    if (block.type === 'paragraph' || block.type === 'header' || block.type === 'quote') {
+                        text += block.data.text + ' ';
+                    } else if (block.type === 'list') {
+                        text += block.data.items.join(' ') + ' ';
+                    }
+                });
+
+                const cleanText = text.replace(/<[^>]*>?/gm, '').trim();
+                const wordCount = cleanText ? cleanText.split(/\s+/).length : 0;
+
+                wordCountDisplay.innerText = wordCount + ' Words';
+            } catch (error) {
+                wordCountDisplay.innerText = 'Error';
+            }
+        });
+    }
+
+    // ==========================================
+    // 🔥 Move Page Logic 🔥
+    // ==========================================
+    document.getElementById('moveToForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const btn = this.querySelector('button[type="submit"]');
+        const originalText = btn.innerText;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Moving...';
+        btn.disabled = true;
+
+        const folderId = document.getElementById('moveFolderSelect').value;
+
+        try {
+            const response = await axios.post("{{ route('pages.move', $page->id) }}", {
+                folder_id: folderId,
+                _token: "{{ csrf_token() }}"
+            });
+
+            if (response.data.success) {
+                window.location.reload();
+            }
+        } catch (error) {
+            alert('Failed to move page. Please try again.');
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+    });
+
+    // ==========================================
+    // 🔥 Save as Template Logic (Smart Modal) 🔥
+    // ==========================================
+    document.getElementById('saveTemplateForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const btn = this.querySelector('button[type="submit"]');
+        const originalText = btn.innerText;
+
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+        btn.disabled = true;
+
+        const templateName = document.getElementById('templateNameInput').value;
+        const templateNote = document.getElementById('templateDescInput').value;
+
+        try {
+            const savedData = await editor.save();
+
+            if (templateNote.trim() !== '') {
+                savedData.blocks.unshift({
+                    type: "paragraph",
+                    data: {
+                        text: `<i><b>Template Note:</b> ${templateNote}</i>`
+                    }
+                });
+            }
+
+            const response = await axios.post("{{ route('pages.saveAsTemplate', $page->id) }}", {
+                title: templateName,
+                content: JSON.stringify(savedData),
+                _token: "{{ csrf_token() }}"
+            });
+
+            if (response.data.success) {
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Saved!';
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        } catch (error) {
+            alert('Failed to save template. Please try again.');
+            btn.innerHTML = originalText;
+            btn.disabled = false;
         }
     });
 </script>
