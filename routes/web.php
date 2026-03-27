@@ -9,6 +9,7 @@ use App\Http\Controllers\TradeLogController;
 use App\Http\Controllers\ChronologyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\CopyTraderController;
 
 // 🌐 Locale Switcher
 Route::get('locale/{lang}', function ($lang) {
@@ -78,8 +79,22 @@ Route::middleware('auth')->group(function () {
         Route::post('/pages/{id}/save-as-template', 'saveAsTemplate')->name('pages.saveAsTemplate'); // New route for saving page as template
     });
 
-    // 👥 Copy Trader & Settings
-    Route::view('/copy-trader', 'components.back-end.copy-trader')->name('admin.copy-trader');
+    // 👥 Copy Trader Routes
+    Route::prefix('copy-trader')->controller(CopyTraderController::class)->group(function () {
+
+        // Overview Page
+        Route::get('/', 'index')->name('admin.copy-trader');
+
+        // Connect & Global Config
+        Route::post('/connect', 'storeConnection')->name('copy-trader.connect');
+        Route::post('/risk-config', 'updateRiskConfig')->name('copy-trader.risk.update');
+
+        // Active Connections Management
+        Route::post('/connection/{id}/toggle', 'toggleConnection')->name('copy-trader.connection.toggle');
+        Route::post('/connection/{id}/update', 'updateConnection')->name('copy-trader.connection.update');
+        Route::delete('/connection/{id}', 'stopConnection')->name('copy-trader.connection.stop');
+    });
+
     Route::view('/settings', 'components.back-end.settings')->name('admin.settings');
 
     // 👤 Profile Management
