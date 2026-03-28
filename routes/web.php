@@ -10,6 +10,7 @@ use App\Http\Controllers\ChronologyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\CopyTraderController;
+use Illuminate\Support\Facades\Broadcast;
 
 // 🌐 Locale Switcher
 Route::get('locale/{lang}', function ($lang) {
@@ -93,6 +94,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/connection/{id}/toggle', 'toggleConnection')->name('copy-trader.connection.toggle');
         Route::post('/connection/{id}/update', 'updateConnection')->name('copy-trader.connection.update');
         Route::delete('/connection/{id}', 'stopConnection')->name('copy-trader.connection.stop');
+
+        // Masters List & Filtering
+        Route::get('/copy-trader/masters/filter', [CopyTraderController::class, 'filterMasters'])->name('copy-trader.masters.filter');
     });
 
     Route::view('/settings', 'components.back-end.settings')->name('admin.settings');
@@ -107,4 +111,8 @@ Route::middleware('auth')->group(function () {
     Route::controller(FolderController::class)->group(function () {
         Route::get('/folders/list', 'index')->name('folders.list');
     });
+
+    // 🌟 Websocket (Private Channel) authentication starting
+    Broadcast::routes();
+    require base_path('routes/channels.php');
 });

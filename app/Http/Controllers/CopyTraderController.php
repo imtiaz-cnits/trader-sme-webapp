@@ -63,6 +63,33 @@ class CopyTraderController extends Controller
         // Win Rate Calculation
         $winRate = $totalClosed > 0 ? round(($winTrades / $totalClosed) * 100) : 0;
 
+
+        // 6. Chart Data Calculation (Portfolio Growth)
+        $baseBalance = 100000 + $totalInvested;
+
+        $chartLabels = ['Start'];
+        $chartData = [$baseBalance];
+
+        $runningBalance = $baseBalance;
+
+        // Calculate the balance over time based on closed trades in chronological order
+        $closedTradesAsc = TradeHistory::where('user_id', $user->id)
+            ->where('status', 'closed')
+            ->orderBy('closed_at', 'asc')
+            ->get();
+
+        foreach ($closedTradesAsc as $trade) {
+            $runningBalance += $trade->net_profit;
+            $chartLabels[] = \Carbon\Carbon::parse($trade->closed_at)->format('M d, H:i');
+            $chartData[] = round($runningBalance, 2);
+        }
+
+        // Creating a point for the current floating P/L of open trades
+        $currentFloating = $openTrades->sum('net_profit');
+        $chartLabels[] = 'Now';
+        $chartData[] = round($runningBalance + $currentFloating, 2);
+
+
         // Return the view with all the data
         return view('components.back-end.copy-trader', compact(
             'masterTraders',
@@ -73,7 +100,9 @@ class CopyTraderController extends Controller
             'totalInvested',
             'totalNetProfit',
             'winRate',
-            'totalClosed'
+            'totalClosed',
+            'chartLabels',
+            'chartData'
         ));
     }
 
@@ -166,5 +195,43 @@ class CopyTraderController extends Controller
         $connection->delete();
 
         return response()->json(['success' => true, 'message' => 'Copy connection stopped permanently.']);
+    }
+
+    // ==========================================
+    // 6. Filter & Search Master Traders (AJAX)
+    // ==========================================
+    public function filterMasters(Request $request)
+    {
+        $query = MasterTrader::query();
+
+        // 1. Search by name
+        if ($request->has('search') && !empty($request->search)) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        // 2. Filter and Sort
+        $sort = $request->sort ?? 'Top Performers';
+        switch ($sort) {
+            case 'Lowest Risk':
+                $query->orderBy('risk_score', 'asc');
+                break;
+            case 'Most Copiers':
+                $query->orderBy('followers_count', 'desc');
+                break;
+            case 'New & Trending':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'Top Performers':
+            default:
+                $query->orderBy('monthly_roi', 'desc');
+                break;
+        }
+
+        $masters = $query->get();
+
+        return response()->json([
+            'success' => true,
+            'masters' => $masters
+        ]);
     }
 }

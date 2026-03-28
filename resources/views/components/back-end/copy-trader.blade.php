@@ -262,78 +262,58 @@
             <div id="tab-discover" class="tab-pane-custom d-none">
 
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-4 gap-3">
-                    <div class="input-group"
-                        style="max-width: 350px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--bg-color);">
-                        <span class="input-group-text bg-transparent border-0" style="color: var(--text3);"><i
-                                class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" class="form-control border-0 shadow-none" placeholder="Search masters..."
-                            style="background: transparent; color: var(--text); font-size: 14px;">
+                    <div class="input-group" style="max-width: 350px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--bg-color);">
+                        <span class="input-group-text bg-transparent border-0" style="color: var(--text3);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" id="searchMasterInput" class="form-control border-0 shadow-none" placeholder="Search masters..." style="background: transparent; color: var(--text); font-size: 14px;">
                     </div>
 
-                    <select class="form-select shadow-none"
-                        style="width: auto; background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px;">
-                        <option>Top Performers</option>
-                        <option>Lowest Risk</option>
-                        <option>Most Copiers</option>
-                        <option>New & Trending</option>
+                    <select id="sortMasterSelect" class="form-select shadow-none" style="width: auto; background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px;">
+                        <option value="Top Performers">Top Performers</option>
+                        <option value="Lowest Risk">Lowest Risk</option>
+                        <option value="Most Copiers">Most Copiers</option>
+                        <option value="New & Trending">New & Trending</option>
                     </select>
                 </div>
 
-                <div class="row g-4 mb-5">
+                <div class="row g-4 mb-5" id="mastersContainer">
                     @forelse($masterTraders as $master)
                     <div class="col-12 col-md-6 col-xl-4">
-                        <div class="folder-card p-4 h-100 d-flex flex-column justify-content-between"
-                            style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; transition: 0.3s; cursor: pointer;">
+                        <div class="folder-card p-4 h-100 d-flex flex-column justify-content-between" style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; transition: 0.3s; cursor: pointer;">
                             <div>
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div class="d-flex align-items-center gap-3">
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($master->name) }}&background={{ $master->avatar_bg_color }}&color=fff"
-                                            alt="Avatar" style="width: 48px; height: 48px; border-radius: 50%;">
+                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($master->name) }}&background={{ $master->avatar_bg_color }}&color=fff" alt="Avatar" style="width: 48px; height: 48px; border-radius: 50%;">
                                         <div>
                                             <h5 class="m-0 fw-bold" style="color: var(--text); font-size: 16px;">{{ $master->name }}
                                                 @if($master->is_verified)
-                                                <i class="fa-solid fa-circle-check ms-1" style="color: #3b82f6; font-size: 13px;"
-                                                    title="Verified Master"></i>
+                                                <i class="fa-solid fa-circle-check ms-1" style="color: #3b82f6; font-size: 13px;" title="Verified Master"></i>
                                                 @endif
                                             </h5>
-                                            <span style="font-size: 12px; color: var(--text3);">Since {{
-                                    \Carbon\Carbon::parse($master->since_date)->format('M Y') }}</span>
+                                            <span style="font-size: 12px; color: var(--text3);">Since {{ \Carbon\Carbon::parse($master->since_date)->format('M Y') }}</span>
                                         </div>
                                     </div>
-                                    <span
-                                        style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">Risk:
-                                        {{ $master->risk_score }}/10</span>
+                                    <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">Risk: {{ $master->risk_score }}/10</span>
                                 </div>
 
                                 <div class="row g-2 mb-3">
                                     <div class="col-6">
                                         <div class="p-2 rounded text-center" style="background: var(--accent2);">
-                                            <p class="m-0"
-                                                style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">
-                                                Monthly ROI</p>
-                                            <h4 class="m-0 fw-bold mt-1" style="color: #10b981; font-size: 18px;">+{{
-                                    $master->monthly_roi }}%</h4>
+                                            <p class="m-0" style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">Monthly ROI</p>
+                                            <h4 class="m-0 fw-bold mt-1" style="color: #10b981; font-size: 18px;">+{{ $master->monthly_roi }}%</h4>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="p-2 rounded text-center" style="background: var(--accent2);">
-                                            <p class="m-0"
-                                                style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">
-                                                Followers</p>
-                                            <h4 class="m-0 fw-bold mt-1" style="color: var(--text); font-size: 18px;">{{
-                                    number_format($master->followers_count) }}</h4>
+                                            <p class="m-0" style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">Followers</p>
+                                            <h4 class="m-0 fw-bold mt-1" style="color: var(--text); font-size: 18px;">{{ number_format($master->followers_count) }}</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3"
-                                style="border-top: 1px dashed var(--border);">
-                                <span style="font-size: 13px; color: var(--text3); font-weight: 500;">Win Rate: <strong
-                                        style="color: var(--text);">{{ $master->win_rate }}%</strong></span>
-                                <button class="btn btn-sm px-4 fw-bold"
-                                    onclick="openCopyModal({{ $master->id }}, '{{ addslashes($master->name) }}', '{{ $master->avatar_bg_color }}')"
-                                    style="background: var(--accent); color: var(--text7); border-radius: 8px; font-size: 13px; border: none; transition: 0.2s;">
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top: 1px dashed var(--border);">
+                                <span style="font-size: 13px; color: var(--text3); font-weight: 500;">Win Rate: <strong style="color: var(--text);">{{ $master->win_rate }}%</strong></span>
+                                <button class="btn btn-sm px-4 fw-bold" onclick="openCopyModal({{ $master->id }}, '{{ addslashes($master->name) }}', '{{ $master->avatar_bg_color }}')" style="background: var(--accent); color: var(--text7); border-radius: 8px; font-size: 13px; border: none; transition: 0.2s;">
                                     Copy Now
                                 </button>
                             </div>
@@ -342,7 +322,6 @@
                     @empty
                     <div class="col-12 text-center text-muted py-5">No master traders available.</div>
                     @endforelse
-
                 </div>
             </div>
             <!-- Discover Tab End -->
@@ -820,6 +799,9 @@
         if (canvas) {
             const ctx = canvas.getContext('2d');
 
+            const dynamicLabels = @json($chartLabels);
+            const dynamicData = @json($chartData);
+
             // Read CSS Variables from DOM
             const style = getComputedStyle(document.body);
             const accentColor = style.getPropertyValue('--accent').trim() || '#1d5053';
@@ -834,10 +816,10 @@
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', 'Now'],
+                    labels: dynamicLabels, // 🌟 Updated
                     datasets: [{
                         label: 'Account Equity',
-                        data: [101200, 101500, 101300, 101800, 102100, 102350, 102450],
+                        data: dynamicData, // 🌟 Updated
                         borderColor: accentColor,
                         backgroundColor: gradient,
                         borderWidth: 2,
@@ -854,6 +836,14 @@
                     plugins: {
                         legend: {
                             display: false
+                        },
+                        // 🌟 টুলটিপে $ সাইন দেখানোর জন্য 🌟
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' Balance: $' + context.parsed.y.toLocaleString();
+                                }
+                            }
                         }
                     },
                     scales: {
@@ -884,7 +874,6 @@
             });
         }
     });
-
 
     // ==========================================
     // 🔥 Dynamic Modal Trigger Logic 🔥
@@ -1048,5 +1037,209 @@
             }
         }
     }
+</script>
+
+
+@php
+$currentUserId = auth()->id() ?? \App\Models\User::first()->id ?? 1;
+@endphp
+
+<script>
+    // 🌟 Laravel Reverb / Echo Setup 🌟
+    const authUserId = @json($currentUserId);
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        console.log("Echo Status:", typeof window.Echo !== 'undefined' ? "Active" : "Not Found");
+
+        if (typeof window.Echo !== 'undefined') {
+
+            window.Echo.private(`user.${authUserId}`)
+                .listen('.trade.updated', (e) => {
+                    console.log('🔥 Real-time update received!', e);
+                    const trade = e.trade;
+
+                    if (e.action === 'open') {
+                        showLiveToast('success', `🚀 New Trade Opened: ${trade.symbol} ${trade.type} by Master!`);
+                        insertOpenTradeRow(trade);
+                    } else if (e.action === 'close') {
+                        const profit = parseFloat(trade.net_profit);
+                        const profitColor = profit >= 0 ? 'success' : 'danger';
+                        const profitSign = profit >= 0 ? '+' : '';
+
+                        showLiveToast(profitColor, `💰 Trade Closed: ${trade.symbol} (${profitSign}$${profit.toFixed(2)})`);
+
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2500);
+                    }
+                });
+        }
+    });
+
+    // ==========================================
+    // 🌟 Helper: Insert Open Trade Row 🌟
+    // ==========================================
+    function insertOpenTradeRow(trade) {
+        const tables = document.querySelectorAll('#tab-overview table tbody');
+        if (tables.length < 2) return;
+        const tbody = tables[1];
+
+        const emptyRow = tbody.querySelector('td[colspan="6"]');
+        if (emptyRow) emptyRow.parentElement.remove();
+
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid var(--border)';
+
+        const typeColor = trade.type === 'BUY' ? '#10b981' : '#ef4444';
+
+        tr.innerHTML = `
+            <td class="text-start fw-bold" style="color: var(--text);">${trade.symbol}</td>
+            <td><span style="color: ${typeColor}; font-weight: 600;">${trade.type}</span></td>
+            <td style="color: var(--text2);">${parseFloat(trade.entry_price).toFixed(5)}</td>
+            <td style="color: var(--text);">${parseFloat(trade.entry_price).toFixed(5)}</td>
+            <td style="color: var(--text);">${trade.lot}</td>
+            <td><span style="color: #10b981; font-weight: 600;">+$0.00</span></td>
+        `;
+
+        tr.style.backgroundColor = 'rgba(16, 185, 129, 0.2)';
+        tr.style.transition = 'background-color 1.5s ease';
+
+        tbody.prepend(tr);
+
+        setTimeout(() => {
+            tr.style.backgroundColor = 'transparent';
+        }, 1500);
+    }
+
+    // ==========================================
+    // 🌟 Helper: Show Live Toast 🌟
+    // ==========================================
+    function showLiveToast(type, message) {
+        const bg = type === 'success' ? '#10b981' : '#ef4444';
+        const toast = document.createElement('div');
+
+        toast.style.position = 'fixed';
+        toast.style.bottom = '30px';
+        toast.style.right = '30px';
+        toast.style.backgroundColor = bg;
+        toast.style.color = '#fff';
+        toast.style.padding = '14px 24px';
+        toast.style.borderRadius = '8px';
+        toast.style.boxShadow = '0 10px 20px rgba(0,0,0,0.15)';
+        toast.style.zIndex = '9999';
+        toast.style.fontWeight = '600';
+        toast.style.fontSize = '14px';
+        toast.style.transform = 'translateY(100px)';
+        toast.style.opacity = '0';
+        toast.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        toast.innerHTML = message;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+        }, 100);
+
+        setTimeout(() => {
+            toast.style.transform = 'translateY(100px)';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 400);
+        }, 4000);
+    }
+
+    // ==========================================
+    // 🔥 AJAX: Search & Filter Master Traders 🔥
+    // ==========================================
+    const searchMasterInput = document.getElementById('searchMasterInput');
+    const sortMasterSelect = document.getElementById('sortMasterSelect');
+    const mastersContainer = document.getElementById('mastersContainer');
+
+    const fetchFilteredMasters = async () => {
+        const search = searchMasterInput.value;
+        const sort = sortMasterSelect.value;
+
+        mastersContainer.style.opacity = '0.5';
+
+        try {
+            const response = await axios.get("{{ route('copy-trader.masters.filter') }}", {
+                params: {
+                    search: search,
+                    sort: sort
+                }
+            });
+
+            if (response.data.success) {
+                renderMasters(response.data.masters);
+            }
+        } catch (error) {
+            console.error("Failed to fetch masters data", error);
+        } finally {
+            mastersContainer.style.opacity = '1';
+        }
+    };
+
+    if (searchMasterInput) searchMasterInput.addEventListener('input', fetchFilteredMasters);
+    if (sortMasterSelect) sortMasterSelect.addEventListener('change', fetchFilteredMasters);
+
+    const renderMasters = (masters) => {
+        if (masters.length === 0) {
+            mastersContainer.innerHTML = `<div class="col-12 text-center text-muted py-5">No master traders found matching your criteria.</div>`;
+            return;
+        }
+
+        const formatDate = (dateString) => {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short'
+            });
+        };
+
+        mastersContainer.innerHTML = masters.map(master => {
+            const verifiedBadge = master.is_verified ? `<i class="fa-solid fa-circle-check ms-1" style="color: #3b82f6; font-size: 13px;" title="Verified Master"></i>` : '';
+            const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(master.name)}&background=${master.avatar_bg_color || '000'}&color=fff`;
+
+            return `
+            <div class="col-12 col-md-6 col-xl-4">
+                <div class="folder-card p-4 h-100 d-flex flex-column justify-content-between" style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; transition: 0.3s; cursor: pointer;">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="${avatarUrl}" alt="Avatar" style="width: 48px; height: 48px; border-radius: 50%;">
+                                <div>
+                                    <h5 class="m-0 fw-bold" style="color: var(--text); font-size: 16px;">${master.name} ${verifiedBadge}</h5>
+                                    <span style="font-size: 12px; color: var(--text3);">Since ${formatDate(master.since_date)}</span>
+                                </div>
+                            </div>
+                            <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">Risk: ${master.risk_score}/10</span>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <div class="p-2 rounded text-center" style="background: var(--accent2);">
+                                    <p class="m-0" style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">Monthly ROI</p>
+                                    <h4 class="m-0 fw-bold mt-1" style="color: #10b981; font-size: 18px;">+${master.monthly_roi}%</h4>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded text-center" style="background: var(--accent2);">
+                                    <p class="m-0" style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">Followers</p>
+                                    <h4 class="m-0 fw-bold mt-1" style="color: var(--text); font-size: 18px;">${Number(master.followers_count).toLocaleString()}</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top: 1px dashed var(--border);">
+                        <span style="font-size: 13px; color: var(--text3); font-weight: 500;">Win Rate: <strong style="color: var(--text);">${master.win_rate}%</strong></span>
+                        <button class="btn btn-sm px-4 fw-bold" onclick="openCopyModal(${master.id}, '${master.name.replace(/'/g, "\\'")}', '${master.avatar_bg_color}')" style="background: var(--accent); color: var(--text7); border-radius: 8px; font-size: 13px; border: none; transition: 0.2s;">
+                            Copy Now
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+        }).join('');
+    };
 </script>
 @endsection
