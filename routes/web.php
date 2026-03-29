@@ -10,6 +10,7 @@ use App\Http\Controllers\ChronologyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\CopyTraderController;
+// use App\Http\Controllers\ForgotPasswordController; // Optional here if using closure
 use Illuminate\Support\Facades\Broadcast;
 
 // 🌐 Locale Switcher
@@ -24,12 +25,17 @@ Route::get('locale/{lang}', function ($lang) {
 Route::view('/', 'components.front-end.home-page');
 
 // 🔐 Authentication
-Route::get('/login-page', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login-page', [AuthController::class, 'showLoginForm'])->name('login.page'); // Named route updated for back button
 Route::post('/login-page', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register-page', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register-page', [RegisterController::class, 'register']);
+
+// ✅ FIX: Changed from POST to GET to display the view in the browser
+Route::get('/forgot-password', function () {
+    return view('components.front-end.auth.forgot-password');
+})->name('password.request');
 
 // 🛡️ Admin Protected Routes
 Route::middleware('auth')->group(function () {

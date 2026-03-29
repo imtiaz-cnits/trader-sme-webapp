@@ -7,22 +7,31 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        $loginValue = $request->input('email');
+        $password = $request->input('password');
+        $remember = $request->has('remember');
 
-        if (!Auth::attempt($credentials)) {
+        if (empty($loginValue) || empty($password)) {
+            return response()->json(['status' => 'error', 'message' => 'Please provide credentials.'], 400);
+        }
+
+        $fieldType = filter_var($loginValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $credentials = [
+            $fieldType => $loginValue,
+            'password' => $password
+        ];
+
+        if (!Auth::attempt($credentials, $remember)) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Invalid login credentials.'
             ], 401);
         }
 
-        $request->session()->regenerate(); // Important for session security
+        $request->session()->regenerate();
 
         return response()->json([
             'status' => 'success',
@@ -33,16 +42,14 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('components.front-end.auth.registration-form'); // Update path to match your actual view file location
+        return view('components.front-end.auth.registration-form', ['form' => 'login']);
     }
-
 
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return response()->json(['success' => true]);
     }
 }

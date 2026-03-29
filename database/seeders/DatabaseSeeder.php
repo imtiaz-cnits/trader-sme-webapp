@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'username' => 'testuser123',
+            // 'password' => bcrypt('password'), // (যদি আগে থেকে থাকে)
         ]);
     }
 }

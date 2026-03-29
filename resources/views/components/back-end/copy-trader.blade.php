@@ -25,10 +25,12 @@
                     <i class="fa-solid fa-chart-pie"></i>
                     <span class="text-truncate">Overview</span>
                 </a>
+
                 <a href="#" class="sidebar-menu-item mb-2" data-target="tab-discover">
                     <i class="fa-solid fa-compass"></i>
                     <span class="text-truncate">Discover Masters</span>
                 </a>
+
                 <a href="#" class="sidebar-menu-item mb-2" data-target="tab-connections">
                     <i class="fa-solid fa-link"></i>
                     <span class="text-truncate">Active Connections</span>
@@ -41,10 +43,13 @@
                     <i class="fa-solid fa-shield-halved"></i>
                     <span class="text-truncate">Risk Config</span>
                 </a>
+
+                @role('master')
                 <a href="#" class="sidebar-menu-item mb-2" data-target="tab-webhook">
                     <i class="fa-solid fa-satellite-dish"></i>
                     <span class="text-truncate">Signal Setup</span>
                 </a>
+                @endrole
             </div>
         </div>
         <!-- Sidebar End -->
@@ -822,7 +827,7 @@
                             <div class="mb-4">
                                 <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Your Secret Master Token</label>
                                 <div class="input-group">
-                                    <input type="password" id="webhookToken" class="form-control shadow-none" value="{{ auth()->user()->webhook_token ?? $user->webhook_token }}" readonly style="background: var(--accent2); border: 1px solid var(--border); color: var(--text); font-family: monospace; font-size: 14px;">
+                                    <input type="password" id="webhookToken" class="form-control shadow-none" value="{{ $myMasterProfile ? $myMasterProfile->webhook_token : 'Not a Master Trader' }}" readonly style="background: var(--accent2); border: 1px solid var(--border); color: var(--text); font-family: monospace; font-size: 14px;">
                                     <button class="btn border shadow-none px-3" onclick="togglePasswordVisibility('webhookToken', this)" style="background: var(--bg-color); color: var(--text); border-color: var(--border)!important;">
                                         <i class="fa-regular fa-eye"></i>
                                     </button>
@@ -840,9 +845,9 @@
                                         <i class="fa-regular fa-copy"></i> Copy Code
                                     </button>
                                 </div>
-                                <textarea id="webhookJson" class="form-control shadow-none" rows="8" readonly style="...">
+                                <textarea id="webhookJson" class="form-control shadow-none" rows="8" readonly style="background: var(--accent2); border: 1px solid var(--border); color: var(--text); font-family: monospace; font-size: 14px; resize: none;">
                                     {
-                                    "master_token": "{{ auth()->user()->webhook_token ?? $user->webhook_token }}",
+                                    "master_token": "{{ $myMasterProfile ? $myMasterProfile->webhook_token : 'YOUR_MASTER_TOKEN_HERE' }}",
                                     "action": "open",
                                     "symbol": "@{{ticker}}",
                                     "type": "BUY",

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('icon')->nullable();
             $table->longText('content')->nullable();
             $table->boolean('is_template')->default(false);
+            $table->boolean('is_favorite')->default(false);
             $table->timestamps();
         });
     }

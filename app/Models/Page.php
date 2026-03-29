@@ -16,7 +16,8 @@ class Page extends Model
         'cover_image',
         'icon',
         'content',
-        'is_template'
+        'is_template',
+        'is_favorite',
     ];
 
     public function folder()

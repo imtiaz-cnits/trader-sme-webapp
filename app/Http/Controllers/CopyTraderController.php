@@ -21,7 +21,19 @@ class CopyTraderController extends Controller
             abort(403, 'No user found in the database. Please run migrations and seeders.');
         }
 
-        // Auto-generate Webhook Token if not exists
+        // ==========================================
+        // NEW LOGIC: Master Trader Profile & Token
+        // ==========================================
+        // Fetch the Master Trader profile associated with the logged-in user
+        $myMasterProfile = MasterTrader::where('user_id', $user->id)->first();
+
+        // If the user is a Master Trader and doesn't have a webhook token, generate one
+        if ($myMasterProfile && empty($myMasterProfile->webhook_token)) {
+            $myMasterProfile->webhook_token = 'master_' . \Illuminate\Support\Str::random(35);
+            $myMasterProfile->save();
+        }
+
+        // Auto-generate Webhook Token for the regular User (if not exists)
         if (empty($user->webhook_token)) {
             $user->webhook_token = 'tsme_' . \Illuminate\Support\Str::random(40);
             $user->save();
@@ -109,7 +121,8 @@ class CopyTraderController extends Controller
             'winRate',
             'totalClosed',
             'chartLabels',
-            'chartData'
+            'chartData',
+            'myMasterProfile' // Passing the Master Trader profile to the view
         ));
     }
 

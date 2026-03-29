@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Models\User;
+use App\Models\MasterTrader;
 
 class VerifyWebhookSecurity
 {
@@ -20,25 +21,26 @@ class VerifyWebhookSecurity
 
     public function handle(Request $request, Closure $next): Response
     {
-        // 1. IP Whitelisting Check
+        // 1. Check IP Address
         if (!in_array($request->ip(), $this->allowedIps)) {
-            return response()->json(['error' => 'Unauthorized IP Address. Access Denied.'], 403);
+            return response()->json(['error' => 'Unauthorized IP'], 403);
         }
 
-        // 2. Token Check
+        // 2. Check for Master Token in the Request
         $token = $request->input('master_token');
         if (!$token) {
             return response()->json(['error' => 'Master token is missing.'], 401);
         }
 
-        // 3. Find User by Token
-        $masterUser = User::where('webhook_token', $token)->first();
-        if (!$masterUser) {
+        // 3. Validate the Master Token
+        $master = \App\Models\MasterTrader::where('webhook_token', $token)->first();
+
+        if (!$master) {
             return response()->json(['error' => 'Invalid Master Token.'], 401);
         }
 
-        // 4. Merge User Object with Request for Controller Access (so we can identify which user is sending the webhook)
-        $request->merge(['master_user' => $masterUser]);
+        // 4. Attach Master Trader to the Request for Controller Use
+        $request->merge(['master_trader' => $master]);
 
         return $next($request);
     }

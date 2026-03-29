@@ -32,7 +32,7 @@ class TradeExecutionService
         // 3. Process trade for each user (The Core Loop)
         foreach ($activeConnections as $connection) {
             $userId = $connection->user_id;
-            $user = User::find($userId); // 🌟 Fetch the user to check balance
+            $user = User::find($userId);
 
             if (!$user) {
                 $skippedCount++;
@@ -41,28 +41,24 @@ class TradeExecutionService
 
             $riskConfig = UserRiskConfig::where('user_id', $userId)->first();
 
-            // Risk Check 1: Max Open Positions
             $currentOpenPositions = TradeHistory::where('user_id', $userId)->where('status', 'open')->count();
             if ($riskConfig && $currentOpenPositions >= $riskConfig->max_open_positions) {
                 $skippedCount++;
-                continue; // User has reached max open positions limit
+                continue;
             }
 
-            // 4. Lot Size Calculation (Based on Multiplier)
             preg_match('/([0-9.]+)/', $connection->multiplier, $matches);
             $multiplierValue = isset($matches[1]) ? (float) $matches[1] : 1.0;
             $followerLot = $masterLot * $multiplierValue;
 
-            // Risk Check 2: Required Margin (Simplified: $1000 margin per 1 lot)
             $requiredMargin = $followerLot * 1000;
 
-            // 🌟 Balance Check 🌟
             if ($user->balance < $requiredMargin) {
                 $skippedCount++;
-                continue; // User does not have enough balance to cover the margin
+                continue;
             }
 
-            // 5. Execute trade for the user (Save to database)
+            // 5. Execute trade for the user
             $trade = TradeHistory::create([
                 'user_id' => $userId,
                 'master_trader_id' => $masterId,
@@ -76,7 +72,7 @@ class TradeExecutionService
 
             event(new TradeUpdated($userId, $trade, 'open'));
 
-            // 6. Send Notification to User about the new trade
+            // 6. Send Notification to Follower
             $tradeData = [
                 'action' => 'open',
                 'type' => strtoupper($type),
@@ -87,7 +83,7 @@ class TradeExecutionService
             ];
             $user->notify(new TradeExecutedNotification($tradeData));
 
-            // Also send notification to Master Trader about the new follower trade
+            // Also send notification to Master Trader
             $masterNotificationData = [
                 'action' => 'open',
                 'type' => strtoupper($type),
@@ -96,7 +92,8 @@ class TradeExecutionService
                 'price' => $entryPrice,
                 'net_profit' => 0
             ];
-            $masterUser = User::find($masterId);
+
+            $masterUser = User::find($master->user_id);
             if ($masterUser) {
                 $masterUser->notify(new TradeExecutedNotification($masterNotificationData));
             }
@@ -117,7 +114,6 @@ class TradeExecutionService
             return ['success' => false, 'message' => 'Master Trader not found!'];
         }
 
-        // Find all open trades for this master and symbol
         $openTrades = TradeHistory::where('master_trader_id', $masterId)
             ->where('symbol', $symbol)
             ->where('status', 'open')
@@ -146,16 +142,13 @@ class TradeExecutionService
                 $connection->increment('net_profit', $followerNetProfit);
             }
 
-            // 🌟 Update user's wallet balance 🌟
             $user = User::find($trade->user_id);
             if ($user) {
-                // Profit adds to balance, Loss subtracts from balance
                 $user->increment('balance', $followerNetProfit);
             }
 
             event(new TradeUpdated($trade->user_id, $trade, 'close'));
 
-            // Send Notification to User about the closed trade
             $tradeData = [
                 'action' => 'close',
                 'type' => $trade->type,
@@ -166,7 +159,6 @@ class TradeExecutionService
             ];
             $user->notify(new TradeExecutedNotification($tradeData));
 
-            // Also send notification to Master Trader about the closed follower trade
             $masterNotificationData = [
                 'action' => 'close',
                 'type' => 'SYSTEM',
@@ -175,7 +167,8 @@ class TradeExecutionService
                 'price' => $closePrice,
                 'net_profit' => $masterNetProfit
             ];
-            $masterUser = User::find($masterId);
+
+            $masterUser = User::find($master->user_id);
             if ($masterUser) {
                 $masterUser->notify(new TradeExecutedNotification($masterNotificationData));
             }
