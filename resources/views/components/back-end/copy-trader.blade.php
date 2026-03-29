@@ -13,11 +13,13 @@
         <div class="chronology-sidebar pt-4" id="copyTraderSidebar">
             <div class="d-flex justify-content-between align-items-center d-xl-none mb-4 px-2">
                 <h5 class="m-0 fw-bold dashboard-title" style="color: var(--text);">Copy Trader</h5>
-                <button class="btn-close shadow-none" id="mobileSidebarClose" style="filter: var(--invert-icon);"></button>
+                <button class="btn-close shadow-none" id="mobileSidebarClose"
+                    style="filter: var(--invert-icon);"></button>
             </div>
 
             <div class="mb-4">
-                <h6 class="mb-2 ps-2" style="color: var(--text3); font-size: 12px; font-weight: 700; text-transform: uppercase;">Menu</h6>
+                <h6 class="mb-2 ps-2"
+                    style="color: var(--text3); font-size: 12px; font-weight: 700; text-transform: uppercase;">Menu</h6>
 
                 <a href="#" class="sidebar-menu-item mb-2 active" data-target="tab-overview">
                     <i class="fa-solid fa-chart-pie"></i>
@@ -39,28 +41,71 @@
                     <i class="fa-solid fa-shield-halved"></i>
                     <span class="text-truncate">Risk Config</span>
                 </a>
+                <a href="#" class="sidebar-menu-item mb-2" data-target="tab-webhook">
+                    <i class="fa-solid fa-satellite-dish"></i>
+                    <span class="text-truncate">Signal Setup</span>
+                </a>
             </div>
         </div>
         <!-- Sidebar End -->
 
         <div class="flex-grow-1 editor-main-area pt-4">
 
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
+            <div
+                class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
                 <div class="d-flex align-items-center gap-3">
-                    <button class="btn shadow-none d-xl-none px-2 py-1" id="mobileSidebarToggle" style="border: 1px solid var(--border); color: var(--text); background: var(--bg-color);">
+                    <button class="btn shadow-none d-xl-none px-2 py-1" id="mobileSidebarToggle"
+                        style="border: 1px solid var(--border); color: var(--text); background: var(--bg-color);">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                     <div>
-                        <h2 class="dashboard-title m-0" id="main-page-title" style="font-size: 24px; font-weight: 700;">Portfolio Overview</h2>
-                        <p style="color: var(--text3); font-size: 14px; margin-bottom: 0;" id="main-page-desc">Manage your active copy trading portfolio.</p>
+                        <h2 class="dashboard-title m-0" id="main-page-title" style="font-size: 24px; font-weight: 700;">
+                            Portfolio Overview</h2>
+                        <p style="color: var(--text3); font-size: 14px; margin-bottom: 0;" id="main-page-desc">Manage
+                            your active copy trading portfolio.</p>
                     </div>
                 </div>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="dropdown me-2">
+                        <button class="btn border-0 shadow-none position-relative mt-1" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" onclick="markNotificationsAsRead()">
+                            <i class="fa-regular fa-bell" style="font-size: 20px; color: var(--text);"></i>
+
+                            @if(auth()->user()->unreadNotifications->count() > 0)
+                            <span class="position-absolute translate-middle badge rounded-pill bg-danger" id="notificationBadge" style="top: 8px; right: -5px; font-size: 10px;">
+                                {{ auth()->user()->unreadNotifications->count() }}
+                            </span>
+                            @endif
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="notificationDropdown" style="width: 320px; background: var(--bg-color); border-radius: 12px; padding: 0; z-index: 1050;">
+                            <div class="p-3 border-bottom" style="border-color: var(--border)!important;">
+                                <h6 class="m-0 fw-bold" style="color: var(--text);">Notifications</h6>
+                            </div>
+                            <div style="max-height: 350px; overflow-y: auto;">
+                                @forelse(auth()->user()->notifications->take(10) as $notification)
+                                <li class="p-3 border-bottom" style="border-color: var(--border)!important; background: {{ $notification->read_at === null ? 'var(--accent2)' : 'transparent' }};">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div style="width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: {{ $notification->data['action'] === 'open' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(16, 185, 129, 0.1)' }}; flex-shrink: 0;">
+                                            <i class="fa-solid fa-{{ $notification->data['action'] === 'open' ? 'bolt text-primary' : 'check text-success' }}"></i>
+                                        </div>
+                                        <div>
+                                            <p class="m-0" style="font-size: 13px; font-weight: 600; color: var(--text);">{{ $notification->data['message'] }}</p>
+                                            <small style="font-size: 11px; color: var(--text3);">{{ $notification->created_at->diffForHumans() }}</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                @empty
+                                <li class="p-4 text-center text-muted" style="font-size: 13px;">No new notifications</li>
+                                @endforelse
+                            </div>
+                        </ul>
+                    </div>
                     <button class="btn d-flex align-items-center gap-2" style="padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; background: transparent; color: var(--text); border: 1px solid var(--border); transition: 0.3s;">
                         <i class="fa-solid fa-gear"></i> Config
                     </button>
-                    <button class="btn d-flex align-items-center gap-2" style="background-color: var(--accent); color: var(--text7); border: none; padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: 0.3s;">
+                    <button class="btn d-flex align-items-center gap-2"
+                        style="background-color: var(--accent); color: var(--text7); border: none; padding: 8px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; transition: 0.3s;">
                         <i class="fa-solid fa-play"></i> System Active
                     </button>
                 </div>
@@ -73,12 +118,14 @@
                         <div class="card-item w-100 mt-0"
                             style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">Master Account</h3>
+                                <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">Master
+                                    Account</h3>
                                 <span
                                     style="background: var(--accent2); color: var(--accent); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; border: 1px solid var(--accent);">LIVE</span>
                             </div>
                             <div>
-                                <p style="font-size: 20px; font-weight: bold; color: var(--text); margin: 0;">Alpha Main</p>
+                                <p style="font-size: 20px; font-weight: bold; color: var(--text); margin: 0;">Alpha Main
+                                </p>
                                 <p style="font-size: 14px; color: var(--text3); margin: 0;">Broker: FTMO • #882910</p>
                             </div>
                         </div>
@@ -88,14 +135,18 @@
                         <div class="card-item w-100 mt-0"
                             style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">Total Balance</h3>
-                                <span><i class="fa-solid fa-wallet" style="color: var(--text3); font-size: 18px;"></i></span>
+                                <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">Total
+                                    Balance</h3>
+                                <span><i class="fa-solid fa-wallet"
+                                        style="color: var(--text3); font-size: 18px;"></i></span>
                             </div>
                             <div>
-                                <p style="font-size: 20px; font-weight: bold; color: var(--text); margin: 0;">${{
-                        number_format(100000 + $totalInvested + $totalNetProfit, 2) }}</p>
-                                <p style="font-size: 14px; color: var(--accent); margin: 0; font-weight: 500;">{{ $totalNetProfit >=
-                        0 ? '+' : '' }} ${{ number_format($totalNetProfit, 2) }} Total P/L</p>
+                                <p style="font-size: 20px; font-weight: bold; color: var(--text); margin: 0;">
+                                    ${{ number_format(auth()->user()->balance, 2) }}</p>
+                                <p style="font-size: 14px; color: var(--accent); margin: 0; font-weight: 500;">
+                                    {{ $totalNetProfit >= 0 ? '+' : '' }}
+                                    ${{ number_format($totalNetProfit, 2) }} Total P/L
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -104,12 +155,14 @@
                         <div class="card-item w-100 mt-0"
                             style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">Broadcast Status</h3>
+                                <h3 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">Broadcast
+                                    Status</h3>
                                 <span><i class="fa-solid fa-tower-broadcast"
                                         style="color: var(--text3); font-size: 18px;"></i></span>
                             </div>
                             <div>
-                                <p style="font-size: 20px; font-weight: bold; color: var(--accent); margin: 0;">Broadcasting</p>
+                                <p style="font-size: 20px; font-weight: bold; color: var(--accent); margin: 0;">
+                                    Broadcasting</p>
                                 <p style="font-size: 14px; color: var(--text3); margin: 0;">Latency: 45ms</p>
                             </div>
                         </div>
@@ -122,9 +175,11 @@
                             style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
                             <div class="chart-header mb-3 d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h2 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">Master Performance
+                                    <h2 style="font-size: 16px; font-weight: 600; color: var(--text); margin: 0;">
+                                        Master Performance
                                     </h2>
-                                    <p style="font-size: 14px; color: var(--text3); margin: 4px 0 0;">Growth tracking of the master
+                                    <p style="font-size: 14px; color: var(--text3); margin: 4px 0 0;">Growth tracking
+                                        of the master
                                         account.</p>
                                 </div>
                                 <div class="chart-pills d-flex gap-1"
@@ -146,7 +201,8 @@
 
                 <div class="trends-table mt-4">
                     <div class="d-flex justify-content-between align-items-center my-3">
-                        <h3 class="title mb-0" style="font-size: 16px; font-weight: 600; color: var(--text);">Connected Accounts
+                        <h3 class="title mb-0" style="font-size: 16px; font-weight: 600; color: var(--text);">
+                            Connected Accounts
                             (Followers)</h3>
                         <button class="btn d-flex align-items-center gap-2"
                             style="padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; background: transparent; color: var(--text); border: 1px solid var(--border); transition: 0.3s;">
@@ -155,17 +211,20 @@
                     </div>
 
                     <div class="table-responsive" style="border: 1px solid var(--border); border-radius: 8px;">
-                        <table class="table table-hover table-custom align-middle mb-0" style="background: var(--bg-color);">
+                        <table class="table table-hover table-custom align-middle mb-0"
+                            style="background: var(--bg-color);">
                             <thead style="border-bottom: 1px solid var(--border);">
                                 <tr>
                                     <th style="width: 20px"><input class="form-check-input" type="checkbox" /></th>
-                                    <th class="text-start" style="color: var(--text3); font-weight: 500; font-size: 13px;">Account
+                                    <th class="text-start"
+                                        style="color: var(--text3); font-weight: 500; font-size: 13px;">Account
                                         Name</th>
                                     <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Broker</th>
                                     <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Balance</th>
                                     <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Multiplier</th>
                                     <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Status</th>
-                                    <th class="text-end" style="color: var(--text3); font-weight: 500; font-size: 13px;">Actions
+                                    <th class="text-end"
+                                        style="color: var(--text3); font-weight: 500; font-size: 13px;">Actions
                                     </th>
                                 </tr>
                             </thead>
@@ -173,16 +232,20 @@
                                 @forelse($activeConnections as $connection)
                                 <tr style="border-bottom: 1px solid var(--border);">
                                     <td><input class="form-check-input" type="checkbox" /></td>
-                                    <td class="text-start fw-bold" style="color: var(--text);">{{ $connection->master->name ?? 'Auto
-                            Sync' }} Follower</td>
+                                    <td class="text-start fw-bold" style="color: var(--text);">
+                                        {{ $connection->master->name ??
+                                                    'Auto
+                                                                                                                                                                            Sync' }}
+                                        Follower
+                                    </td>
                                     <td style="color: var(--text2);">MyForexFunds</td>
-                                    <td style="font-weight: 600; color: var(--text);">${{
-                            number_format($connection->invested_amount, 2) }}</td>
+                                    <td style="font-weight: 600; color: var(--text);">
+                                        ${{ number_format($connection->invested_amount, 2) }}</td>
                                     <td><span
-                                            style="background: var(--accent2); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 12px; color: var(--text2);">{{
-                                $connection->multiplier }}</span></td>
+                                            style="background: var(--accent2); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 12px; color: var(--text2);">{{ $connection->multiplier }}</span>
+                                    </td>
                                     <td>
-                                        @if($connection->status === 'active')
+                                        @if ($connection->status === 'active')
                                         <span
                                             style="background: var(--accent2); color: var(--accent); padding: 4px 10px; border-radius: 50px; font-size: 12px; font-weight: 500; border: 1px solid var(--border);">Active</span>
                                         @else
@@ -191,17 +254,26 @@
                                         @endif
                                     </td>
                                     <td class="text-end">
-                                        <button onclick="toggleStatus({{ $connection->id }})" class="btn p-1 px-2 border shadow-none" style="font-size: 12px; background: var(--bg-color); color: var(--text2);" title="Pause/Play">
-                                            <i class="fa-solid fa-{{ $connection->status === 'active' ? 'pause' : 'play' }}"></i>
+                                        <button onclick="toggleStatus({{ $connection->id }})"
+                                            class="btn p-1 px-2 border shadow-none"
+                                            style="font-size: 12px; background: var(--bg-color); color: var(--text2);"
+                                            title="Pause/Play">
+                                            <i
+                                                class="fa-solid fa-{{ $connection->status === 'active' ? 'pause' : 'play' }}"></i>
                                         </button>
-                                        <button onclick="openEditModal({{ $connection->id }}, {{ $connection->invested_amount }}, '{{ $connection->multiplier }}')" class="btn p-1 px-2 border shadow-none ms-1" style="font-size: 12px; background: var(--bg-color); color: var(--text2);" title="Settings">
+                                        <button
+                                            onclick="openEditModal({{ $connection->id }}, {{ $connection->invested_amount }}, '{{ $connection->multiplier }}')"
+                                            class="btn p-1 px-2 border shadow-none ms-1"
+                                            style="font-size: 12px; background: var(--bg-color); color: var(--text2);"
+                                            title="Settings">
                                             <i class="fa-solid fa-gear"></i>
                                         </button>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="7" class="text-center py-4 text-muted">No connected accounts found.</td>
+                                    <td colspan="7" class="text-center py-4 text-muted">No connected accounts
+                                        found.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -211,44 +283,55 @@
 
                 <div class="trends-table mt-5 mb-5">
                     <div class="d-flex justify-content-between align-items-center my-3">
-                        <h3 class="title mb-0" style="font-size: 16px; font-weight: 600; color: var(--text);">Active Open Positions
+                        <h3 class="title mb-0" style="font-size: 16px; font-weight: 600; color: var(--text);">Active
+                            Open Positions
                         </h3>
-                        <span style="font-size: 12px; color: var(--text3);"><i class="fa-solid fa-circle-notch fa-spin me-1"></i>
+                        <span style="font-size: 12px; color: var(--text3);"><i
+                                class="fa-solid fa-circle-notch fa-spin me-1"></i>
                             Live Updating</span>
                     </div>
 
                     <div class="table-responsive" style="border: 1px solid var(--border); border-radius: 8px;">
-                        <table class="table table-hover table-custom align-middle mb-0" style="background: var(--bg-color);">
+                        <table class="table table-hover table-custom align-middle mb-0"
+                            style="background: var(--bg-color);">
                             <thead style="border-bottom: 1px solid var(--border);">
                                 <tr>
-                                    <th class="text-start" style="color: var(--text3); font-weight: 500; font-size: 13px;">Symbol
+                                    <th class="text-start"
+                                        style="color: var(--text3); font-weight: 500; font-size: 13px;">Symbol
                                     </th>
                                     <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Type</th>
-                                    <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Entry Price</th>
-                                    <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Current Price</th>
+                                    <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Entry Price
+                                    </th>
+                                    <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Current Price
+                                    </th>
                                     <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Master Lot</th>
-                                    <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Floating P/L</th>
+                                    <th style="color: var(--text3); font-weight: 500; font-size: 13px;">Floating P/L
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($openTrades as $trade)
                                 <tr style="border-bottom: 1px solid var(--border);">
-                                    <td class="text-start fw-bold" style="color: var(--text);">{{ $trade->symbol }}</td>
+                                    <td class="text-start fw-bold" style="color: var(--text);">
+                                        {{ $trade->symbol }}
+                                    </td>
                                     <td><span
-                                            style="color: {{ $trade->type === 'BUY' ? '#10b981' : '#ef4444' }}; font-weight: 600;">{{
-                                $trade->type }}</span></td>
-                                    <td style="color: var(--text2);">{{ number_format($trade->entry_price, 5) }}</td>
-                                    <td style="color: var(--text);">{{ number_format($trade->entry_price + ($trade->type === 'BUY' ?
-                            0.00100 : -0.00100), 5) }}</td>
+                                            style="color: {{ $trade->type === 'BUY' ? '#10b981' : '#ef4444' }}; font-weight: 600;">{{ $trade->type }}</span>
+                                    </td>
+                                    <td style="color: var(--text2);">{{ number_format($trade->entry_price, 5) }}
+                                    </td>
+                                    <td style="color: var(--text);">
+                                        {{ number_format($trade->entry_price + ($trade->type === 'BUY' ? 0.001 : -0.001), 5) }}
+                                    </td>
                                     <td style="color: var(--text);">{{ $trade->lot }}</td>
                                     <td><span
-                                            style="color: {{ $trade->net_profit >= 0 ? '#10b981' : '#ef4444' }}; font-weight: 600;">{{
-                                $trade->net_profit >= 0 ? '+' : '' }}${{ number_format($trade->net_profit, 2) }}</span>
+                                            style="color: {{ $trade->net_profit >= 0 ? '#10b981' : '#ef4444' }}; font-weight: 600;">{{ $trade->net_profit >= 0 ? '+' : '' }}${{ number_format($trade->net_profit, 2) }}</span>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="6" class="text-center py-4 text-muted">No active open positions.</td>
+                                    <td colspan="6" class="text-center py-4 text-muted">No active open
+                                        positions.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -262,12 +345,17 @@
             <div id="tab-discover" class="tab-pane-custom d-none">
 
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-4 gap-3">
-                    <div class="input-group" style="max-width: 350px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--bg-color);">
-                        <span class="input-group-text bg-transparent border-0" style="color: var(--text3);"><i class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" id="searchMasterInput" class="form-control border-0 shadow-none" placeholder="Search masters..." style="background: transparent; color: var(--text); font-size: 14px;">
+                    <div class="input-group"
+                        style="max-width: 350px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--bg-color);">
+                        <span class="input-group-text bg-transparent border-0" style="color: var(--text3);"><i
+                                class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" id="searchMasterInput" class="form-control border-0 shadow-none"
+                            placeholder="Search masters..."
+                            style="background: transparent; color: var(--text); font-size: 14px;">
                     </div>
 
-                    <select id="sortMasterSelect" class="form-select shadow-none" style="width: auto; background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px;">
+                    <select id="sortMasterSelect" class="form-select shadow-none"
+                        style="width: auto; background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px;">
                         <option value="Top Performers">Top Performers</option>
                         <option value="Lowest Risk">Lowest Risk</option>
                         <option value="Most Copiers">Most Copiers</option>
@@ -278,42 +366,62 @@
                 <div class="row g-4 mb-5" id="mastersContainer">
                     @forelse($masterTraders as $master)
                     <div class="col-12 col-md-6 col-xl-4">
-                        <div class="folder-card p-4 h-100 d-flex flex-column justify-content-between" style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; transition: 0.3s; cursor: pointer;">
+                        <div class="folder-card p-4 h-100 d-flex flex-column justify-content-between"
+                            style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px; transition: 0.3s; cursor: pointer;">
                             <div>
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div class="d-flex align-items-center gap-3">
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($master->name) }}&background={{ $master->avatar_bg_color }}&color=fff" alt="Avatar" style="width: 48px; height: 48px; border-radius: 50%;">
+                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($master->name) }}&background={{ $master->avatar_bg_color }}&color=fff"
+                                            alt="Avatar" style="width: 48px; height: 48px; border-radius: 50%;">
                                         <div>
-                                            <h5 class="m-0 fw-bold" style="color: var(--text); font-size: 16px;">{{ $master->name }}
-                                                @if($master->is_verified)
-                                                <i class="fa-solid fa-circle-check ms-1" style="color: #3b82f6; font-size: 13px;" title="Verified Master"></i>
+                                            <h5 class="m-0 fw-bold" style="color: var(--text); font-size: 16px;">
+                                                {{ $master->name }}
+                                                @if ($master->is_verified)
+                                                <i class="fa-solid fa-circle-check ms-1"
+                                                    style="color: #3b82f6; font-size: 13px;"
+                                                    title="Verified Master"></i>
                                                 @endif
                                             </h5>
-                                            <span style="font-size: 12px; color: var(--text3);">Since {{ \Carbon\Carbon::parse($master->since_date)->format('M Y') }}</span>
+                                            <span style="font-size: 12px; color: var(--text3);">Since
+                                                {{ \Carbon\Carbon::parse($master->since_date)->format('M Y') }}</span>
                                         </div>
                                     </div>
-                                    <span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">Risk: {{ $master->risk_score }}/10</span>
+                                    <span
+                                        style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;">Risk:
+                                        {{ $master->risk_score }}/10</span>
                                 </div>
 
                                 <div class="row g-2 mb-3">
                                     <div class="col-6">
                                         <div class="p-2 rounded text-center" style="background: var(--accent2);">
-                                            <p class="m-0" style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">Monthly ROI</p>
-                                            <h4 class="m-0 fw-bold mt-1" style="color: #10b981; font-size: 18px;">+{{ $master->monthly_roi }}%</h4>
+                                            <p class="m-0"
+                                                style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">
+                                                Monthly ROI</p>
+                                            <h4 class="m-0 fw-bold mt-1" style="color: #10b981; font-size: 18px;">
+                                                +{{ $master->monthly_roi }}%</h4>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="p-2 rounded text-center" style="background: var(--accent2);">
-                                            <p class="m-0" style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">Followers</p>
-                                            <h4 class="m-0 fw-bold mt-1" style="color: var(--text); font-size: 18px;">{{ number_format($master->followers_count) }}</h4>
+                                            <p class="m-0"
+                                                style="font-size: 11px; color: var(--text3); text-transform: uppercase; font-weight: 600;">
+                                                Followers</p>
+                                            <h4 class="m-0 fw-bold mt-1"
+                                                style="color: var(--text); font-size: 18px;">
+                                                {{ number_format($master->followers_count) }}
+                                            </h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top: 1px dashed var(--border);">
-                                <span style="font-size: 13px; color: var(--text3); font-weight: 500;">Win Rate: <strong style="color: var(--text);">{{ $master->win_rate }}%</strong></span>
-                                <button class="btn btn-sm px-4 fw-bold" onclick="openCopyModal({{ $master->id }}, '{{ addslashes($master->name) }}', '{{ $master->avatar_bg_color }}')" style="background: var(--accent); color: var(--text7); border-radius: 8px; font-size: 13px; border: none; transition: 0.2s;">
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3"
+                                style="border-top: 1px dashed var(--border);">
+                                <span style="font-size: 13px; color: var(--text3); font-weight: 500;">Win Rate:
+                                    <strong style="color: var(--text);">{{ $master->win_rate }}%</strong></span>
+                                <button class="btn btn-sm px-4 fw-bold"
+                                    onclick="openCopyModal({{ $master->id }}, '{{ addslashes($master->name) }}', '{{ $master->avatar_bg_color }}')"
+                                    style="background: var(--accent); color: var(--text7); border-radius: 8px; font-size: 13px; border: none; transition: 0.2s;">
                                     Copy Now
                                 </button>
                             </div>
@@ -334,19 +442,21 @@
                         style="max-width: 300px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); background: var(--bg-color);">
                         <span class="input-group-text bg-transparent border-0" style="color: var(--text3);"><i
                                 class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" class="form-control border-0 shadow-none" placeholder="Search masters..."
+                        <input type="text" class="form-control border-0 shadow-none"
+                            placeholder="Search masters..."
                             style="background: transparent; color: var(--text); font-size: 14px;">
                     </div>
 
                     <div class="d-flex gap-2">
                         <span class="badge d-flex align-items-center gap-1"
                             style="background: var(--accent2); color: var(--text2); border: 1px solid var(--border); padding: 8px 12px; font-size: 13px; font-weight: 500;">
-                            <i class="fa-solid fa-plug text-success"></i> {{ $activeConnections->where('status', 'active')->count()
-                }} Active
+                            <i class="fa-solid fa-plug text-success"></i>
+                            {{ $activeConnections->where('status', 'active')->count() }} Active
                         </span>
                         <span class="badge d-flex align-items-center gap-1"
                             style="background: var(--accent2); color: var(--text2); border: 1px solid var(--border); padding: 8px 12px; font-size: 13px; font-weight: 500;">
-                            Total Invested: <strong style="color: var(--text);">${{ number_format($totalInvested, 2) }}</strong>
+                            Total Invested: <strong
+                                style="color: var(--text);">${{ number_format($totalInvested, 2) }}</strong>
                         </span>
                     </div>
                 </div>
@@ -354,7 +464,8 @@
                 <div class="trends-table">
                     <div class="table-responsive"
                         style="border: 1px solid var(--border); border-radius: 12px; background: var(--bg-color);">
-                        <table class="table table-hover table-custom align-middle mb-0" style="background: transparent;">
+                        <table class="table table-hover table-custom align-middle mb-0"
+                            style="background: transparent;">
                             <thead style="background: var(--accent2); border-bottom: 1px solid var(--border);">
                                 <tr>
                                     <th class="text-start py-3 px-4"
@@ -385,27 +496,30 @@
                                             <img src="https://ui-avatars.com/api/?name={{ urlencode($connection->master->name ?? 'User') }}&background={{ $connection->master->avatar_bg_color ?? '000' }}&color=fff"
                                                 style="width: 36px; height: 36px; border-radius: 50%;">
                                             <div>
-                                                <h6 class="m-0 fw-bold" style="color: var(--text); font-size: 14px;">{{
-                                        $connection->master->name ?? 'Unknown Master' }}</h6>
-                                                <small style="color: var(--text3); font-size: 12px;">Connected: {{
-                                        \Carbon\Carbon::parse($connection->created_at)->diffForHumans() }}</small>
+                                                <h6 class="m-0 fw-bold"
+                                                    style="color: var(--text); font-size: 14px;">
+                                                    {{ $connection->master->name ?? 'Unknown Master' }}
+                                                </h6>
+                                                <small style="color: var(--text3); font-size: 12px;">Connected:
+                                                    {{ \Carbon\Carbon::parse($connection->created_at)->diffForHumans() }}</small>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="py-3" style="font-weight: 600; color: var(--text); font-size: 14px;">${{
-                            number_format($connection->invested_amount, 2) }}</td>
+                                    <td class="py-3"
+                                        style="font-weight: 600; color: var(--text); font-size: 14px;">
+                                        ${{ number_format($connection->invested_amount, 2) }}</td>
                                     <td class="py-3"><span
-                                            style="background: var(--accent2); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 12px; color: var(--text); font-weight: 500;">{{
-                                $connection->multiplier }}</span></td>
+                                            style="background: var(--accent2); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; font-size: 12px; color: var(--text); font-weight: 500;">{{ $connection->multiplier }}</span>
+                                    </td>
                                     <td class="py-3"><span
-                                            style="color: {{ $connection->net_profit >= 0 ? '#10b981' : '#ef4444' }}; font-weight: 700; font-size: 14px;">{{
-                                $connection->net_profit >= 0 ? '+' : '' }}${{ number_format($connection->net_profit, 2)
-                                }}</span></td>
+                                            style="color: {{ $connection->net_profit >= 0 ? '#10b981' : '#ef4444' }}; font-weight: 700; font-size: 14px;">{{ $connection->net_profit >= 0 ? '+' : '' }}${{ number_format($connection->net_profit, 2) }}</span>
+                                    </td>
                                     <td class="py-3">
-                                        @if($connection->status === 'active')
+                                        @if ($connection->status === 'active')
                                         <span class="d-inline-flex align-items-center gap-1"
                                             style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 10px; border-radius: 50px; font-size: 12px; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.2);">
-                                            <span style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
+                                            <span
+                                                style="width: 6px; height: 6px; border-radius: 50%; background: #10b981;"></span>
                                             Copying
                                         </span>
                                         @else
@@ -416,17 +530,24 @@
                                         @endif
                                     </td>
                                     <td class="text-end py-3 px-4">
-                                        <button onclick="openEditModal({{ $connection->id }}, {{ $connection->invested_amount }}, '{{ $connection->multiplier }}')" class="btn p-2 border shadow-none" title="Settings" style="font-size: 13px; background: var(--accent2); color: var(--text2); border-radius: 8px;">
+                                        <button
+                                            onclick="openEditModal({{ $connection->id }}, {{ $connection->invested_amount }}, '{{ $connection->multiplier }}')"
+                                            class="btn p-2 border shadow-none" title="Settings"
+                                            style="font-size: 13px; background: var(--accent2); color: var(--text2); border-radius: 8px;">
                                             <i class="fa-solid fa-gear"></i>
                                         </button>
-                                        <button onclick="stopConnection({{ $connection->id }})" class="btn p-2 border shadow-none ms-1 text-danger" title="Stop Copying" style="font-size: 13px; background: var(--accent2); border-radius: 8px;">
+                                        <button onclick="stopConnection({{ $connection->id }})"
+                                            class="btn p-2 border shadow-none ms-1 text-danger"
+                                            title="Stop Copying"
+                                            style="font-size: 13px; background: var(--accent2); border-radius: 8px;">
                                             <i class="fa-solid fa-stop"></i>
                                         </button>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="6" class="text-center py-4 text-muted">No active connections found.</td>
+                                    <td colspan="6" class="text-center py-4 text-muted">No active connections
+                                        found.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -441,22 +562,31 @@
 
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
                     <div class="d-flex flex-wrap gap-2">
-                        <div class="px-3 py-2 rounded" style="background: var(--bg-color); border: 1px solid var(--border);">
-                            <small style="color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase;">Total
+                        <div class="px-3 py-2 rounded"
+                            style="background: var(--bg-color); border: 1px solid var(--border);">
+                            <small
+                                style="color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase;">Total
                                 Trades</small>
-                            <h5 class="m-0 fw-bold" style="color: var(--text); font-size: 16px;">{{ $totalClosed }}</h5>
+                            <h5 class="m-0 fw-bold" style="color: var(--text); font-size: 16px;">{{ $totalClosed }}
+                            </h5>
                         </div>
-                        <div class="px-3 py-2 rounded" style="background: var(--bg-color); border: 1px solid var(--border);">
-                            <small style="color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase;">Win
+                        <div class="px-3 py-2 rounded"
+                            style="background: var(--bg-color); border: 1px solid var(--border);">
+                            <small
+                                style="color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase;">Win
                                 Rate</small>
-                            <h5 class="m-0 fw-bold" style="color: var(--text); font-size: 16px;">{{ $winRate }}%</h5>
+                            <h5 class="m-0 fw-bold" style="color: var(--text); font-size: 16px;">{{ $winRate }}%
+                            </h5>
                         </div>
-                        <div class="px-3 py-2 rounded" style="background: var(--bg-color); border: 1px solid var(--border);">
-                            <small style="color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase;">Net
+                        <div class="px-3 py-2 rounded"
+                            style="background: var(--bg-color); border: 1px solid var(--border);">
+                            <small
+                                style="color: var(--text3); font-size: 11px; font-weight: 600; text-transform: uppercase;">Net
                                 P/L</small>
                             <h5 class="m-0 fw-bold"
-                                style="color: {{ $totalNetProfit >= 0 ? '#10b981' : '#ef4444' }}; font-size: 16px;">{{
-                    $totalNetProfit >= 0 ? '+' : '' }}${{ number_format($totalNetProfit, 2) }}</h5>
+                                style="color: {{ $totalNetProfit >= 0 ? '#10b981' : '#ef4444' }}; font-size: 16px;">
+                                {{ $totalNetProfit >= 0 ? '+' : '' }}${{ number_format($totalNetProfit, 2) }}
+                            </h5>
                         </div>
                     </div>
 
@@ -478,7 +608,8 @@
                 <div class="trends-table">
                     <div class="table-responsive"
                         style="border: 1px solid var(--border); border-radius: 12px; background: var(--bg-color);">
-                        <table class="table table-hover table-custom align-middle mb-0" style="background: transparent;">
+                        <table class="table table-hover table-custom align-middle mb-0"
+                            style="background: transparent;">
                             <thead style="background: var(--accent2); border-bottom: 1px solid var(--border);">
                                 <tr>
                                     <th class="py-3 px-4 text-start"
@@ -508,42 +639,44 @@
                                 @forelse($closedTrades as $trade)
                                 <tr>
                                     <td class="py-3 px-4 text-start">
-                                        <span style="color: var(--text); font-weight: 500; font-size: 13px;">{{
-                                \Carbon\Carbon::parse($trade->closed_at)->format('M d, Y') }}</span>
+                                        <span
+                                            style="color: var(--text); font-weight: 500; font-size: 13px;">{{ \Carbon\Carbon::parse($trade->closed_at)->format('M d, Y') }}</span>
                                         <br>
-                                        <small style="color: var(--text3); font-size: 11px;">{{
-                                \Carbon\Carbon::parse($trade->closed_at)->format('H:i:s') }}</small>
+                                        <small
+                                            style="color: var(--text3); font-size: 11px;">{{ \Carbon\Carbon::parse($trade->closed_at)->format('H:i:s') }}</small>
                                     </td>
                                     <td class="py-3">
                                         <div class="d-flex align-items-center justify-content-center gap-2">
                                             <img src="https://ui-avatars.com/api/?name={{ urlencode($trade->master->name ?? 'U') }}&background={{ $trade->master->avatar_bg_color ?? '000' }}&color=fff"
                                                 style="width: 24px; height: 24px; border-radius: 50%;">
-                                            <span style="color: var(--text); font-size: 13px; font-weight: 500;">{{
-                                    $trade->master->name ?? 'Unknown' }}</span>
+                                            <span
+                                                style="color: var(--text); font-size: 13px; font-weight: 500;">{{ $trade->master->name ?? 'Unknown' }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-3"><span style="font-weight: 700; color: var(--text); font-size: 13px;">{{
-                                $trade->symbol }}</span></td>
                                     <td class="py-3"><span
-                                            style="background: {{ $trade->type === 'BUY' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)' }}; color: {{ $trade->type === 'BUY' ? '#10b981' : '#ef4444' }}; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">{{
-                                $trade->type }}</span></td>
-                                    <td class="py-3"><span style="color: var(--text); font-size: 13px;">{{ $trade->lot }}</span>
+                                            style="font-weight: 700; color: var(--text); font-size: 13px;">{{ $trade->symbol }}</span>
+                                    </td>
+                                    <td class="py-3"><span
+                                            style="background: {{ $trade->type === 'BUY' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)' }}; color: {{ $trade->type === 'BUY' ? '#10b981' : '#ef4444' }}; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">{{ $trade->type }}</span>
+                                    </td>
+                                    <td class="py-3"><span
+                                            style="color: var(--text); font-size: 13px;">{{ $trade->lot }}</span>
                                     </td>
                                     <td class="py-3">
-                                        <span style="color: var(--text); font-size: 12px;">O: {{ number_format($trade->entry_price,
-                                5) }}</span><br>
-                                        <span style="color: var(--text3); font-size: 12px;">C: {{ number_format($trade->close_price,
-                                5) }}</span>
+                                        <span style="color: var(--text); font-size: 12px;">O:
+                                            {{ number_format($trade->entry_price, 5) }}</span><br>
+                                        <span style="color: var(--text3); font-size: 12px;">C:
+                                            {{ number_format($trade->close_price, 5) }}</span>
                                     </td>
                                     <td class="text-end py-3 px-4">
                                         <span
-                                            style="color: {{ $trade->net_profit >= 0 ? '#10b981' : '#ef4444' }}; font-weight: 700; font-size: 14px;">{{
-                                $trade->net_profit >= 0 ? '+' : '' }}${{ number_format($trade->net_profit, 2) }}</span>
+                                            style="color: {{ $trade->net_profit >= 0 ? '#10b981' : '#ef4444' }}; font-weight: 700; font-size: 14px;">{{ $trade->net_profit >= 0 ? '+' : '' }}${{ number_format($trade->net_profit, 2) }}</span>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="7" class="text-center py-4 text-muted">No closed trades found.</td>
+                                    <td colspan="7" class="text-center py-4 text-muted">No closed trades found.
+                                    </td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -563,42 +696,52 @@
 
                                     <div class="d-flex align-items-center gap-2 mb-3">
                                         <i class="fa-solid fa-globe text-primary" style="font-size: 18px;"></i>
-                                        <div class="header m-0" style="font-size: 18px; color: var(--text);">Global Risk Parameters</div>
+                                        <div class="header m-0" style="font-size: 18px; color: var(--text);">Global
+                                            Risk Parameters</div>
                                     </div>
-                                    <div class="card-item p-4 mb-4" style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px;">
+                                    <div class="card-item p-4 mb-4"
+                                        style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px;">
                                         <div class="row g-4">
                                             <div class="col-md-6">
-                                                <div class="toggle" style="border-color: var(--border); background: var(--bg-color);">
+                                                <div class="toggle"
+                                                    style="border-color: var(--border); background: var(--bg-color);">
                                                     <h4 style="color: var(--text);">Force Exit on Drawdown</h4>
                                                     <label class="switch mb-0">
-                                                        <input type="checkbox" id="risk_force_exit" {{ $riskConfig->force_exit_drawdown ? 'checked' : '' }}>
+                                                        <input type="checkbox" id="risk_force_exit"
+                                                            {{ $riskConfig->force_exit_drawdown ? 'checked' : '' }}>
                                                         <span class="slider"></span>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="toggle" style="border-color: var(--border); background: var(--bg-color);">
+                                                <div class="toggle"
+                                                    style="border-color: var(--border); background: var(--bg-color);">
                                                     <h4 style="color: var(--text);">Slippage Protection</h4>
                                                     <label class="switch mb-0">
-                                                        <input type="checkbox" id="risk_slippage" {{ $riskConfig->slippage_protection ? 'checked' : '' }}>
+                                                        <input type="checkbox" id="risk_slippage"
+                                                            {{ $riskConfig->slippage_protection ? 'checked' : '' }}>
                                                         <span class="slider"></span>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="toggle" style="border-color: var(--border); background: var(--bg-color);">
+                                                <div class="toggle"
+                                                    style="border-color: var(--border); background: var(--bg-color);">
                                                     <h4 style="color: var(--text);">Copy SL / TP</h4>
                                                     <label class="switch mb-0">
-                                                        <input type="checkbox" id="risk_copy_sl_tp" {{ $riskConfig->copy_sl_tp ? 'checked' : '' }}>
+                                                        <input type="checkbox" id="risk_copy_sl_tp"
+                                                            {{ $riskConfig->copy_sl_tp ? 'checked' : '' }}>
                                                         <span class="slider"></span>
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="toggle" style="border-color: var(--border); background: var(--bg-color);">
+                                                <div class="toggle"
+                                                    style="border-color: var(--border); background: var(--bg-color);">
                                                     <h4 style="color: var(--text);">Weekend Protection</h4>
                                                     <label class="switch mb-0">
-                                                        <input type="checkbox" id="risk_weekend" {{ $riskConfig->weekend_protection ? 'checked' : '' }}>
+                                                        <input type="checkbox" id="risk_weekend"
+                                                            {{ $riskConfig->weekend_protection ? 'checked' : '' }}>
                                                         <span class="slider"></span>
                                                     </label>
                                                 </div>
@@ -608,22 +751,37 @@
 
                                     <div class="d-flex align-items-center gap-2 mb-3 mt-5">
                                         <i class="fa-solid fa-sliders text-warning" style="font-size: 18px;"></i>
-                                        <div class="header m-0" style="font-size: 18px; color: var(--text);">Advanced Limits</div>
+                                        <div class="header m-0" style="font-size: 18px; color: var(--text);">Advanced
+                                            Limits</div>
                                     </div>
-                                    <div class="card-item p-4" style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px;">
+                                    <div class="card-item p-4"
+                                        style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px;">
                                         <div class="row g-4">
                                             <div class="col-md-6">
-                                                <label class="form-label" style="font-size: 13px; font-weight: 600; color: var(--text);">Max Daily Loss ($)</label>
-                                                <input type="number" id="risk_max_loss" class="form-control shadow-none" value="{{ $riskConfig->max_daily_loss }}" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px;">
+                                                <label class="form-label"
+                                                    style="font-size: 13px; font-weight: 600; color: var(--text);">Max
+                                                    Daily Loss ($)</label>
+                                                <input type="number" id="risk_max_loss"
+                                                    class="form-control shadow-none"
+                                                    value="{{ $riskConfig->max_daily_loss }}"
+                                                    style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px;">
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" style="font-size: 13px; font-weight: 600; color: var(--text);">Max Open Positions</label>
-                                                <input type="number" id="risk_max_positions" class="form-control shadow-none" value="{{ $riskConfig->max_open_positions }}" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px;">
+                                                <label class="form-label"
+                                                    style="font-size: 13px; font-weight: 600; color: var(--text);">Max
+                                                    Open Positions</label>
+                                                <input type="number" id="risk_max_positions"
+                                                    class="form-control shadow-none"
+                                                    value="{{ $riskConfig->max_open_positions }}"
+                                                    style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px;">
                                             </div>
                                         </div>
 
-                                        <div class="d-flex justify-content-end mt-4 pt-3" style="border-top: 1px solid var(--border);">
-                                            <button type="submit" id="saveRiskBtn" class="btn px-4 fw-bold" style="background: var(--accent); color: var(--text7); border-radius: 8px; font-size: 14px; border: none; transition: 0.3s;">Save Configuration</button>
+                                        <div class="d-flex justify-content-end mt-4 pt-3"
+                                            style="border-top: 1px solid var(--border);">
+                                            <button type="submit" id="saveRiskBtn" class="btn px-4 fw-bold"
+                                                style="background: var(--accent); color: var(--text7); border-radius: 8px; font-size: 14px; border: none; transition: 0.3s;">Save
+                                                Configuration</button>
                                         </div>
                                     </div>
 
@@ -635,39 +793,141 @@
             </div>
             <!-- Risk Configuration Tab End -->
 
+            <!-- Signal Setup Tab Start -->
+            <div id="tab-webhook" class="tab-pane-custom d-none">
+                <div class="row g-4">
+                    <div class="col-12 col-xl-8">
+                        <div class="card-item p-4" style="background: var(--bg-color); border: 1px solid var(--border); border-radius: 12px;">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 12px; border-radius: 50%;">
+                                    <i class="fa-solid fa-satellite-dish" style="font-size: 20px;"></i>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--text); font-size: 18px; margin: 0; font-weight: 700;">Webhook Configuration</h4>
+                                    <p style="color: var(--text3); font-size: 13px; margin: 0;">Connect your TradingView alerts or custom bots to our platform.</p>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Your Unique Webhook URL</label>
+                                <div class="input-group">
+                                    <input type="text" id="webhookUrl" class="form-control shadow-none" value="{{ url('/api/webhook/trade') }}" readonly style="background: var(--accent2); border: 1px solid var(--border); color: var(--text); font-family: monospace; font-size: 14px;">
+                                    <button class="btn border shadow-none px-3" onclick="copyToClipboard('webhookUrl')" style="background: var(--bg-color); color: var(--text); border-color: var(--border)!important;">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                                <small style="color: var(--text3); font-size: 11px;">Paste this URL in the "Webhook URL" field of your TradingView alert.</small>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Your Secret Master Token</label>
+                                <div class="input-group">
+                                    <input type="password" id="webhookToken" class="form-control shadow-none" value="{{ auth()->user()->webhook_token ?? $user->webhook_token }}" readonly style="background: var(--accent2); border: 1px solid var(--border); color: var(--text); font-family: monospace; font-size: 14px;">
+                                    <button class="btn border shadow-none px-3" onclick="togglePasswordVisibility('webhookToken', this)" style="background: var(--bg-color); color: var(--text); border-color: var(--border)!important;">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                    <button class="btn border shadow-none px-3" onclick="copyToClipboard('webhookToken')" style="background: var(--bg-color); color: var(--text); border-color: var(--border)!important;">
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
+                                </div>
+                                <small class="text-danger" style="font-size: 11px; font-weight: 600;"><i class="fa-solid fa-triangle-exclamation"></i> Never share this token! Anyone with this token can execute trades on your behalf.</small>
+                            </div>
+
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <label class="form-label fw-bold m-0" style="font-size: 13px; color: var(--text);">TradingView Alert Message (JSON)</label>
+                                    <button class="btn btn-sm px-2 py-1" onclick="copyToClipboard('webhookJson')" style="background: transparent; color: #3b82f6; border: none; font-size: 12px; font-weight: 600;">
+                                        <i class="fa-regular fa-copy"></i> Copy Code
+                                    </button>
+                                </div>
+                                <textarea id="webhookJson" class="form-control shadow-none" rows="8" readonly style="...">
+                                    {
+                                    "master_token": "{{ auth()->user()->webhook_token ?? $user->webhook_token }}",
+                                    "action": "open",
+                                    "symbol": "@{{ticker}}",
+                                    "type": "BUY",
+                                    "lot": 1.0,
+                                    "price": @{{close}}
+                                    }
+                                </textarea>
+                                <small style="color: var(--text3); font-size: 11px;">Change "action" to "close" to close trades. The ticker and close price will be automatically filled by TradingView.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-xl-4">
+                        <div class="card-item p-4 h-100" style="background: var(--accent2); border: 1px solid var(--border); border-radius: 12px;">
+                            <h5 style="color: var(--text); font-size: 15px; font-weight: 700; margin-bottom: 20px;"><i class="fa-solid fa-book-open me-2 text-primary"></i> Quick Guide</h5>
+
+                            <ul class="list-unstyled" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px;">
+                                <li class="d-flex gap-3">
+                                    <div style="background: var(--bg-color); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: var(--text); border: 1px solid var(--border); flex-shrink: 0;">1</div>
+                                    <p style="color: var(--text2); font-size: 13px; margin: 0;">Create a new Alert in your TradingView chart.</p>
+                                </li>
+                                <li class="d-flex gap-3">
+                                    <div style="background: var(--bg-color); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: var(--text); border: 1px solid var(--border); flex-shrink: 0;">2</div>
+                                    <p style="color: var(--text2); font-size: 13px; margin: 0;">Go to the "Notifications" tab and check "Webhook URL". Paste your unique URL there.</p>
+                                </li>
+                                <li class="d-flex gap-3">
+                                    <div style="background: var(--bg-color); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: var(--text); border: 1px solid var(--border); flex-shrink: 0;">3</div>
+                                    <p style="color: var(--text2); font-size: 13px; margin: 0;">In the "Settings" tab, paste the JSON template into the "Message" box.</p>
+                                </li>
+                                <li class="d-flex gap-3">
+                                    <div style="background: var(--bg-color); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: var(--text); border: 1px solid var(--border); flex-shrink: 0;">4</div>
+                                    <p style="color: var(--text2); font-size: 13px; margin: 0;">Save the alert. Our system will execute trades instantly when triggered!</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Signal Setup Tab End -->
+
         </div>
     </div>
 
     <!-- Copy Trade Modal Start -->
     <div class="modal fade" id="copySettingsModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; background-color: var(--bg-color);">
+            <div class="modal-content border-0 shadow-lg"
+                style="border-radius: 12px; background-color: var(--bg-color);">
                 <div class="modal-header border-0 pb-0 pt-4 px-4">
                     <h5 class="modal-title fw-bold" style="color: var(--text); font-size: 18px;">Copy Settings</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close" style="filter: var(--invert-icon);"></button>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"
+                        style="filter: var(--invert-icon);"></button>
                 </div>
 
                 <form id="copyTraderForm">
                     <div class="modal-body px-4 py-4">
                         <input type="hidden" id="modal_master_id">
 
-                        <div class="d-flex align-items-center gap-3 mb-4 p-3 rounded" style="background: var(--accent2); border: 1px solid var(--border);">
-                            <img src="" id="modalMasterAvatar" style="width: 40px; height: 40px; border-radius: 50%;">
+                        <div class="d-flex align-items-center gap-3 mb-4 p-3 rounded"
+                            style="background: var(--accent2); border: 1px solid var(--border);">
+                            <img src="" id="modalMasterAvatar"
+                                style="width: 40px; height: 40px; border-radius: 50%;">
                             <div>
-                                <h6 class="m-0 fw-bold" id="modalMasterName" style="color: var(--text);">Master Name</h6>
+                                <h6 class="m-0 fw-bold" id="modalMasterName" style="color: var(--text);">Master Name
+                                </h6>
                                 <span style="font-size: 12px; color: var(--text3);">Setting up copy parameters</span>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Investment Amount ($)</label>
-                            <input type="number" id="modal_invested_amount" class="form-control shadow-none" placeholder="e.g. 500" required style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px; padding: 10px 15px;">
-                            <small style="color: var(--text3); font-size: 11px;">Available Balance: <strong style="color: var(--text);">$102,450.00</strong></small>
+                            <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Investment
+                                Amount ($)</label>
+                            <input type="number" id="modal_invested_amount" class="form-control shadow-none"
+                                placeholder="e.g. 500" required
+                                style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px; padding: 10px 15px;">
+                            <small style="color: var(--text3); font-size: 11px;">Available Balance: <strong
+                                    style="color: var(--text);">${{ number_format(auth()->user()->balance, 2) }}</strong>
+                            </small>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Lot Multiplier</label>
-                            <select id="modal_multiplier" class="form-select shadow-none" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px; padding: 10px 15px;">
+                            <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Lot
+                                Multiplier</label>
+                            <select id="modal_multiplier" class="form-select shadow-none"
+                                style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px; padding: 10px 15px;">
                                 <option value="1.0x (Proportional)">Proportional (Recommended)</option>
                                 <option value="0.5x (Half Risk)">Half Risk (0.5x)</option>
                                 <option value="2.0x (Double Risk)">Double Risk (2.0x)</option>
@@ -676,8 +936,11 @@
 
                     </div>
                     <div class="modal-footer border-0 pt-0 px-4 pb-4 flex-nowrap">
-                        <button type="button" class="btn w-50 py-2 fw-bold" data-bs-dismiss="modal" style="border: 1px solid var(--border); color: var(--text); background: transparent; border-radius: 8px;">Cancel</button>
-                        <button type="submit" class="btn w-50 py-2 fw-bold" id="confirmCopyBtn" style="background: var(--accent); color: var(--text7); border-radius: 8px; transition: 0.3s; border: none;">Confirm Copy</button>
+                        <button type="button" class="btn w-50 py-2 fw-bold" data-bs-dismiss="modal"
+                            style="border: 1px solid var(--border); color: var(--text); background: transparent; border-radius: 8px;">Cancel</button>
+                        <button type="submit" class="btn w-50 py-2 fw-bold" id="confirmCopyBtn"
+                            style="background: var(--accent); color: var(--text7); border-radius: 8px; transition: 0.3s; border: none;">Confirm
+                            Copy</button>
                     </div>
                 </form>
             </div>
@@ -688,10 +951,13 @@
     <!-- Edit Connection Modal Start -->
     <div class="modal fade" id="editConnectionModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg" style="border-radius: 12px; background-color: var(--bg-color);">
+            <div class="modal-content border-0 shadow-lg"
+                style="border-radius: 12px; background-color: var(--bg-color);">
                 <div class="modal-header border-0 pb-0 pt-4 px-4">
-                    <h5 class="modal-title fw-bold" style="color: var(--text); font-size: 18px;">Update Copy Settings</h5>
-                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close" style="filter: var(--invert-icon);"></button>
+                    <h5 class="modal-title fw-bold" style="color: var(--text); font-size: 18px;">Update Copy Settings
+                    </h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"
+                        style="filter: var(--invert-icon);"></button>
                 </div>
 
                 <form id="editConnectionForm">
@@ -699,13 +965,17 @@
                         <input type="hidden" id="edit_connection_id">
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Update Investment Amount ($)</label>
-                            <input type="number" id="edit_invested_amount" class="form-control shadow-none" required style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px; padding: 10px 15px;">
+                            <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Update
+                                Investment Amount ($)</label>
+                            <input type="number" id="edit_invested_amount" class="form-control shadow-none" required
+                                style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px; padding: 10px 15px;">
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Update Lot Multiplier</label>
-                            <select id="edit_multiplier" class="form-select shadow-none" style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px; padding: 10px 15px;">
+                            <label class="form-label fw-bold" style="font-size: 13px; color: var(--text);">Update Lot
+                                Multiplier</label>
+                            <select id="edit_multiplier" class="form-select shadow-none"
+                                style="background: var(--bg-color); border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-size: 14px; padding: 10px 15px;">
                                 <option value="1.0x (Proportional)">Proportional (Recommended)</option>
                                 <option value="0.5x (Half Risk)">Half Risk (0.5x)</option>
                                 <option value="2.0x (Double Risk)">Double Risk (2.0x)</option>
@@ -713,8 +983,11 @@
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0 px-4 pb-4 flex-nowrap">
-                        <button type="button" class="btn w-50 py-2 fw-bold" data-bs-dismiss="modal" style="border: 1px solid var(--border); color: var(--text); background: transparent; border-radius: 8px;">Cancel</button>
-                        <button type="submit" class="btn w-50 py-2 fw-bold" id="confirmEditBtn" style="background: var(--accent); color: var(--text7); border-radius: 8px; transition: 0.3s; border: none;">Save Changes</button>
+                        <button type="button" class="btn w-50 py-2 fw-bold" data-bs-dismiss="modal"
+                            style="border: 1px solid var(--border); color: var(--text); background: transparent; border-radius: 8px;">Cancel</button>
+                        <button type="submit" class="btn w-50 py-2 fw-bold" id="confirmEditBtn"
+                            style="background: var(--accent); color: var(--text7); border-radius: 8px; transition: 0.3s; border: none;">Save
+                            Changes</button>
                     </div>
                 </form>
             </div>
@@ -775,13 +1048,19 @@
                     mainDesc.innerText = "Find and copy the best performing strategies.";
                 } else if (target === 'tab-connections') {
                     mainTitle.innerText = "Active Connections";
-                    mainDesc.innerText = "Monitor and manage your ongoing copy trading connections.";
+                    mainDesc.innerText =
+                        "Monitor and manage your ongoing copy trading connections.";
                 } else if (target === 'tab-history') {
                     mainTitle.innerText = "Trade History";
-                    mainDesc.innerText = "Review your past copy trading performance and closed positions.";
+                    mainDesc.innerText =
+                        "Review your past copy trading performance and closed positions.";
                 } else if (target === 'tab-risk') {
                     mainTitle.innerText = "Risk Configuration";
-                    mainDesc.innerText = "Set your risk parameters and safety limits for copy trading.";
+                    mainDesc.innerText =
+                        "Set your risk parameters and safety limits for copy trading.";
+                } else if (target === 'tab-webhook') {
+                    mainTitle.innerText = "Webhook Configuration";
+                    mainDesc.innerText = "Connect TradingView alerts to broadcast your trades.";
                 }
 
                 // 3. Show target Tab and hide others
@@ -810,16 +1089,16 @@
 
             // Create gradient
             let gradient = ctx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, accentColor + '40'); // opacity
+            gradient.addColorStop(0, accentColor + '40');
             gradient.addColorStop(1, accentColor + '00');
 
             new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: dynamicLabels, // 🌟 Updated
+                    labels: dynamicLabels,
                     datasets: [{
                         label: 'Account Equity',
-                        data: dynamicData, // 🌟 Updated
+                        data: dynamicData,
                         borderColor: accentColor,
                         backgroundColor: gradient,
                         borderWidth: 2,
@@ -837,7 +1116,6 @@
                         legend: {
                             display: false
                         },
-                        // 🌟 টুলটিপে $ সাইন দেখানোর জন্য 🌟
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -881,7 +1159,8 @@
     function openCopyModal(id, masterName, bgColor) {
         document.getElementById('modal_master_id').value = id;
         document.getElementById('modalMasterName').innerText = masterName;
-        document.getElementById('modalMasterAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(masterName)}&background=${bgColor}&color=fff`;
+        document.getElementById('modalMasterAvatar').src =
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(masterName)}&background=${bgColor}&color=fff`;
 
         var myModal = new bootstrap.Modal(document.getElementById('copySettingsModal'));
         myModal.show();
@@ -1041,7 +1320,7 @@
 
 
 @php
-$currentUserId = auth()->id() ?? \App\Models\User::first()->id ?? 1;
+$currentUserId = auth()->id() ?? (\App\Models\User::first()->id ?? 1);
 @endphp
 
 <script>
@@ -1060,14 +1339,16 @@ $currentUserId = auth()->id() ?? \App\Models\User::first()->id ?? 1;
                     const trade = e.trade;
 
                     if (e.action === 'open') {
-                        showLiveToast('success', `🚀 New Trade Opened: ${trade.symbol} ${trade.type} by Master!`);
+                        showLiveToast('success',
+                            `🚀 New Trade Opened: ${trade.symbol} ${trade.type} by Master!`);
                         insertOpenTradeRow(trade);
                     } else if (e.action === 'close') {
                         const profit = parseFloat(trade.net_profit);
                         const profitColor = profit >= 0 ? 'success' : 'danger';
                         const profitSign = profit >= 0 ? '+' : '';
 
-                        showLiveToast(profitColor, `💰 Trade Closed: ${trade.symbol} (${profitSign}$${profit.toFixed(2)})`);
+                        showLiveToast(profitColor,
+                            `💰 Trade Closed: ${trade.symbol} (${profitSign}$${profit.toFixed(2)})`);
 
                         setTimeout(() => {
                             window.location.reload();
@@ -1150,6 +1431,31 @@ $currentUserId = auth()->id() ?? \App\Models\User::first()->id ?? 1;
     }
 
     // ==========================================
+    // 🌟 Helper: Webhook Copy & Eye Button 🌟
+    // ==========================================
+    function copyToClipboard(elementId) {
+        var copyText = document.getElementById(elementId);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+        navigator.clipboard.writeText(copyText.value);
+        showLiveToast('success', 'Copied to clipboard!');
+    }
+
+    function togglePasswordVisibility(elementId, btn) {
+        var input = document.getElementById(elementId);
+        var icon = btn.querySelector('i');
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = "password";
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    // ==========================================
     // 🔥 AJAX: Search & Filter Master Traders 🔥
     // ==========================================
     const searchMasterInput = document.getElementById('searchMasterInput');
@@ -1185,7 +1491,8 @@ $currentUserId = auth()->id() ?? \App\Models\User::first()->id ?? 1;
 
     const renderMasters = (masters) => {
         if (masters.length === 0) {
-            mastersContainer.innerHTML = `<div class="col-12 text-center text-muted py-5">No master traders found matching your criteria.</div>`;
+            mastersContainer.innerHTML =
+                `<div class="col-12 text-center text-muted py-5">No master traders found matching your criteria.</div>`;
             return;
         }
 
@@ -1197,8 +1504,11 @@ $currentUserId = auth()->id() ?? \App\Models\User::first()->id ?? 1;
         };
 
         mastersContainer.innerHTML = masters.map(master => {
-            const verifiedBadge = master.is_verified ? `<i class="fa-solid fa-circle-check ms-1" style="color: #3b82f6; font-size: 13px;" title="Verified Master"></i>` : '';
-            const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(master.name)}&background=${master.avatar_bg_color || '000'}&color=fff`;
+            const verifiedBadge = master.is_verified ?
+                `<i class="fa-solid fa-circle-check ms-1" style="color: #3b82f6; font-size: 13px;" title="Verified Master"></i>` :
+                '';
+            const avatarUrl =
+                `https://ui-avatars.com/api/?name=${encodeURIComponent(master.name)}&background=${master.avatar_bg_color || '000'}&color=fff`;
 
             return `
             <div class="col-12 col-md-6 col-xl-4">
@@ -1241,5 +1551,23 @@ $currentUserId = auth()->id() ?? \App\Models\User::first()->id ?? 1;
             </div>`;
         }).join('');
     };
+
+
+    // ==========================================
+    // 🌟 AJAX: Mark Notifications as Read 🌟
+    // ==========================================
+    function markNotificationsAsRead() {
+        const badge = document.getElementById('notificationBadge');
+        if (badge) {
+            axios.post("{{ route('notifications.markRead') }}", {
+                    _token: "{{ csrf_token() }}"
+                })
+                .then(response => {
+                    if (response.data.success) {
+                        badge.style.display = 'none';
+                    }
+                });
+        }
+    }
 </script>
 @endsection

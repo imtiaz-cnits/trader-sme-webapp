@@ -115,4 +115,9 @@ Route::middleware('auth')->group(function () {
     // 🌟 Websocket (Private Channel) authentication starting
     Broadcast::routes();
     require base_path('routes/channels.php');
+
+    Route::post('/notifications/mark-read', function () {
+        auth()->user()->unreadNotifications->markAsRead();
+        return response()->json(['success' => true]);
+    })->name('notifications.markRead');
 });

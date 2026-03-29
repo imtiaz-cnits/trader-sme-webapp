@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\MasterTrader;
 use App\Models\CopyConnection;
 use App\Models\TradeHistory;
@@ -18,6 +19,12 @@ class CopyTraderController extends Controller
 
         if (!$user) {
             abort(403, 'No user found in the database. Please run migrations and seeders.');
+        }
+
+        // Auto-generate Webhook Token if not exists
+        if (empty($user->webhook_token)) {
+            $user->webhook_token = 'tsme_' . \Illuminate\Support\Str::random(40);
+            $user->save();
         }
 
         // 1. Discover Masters Data

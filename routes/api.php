@@ -8,4 +8,5 @@ use App\Http\Controllers\Api\WebhookController;
 // User Registration API Route Strat
 Route::post('/user-registration', [RegisterController::class, 'register']);
 // Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/webhook/trade', [WebhookController::class, 'handleSignal']);
+Route::post('/webhook/trade', [WebhookController::class, 'handleTrade'])
+    ->middleware(\App\Http\Middleware\VerifyWebhookSecurity::class);
