@@ -10,7 +10,6 @@ use App\Http\Controllers\ChronologyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\CopyTraderController;
-// use App\Http\Controllers\ForgotPasswordController; // Optional here if using closure
 use Illuminate\Support\Facades\Broadcast;
 
 // 🌐 Locale Switcher
